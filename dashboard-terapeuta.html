@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Panel Terapeuta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+      --verde:#1A7A5E;--verde-light:#E8F5F0;
+      --naranja:#C05621;--naranja-light:#FFF3EB;
+      --morado:#553C9A;--morado-light:#F0EBFF;
+      --rojo:#C53030;--rojo-light:#FFF5F5;
+      --gris:#F4F6F9;--borde:#DDE3EC;
+      --texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+    }
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+    /* TOPBAR */
+    .topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:.7rem;}
+    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .brand-icon svg{width:18px;height:18px;color:white;}
+    .topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+    .topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+    .user-name{font-size:.8rem;font-weight:500;color:white;}
+    .user-rol{font-size:.68rem;color:rgba(255,255,255,.5);background:rgba(255,255,255,.1);padding:.1rem .5rem;border-radius:10px;}
+    .btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;text-decoration:none;}
+    .btn-top:hover{background:rgba(255,255,255,.18);}
+
+    /* MAIN */
+    .main{max-width:1200px;margin:0 auto;padding:2rem;}
+
+    /* BIENVENIDA */
+    .welcome{margin-bottom:2rem;}
+    .welcome-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--azul-light);color:var(--azul);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;margin-bottom:.5rem;}
+    .welcome-title{font-family:'Instrument Serif',serif;font-size:1.9rem;color:var(--texto);letter-spacing:-.02em;margin-bottom:.25rem;}
+    .welcome-sub{font-size:.85rem;color:var(--texto-light);}
+
+    /* STATS */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+    .stat-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.1rem 1.2rem;display:flex;align-items:center;gap:.9rem;}
+    .stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .stat-icon svg{width:20px;height:20px;}
+    .stat-num{font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:.15rem;}
+    .stat-lbl{font-size:.74rem;color:var(--texto-light);}
+
+    /* LAYOUT 2 COLS */
+    .layout{display:grid;grid-template-columns:1fr 340px;gap:1.5rem;}
+
+    /* SECCION */
+    .section-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--texto-light);margin-bottom:1rem;}
+    .card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;}
+
+    /* ACCIONES RAPIDAS */
+    .acciones-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem;}
+    .accion-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;cursor:pointer;transition:all .18s;text-decoration:none;color:inherit;display:flex;align-items:center;gap:.9rem;}
+    .accion-card:hover{border-color:var(--azul);box-shadow:0 4px 14px rgba(26,79,138,.1);transform:translateY(-2px);}
+    .accion-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .accion-icon svg{width:21px;height:21px;}
+    .accion-nombre{font-weight:700;font-size:.88rem;color:var(--texto);margin-bottom:.15rem;}
+    .accion-desc{font-size:.74rem;color:var(--texto-light);}
+
+    /* TABLA PACIENTES */
+    .tabla-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+    .tabla-header{padding:1rem 1.2rem;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;}
+    .tabla-title{font-size:.85rem;font-weight:700;color:var(--texto);}
+    .btn-ver-todos{font-size:.76rem;font-weight:600;color:var(--azul);text-decoration:none;display:flex;align-items:center;gap:.3rem;}
+    .btn-ver-todos:hover{text-decoration:underline;}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--gris);border-bottom:1px solid var(--borde);}
+    th{padding:.65rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--texto-light);}
+    tbody tr{border-bottom:1px solid var(--borde);transition:background .15s;}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:#f8fafc;}
+    td{padding:.75rem 1rem;font-size:.82rem;color:var(--texto);}
+    .p-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;flex-shrink:0;}
+    .p-info{display:flex;align-items:center;gap:.6rem;}
+    .p-nombre{font-weight:600;}
+    .p-dx{font-size:.72rem;color:var(--texto-light);}
+    .badge{font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:7px;}
+    .badge-activo{background:var(--verde-light);color:var(--verde);}
+    .td-actions{display:flex;gap:.35rem;}
+    .btn-sm{padding:.28rem .6rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .15s;display:flex;align-items:center;gap:.25rem;}
+    .btn-eval{border-color:var(--azul);color:var(--azul);background:var(--azul-light);}
+    .btn-eval:hover{background:var(--azul);color:white;}
+    .btn-ej{border-color:var(--morado);color:var(--morado);background:var(--morado-light);}
+    .btn-ej:hover{background:var(--morado);color:white;}
+
+    /* PANEL DERECHO */
+    .panel-right{display:flex;flex-direction:column;gap:1.2rem;}
+
+    /* PERFIL TERAPEUTA */
+    .perfil-card{background:var(--azul);border-radius:12px;padding:1.4rem;color:white;position:relative;overflow:hidden;}
+    .perfil-card::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.05);top:-30px;right:-30px;}
+    .perfil-avatar{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;margin-bottom:.8rem;}
+    .perfil-nombre{font-family:'Instrument Serif',serif;font-size:1.2rem;margin-bottom:.15rem;}
+    .perfil-email{font-size:.75rem;color:rgba(255,255,255,.6);margin-bottom:.8rem;}
+    .perfil-esps{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .perfil-esp{font-size:.68rem;font-weight:600;padding:.18rem .55rem;border-radius:8px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);}
+
+    /* ÚLTIMAS EVALUACIONES */
+    .eval-list{padding:.8rem;}
+    .eval-item{display:flex;align-items:center;justify-content:space-between;padding:.6rem .4rem;border-bottom:1px solid var(--borde);}
+    .eval-item:last-child{border-bottom:none;}
+    .eval-escala{font-size:.8rem;font-weight:600;color:var(--texto);}
+    .eval-pac{font-size:.72rem;color:var(--texto-light);}
+    .eval-score{font-size:.78rem;font-weight:700;padding:.15rem .45rem;border-radius:6px;}
+    .eval-fecha{font-size:.7rem;color:var(--texto-light);}
+
+    /* PRÓXIMAS SESIONES */
+    .sesion-item{display:flex;align-items:center;gap:.8rem;padding:.7rem .4rem;border-bottom:1px solid var(--borde);}
+    .sesion-item:last-child{border-bottom:none;}
+    .sesion-hora{text-align:center;min-width:44px;}
+    .sesion-hora-h{font-size:.9rem;font-weight:700;color:var(--azul);}
+    .sesion-hora-d{font-size:.66rem;color:var(--texto-light);}
+    .sesion-info{flex:1;}
+    .sesion-pac{font-size:.82rem;font-weight:600;color:var(--texto);}
+    .sesion-tipo{font-size:.72rem;color:var(--texto-light);}
+
+    .empty-state{text-align:center;padding:1.5rem;color:var(--texto-light);font-size:.8rem;}
+
+    #loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+    #pageContent{display:none;}
+
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr;}
+      .stats-row{grid-template-columns:repeat(2,1fr);}
+      .acciones-grid{grid-template-columns:1fr;}
+      .main{padding:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">--</div>
+      <span class="user-name" id="userName">...</span>
+    </div>
+    <span class="user-rol">Terapeuta</span>
+    <button class="btn-top" id="btnSignOut">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Salir
+    </button>
+  </div>
+</header>
+
+<main class="main">
+  <div id="loadState">Cargando panel...</div>
+  <div id="pageContent">
+
+    <!-- Bienvenida -->
+    <div class="welcome">
+      <div class="welcome-tag">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Panel del terapeuta
+      </div>
+      <h1 class="welcome-title" id="welcomeTitle">Bienvenido/a</h1>
+      <p class="welcome-sub" id="welcomeSub">Gestiona tus pacientes y genera planes terapéuticos con IA.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--verde-light);color:var(--verde)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div><div class="stat-num" id="statPac">0</div><div class="stat-lbl">Mis pacientes</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--azul-light);color:var(--azul)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div><div class="stat-num" id="statEval">0</div><div class="stat-lbl">Evaluaciones</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--morado-light);color:var(--morado)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+        </div>
+        <div><div class="stat-num" id="statPlanes">0</div><div class="stat-lbl">Planes IA generados</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--naranja-light);color:var(--naranja)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div><div class="stat-num" id="statHoy">0</div><div class="stat-lbl">Actividad hoy</div></div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- COLUMNA IZQUIERDA -->
+      <div>
+        <!-- Acciones rápidas -->
+        <p class="section-label">Acciones rápidas</p>
+        <div class="acciones-grid">
+          <a class="accion-card" href="pruebas.html">
+            <div class="accion-icon" style="background:var(--azul-light);color:var(--azul)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div>
+              <div class="accion-nombre">Aplicar escala clínica</div>
+              <div class="accion-desc">Banco completo · 95+ escalas gold standard</div>
+            </div>
+          </a>
+          <a class="accion-card" href="ejercicios.html">
+            <div class="accion-icon" style="background:var(--morado-light);color:var(--morado)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+            </div>
+            <div>
+              <div class="accion-nombre">Generar ejercicios IA</div>
+              <div class="accion-desc">Plan terapéutico progresivo personalizado</div>
+            </div>
+          </a>
+          <a class="accion-card" href="pacientes.html">
+            <div class="accion-icon" style="background:var(--verde-light);color:var(--verde)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div class="accion-nombre">Mis pacientes</div>
+              <div class="accion-desc">Ver directorio y gestionar pacientes</div>
+            </div>
+          </a>
+          <a class="accion-card" href="reportes.html">
+            <div class="accion-icon" style="background:var(--naranja-light);color:var(--naranja)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div>
+              <div class="accion-nombre">Reportes de evolución</div>
+              <div class="accion-desc">Progresión clínica y comparativa de escalas</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Tabla mis pacientes -->
+        <p class="section-label">Mis pacientes recientes</p>
+        <div class="tabla-card">
+          <div class="tabla-header">
+            <span class="tabla-title">Pacientes asignados</span>
+            <a class="btn-ver-todos" href="pacientes.html">
+              Ver todos
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Diagnóstico</th>
+                <th>Última eval.</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaPacientes">
+              <tr><td colspan="5"><div class="empty-state">Cargando pacientes...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Últimas evaluaciones -->
+        <p class="section-label">Últimas evaluaciones realizadas</p>
+        <div class="card">
+          <div class="eval-list" id="evalList">
+            <div class="empty-state">Cargando evaluaciones...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA -->
+      <div class="panel-right">
+
+        <!-- Perfil -->
+        <div class="perfil-card">
+          <div class="perfil-avatar" id="perfilAvatar">--</div>
+          <div class="perfil-nombre" id="perfilNombre">Cargando...</div>
+          <div class="perfil-email" id="perfilEmail">--</div>
+          <div class="perfil-esps" id="perfilEsps"></div>
+        </div>
+
+        <!-- Resumen semanal -->
+        <div class="card">
+          <div class="tabla-header" style="border-bottom:1px solid var(--borde)">
+            <span class="tabla-title">Resumen esta semana</span>
+          </div>
+          <div style="padding:.8rem 1rem;display:flex;flex-direction:column;gap:.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem">
+              <span style="color:var(--texto-mid)">Evaluaciones aplicadas</span>
+              <span style="font-weight:700;color:var(--azul)" id="semEval">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem">
+              <span style="color:var(--texto-mid)">Planes IA generados</span>
+              <span style="font-weight:700;color:var(--morado)" id="semPlanes">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem">
+              <span style="color:var(--texto-mid)">Pacientes atendidos</span>
+              <span style="font-weight:700;color:var(--verde)" id="semPac">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mis especialidades -->
+        <div class="card">
+          <div class="tabla-header" style="border-bottom:1px solid var(--borde)">
+            <span class="tabla-title">Mis especialidades</span>
+          </div>
+          <div style="padding:.8rem 1rem" id="misEsps">
+            <div class="empty-state">Cargando...</div>
+          </div>
+        </div>
+
+        <!-- Acceso rápido escalas por esp -->
+        <div class="card">
+          <div class="tabla-header" style="border-bottom:1px solid var(--borde)">
+            <span class="tabla-title">Escalas más usadas</span>
+          </div>
+          <div style="padding:.8rem 1rem;display:flex;flex-direction:column;gap:.4rem" id="escalasTop">
+            <div class="empty-state">Cargando...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,doc,getDoc,getDocs,collection,query,where,orderBy,limit } from './firebase.js';
+
+let currentUser=null, currentUserData=null;
+
+const ESP_COLORS={
+  fisioterapia:{bg:'#EBF2FB',c:'#1A4F8A'},
+  hidroterapia:{bg:'#E8F5F0',c:'#1A7A5E'},
+  ocupacional:{bg:'#F0EBFF',c:'#553C9A'},
+  lenguaje:{bg:'#FFF3EB',c:'#C05621'},
+  psicologia:{bg:'#FFF5F5',c:'#C53030'},
+  neuropsicologia:{bg:'#FFFBEB',c:'#92400E'},
+};
+const AVATAR_COLORS=['#1A4F8A','#1A7A5E','#553C9A','#C05621','#C53030','#92400E'];
+function getColor(str){let h=0;for(let c of str)h=c.charCodeAt(0)+((h<<5)-h);return AVATAR_COLORS[Math.abs(h)%AVATAR_COLORS.length];}
+
+onAuthStateChanged(auth, async(user)=>{
+  if(!user){window.location.href='index.html';return;}
+  const snap=await getDoc(doc(db,'usuarios',user.uid));
+  if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+
+  const data=snap.data();
+  if(data.rol==='admin'){window.location.href='dashboard-admin.html';return;}
+  if(data.rol==='paciente'){window.location.href='dashboard-paciente.html';return;}
+
+  currentUser=user; currentUserData=data;
+  const n=data.nombre||'Terapeuta';
+  const apellido=data.apellido||'';
+  const iniciales=(n[0]+(apellido[0]||'')).toUpperCase();
+
+  document.getElementById('userName').textContent=n;
+  document.getElementById('userAvatar').textContent=iniciales;
+  document.getElementById('welcomeTitle').textContent=`Hola, ${n} 👋`;
+  document.getElementById('welcomeSub').textContent=`Hoy es un buen día para rehabilitar. Tienes pacientes esperando.`;
+
+  // Perfil card
+  document.getElementById('perfilAvatar').textContent=iniciales;
+  document.getElementById('perfilNombre').textContent=`${n} ${apellido}`;
+  document.getElementById('perfilEmail').textContent=data.email||'';
+
+  const esps=Array.isArray(data.especialidades)?data.especialidades:[data.especialidad||''].filter(Boolean);
+  document.getElementById('perfilEsps').innerHTML=esps.map(e=>`<span class="perfil-esp">${e}</span>`).join('');
+
+  // Especialidades panel
+  document.getElementById('misEsps').innerHTML=esps.length?esps.map(e=>{
+    const col=ESP_COLORS[e]||{bg:'var(--gris)',c:'var(--texto-mid)'};
+    return `<div style="display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--borde)">
+      <div style="width:10px;height:10px;border-radius:50%;background:${col.c};flex-shrink:0"></div>
+      <span style="font-size:.82rem;font-weight:600;color:var(--texto)">${e.charAt(0).toUpperCase()+e.slice(1)}</span>
+    </div>`;
+  }).join(''):'<p style="font-size:.78rem;color:var(--texto-light)">Sin especialidades asignadas.</p>';
+
+  await Promise.all([
+    cargarPacientes(user.uid),
+    cargarEvaluaciones(user.uid),
+    cargarStats(user.uid),
+  ]);
+
+  document.getElementById('loadState').style.display='none';
+  document.getElementById('pageContent').style.display='block';
+});
+
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+
+async function cargarPacientes(tid){
+  const q=query(collection(db,'usuarios'),where('rol','==','paciente'),where('terapeutaId','==',tid));
+  const snap=await getDocs(q);
+  const pacientes=[];
+  snap.forEach(d=>pacientes.push({id:d.id,...d.data()}));
+  document.getElementById('statPac').textContent=pacientes.length;
+  document.getElementById('semPac').textContent=pacientes.length;
+
+  const tbody=document.getElementById('tablaPacientes');
+  if(!pacientes.length){
+    tbody.innerHTML=`<tr><td colspan="5"><div class="empty-state">No tienes pacientes asignados aún.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML=pacientes.slice(0,8).map(p=>{
+    const nombre=p.nombreCompleto||`${p.nombre||''} ${p.apellido||''}`;
+    const color=getColor(nombre);
+    const iniciales=nombre.substring(0,2).toUpperCase();
+    return `<tr>
+      <td><div class="p-info">
+        <div class="p-avatar" style="background:${color}">${iniciales}</div>
+        <div><div class="p-nombre">${nombre}</div><div class="p-dx" style="font-size:.7rem;color:var(--texto-light)">CC: ${p.cedula||'—'}</div></div>
+      </div></td>
+      <td style="font-size:.78rem">${p.diagnostico||'—'}</td>
+      <td style="font-size:.75rem;color:var(--texto-light)">—</td>
+      <td><span class="badge badge-activo">${p.activo!==false?'Activo':'Inactivo'}</span></td>
+      <td><div class="td-actions">
+        <button class="btn-sm btn-eval" onclick="window.location.href='pruebas.html?pacienteId=${p.id}'">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg>
+          Evaluar
+        </button>
+        <button class="btn-sm btn-ej" onclick="window.location.href='ejercicios.html?pacId=${p.id}'">
+          IA
+        </button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+async function cargarEvaluaciones(tid){
+  try{
+    const q=query(collection(db,'evaluaciones'),where('terapeutaId','==',tid),orderBy('fecha','desc'),limit(8));
+    const snap=await getDocs(q);
+    document.getElementById('statEval').textContent=snap.size;
+    document.getElementById('semEval').textContent=snap.size;
+
+    const evalList=document.getElementById('evalList');
+    if(snap.empty){evalList.innerHTML='<div class="empty-state">No hay evaluaciones registradas aún.</div>';return;}
+
+    evalList.innerHTML=snap.docs.map(d=>{
+      const ev=d.data();
+      const fecha=ev.fecha?.toDate?ev.fecha.toDate().toLocaleDateString('es-CO'):'—';
+      const pct=ev.puntajeMax?Math.round((ev.puntaje/ev.puntajeMax)*100):null;
+      const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+      return `<div class="eval-item">
+        <div>
+          <div class="eval-escala">${(ev.escalaNombre||ev.escalaId||'').substring(0,28)}</div>
+          <div class="eval-pac">${ev.especialidad||''} · ${fecha}</div>
+        </div>
+        <span class="eval-score" style="background:${color}18;color:${color}">${ev.puntaje}${ev.puntajeMax?'/'+ev.puntajeMax:''}</span>
+      </div>`;
+    }).join('');
+  }catch(e){console.error(e);}
+}
+
+async function cargarStats(tid){
+  try{
+    const q=query(collection(db,'planes_ejercicios'),where('terapeutaId','==',tid));
+    const snap=await getDocs(q);
+    document.getElementById('statPlanes').textContent=snap.size;
+    document.getElementById('semPlanes').textContent=snap.size;
+    document.getElementById('statHoy').textContent=snap.size;
+
+    // Escalas más usadas
+    const escalasUso={};
+    const qEval=query(collection(db,'evaluaciones'),where('terapeutaId','==',tid));
+    const snapEval=await getDocs(qEval);
+    snapEval.forEach(d=>{
+      const n=d.data().escalaNombre||d.data().escalaId||'Desconocida';
+      escalasUso[n]=(escalasUso[n]||0)+1;
+    });
+    const top=Object.entries(escalasUso).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    const escTop=document.getElementById('escalasTop');
+    if(!top.length){escTop.innerHTML='<p style="font-size:.78rem;color:var(--texto-light)">Sin evaluaciones previas.</p>';return;}
+    escTop.innerHTML=top.map(([nombre,cnt])=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--borde)">
+        <span style="font-size:.78rem;color:var(--texto-mid);flex:1">${nombre.substring(0,28)}</span>
+        <span style="font-size:.75rem;font-weight:700;color:var(--azul);background:var(--azul-light);padding:.12rem .45rem;border-radius:6px">${cnt}x</span>
+      </div>`).join('');
+  }catch(e){console.error(e);}
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Mi Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+      --verde:#1A7A5E;--verde-light:#E8F5F0;
+      --naranja:#C05621;--naranja-light:#FFF3EB;
+      --morado:#553C9A;--morado-light:#F0EBFF;
+      --rojo:#C53030;--rojo-light:#FFF5F5;
+      --gris:#F4F6F9;--borde:#DDE3EC;
+      --texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+    }
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+    /* TOPBAR */
+    .topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:.7rem;}
+    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .brand-icon svg{width:18px;height:18px;color:white;}
+    .topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+    .topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+    .user-name{font-size:.8rem;font-weight:500;color:white;}
+    .user-rol{font-size:.68rem;color:rgba(255,255,255,.5);background:rgba(255,255,255,.1);padding:.1rem .5rem;border-radius:10px;}
+    .btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;}
+    .btn-top:hover{background:rgba(255,255,255,.18);}
+
+    /* MAIN */
+    .main{max-width:1000px;margin:0 auto;padding:2rem;}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,var(--azul),#2563a8);border-radius:16px;padding:2rem;color:white;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);top:-50px;right:-50px;}
+    .hero::after{content:'';position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-20px;left:40%;}
+    .hero-tag{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.5rem;}
+    .hero-title{font-family:'Instrument Serif',serif;font-size:2rem;margin-bottom:.4rem;position:relative;z-index:1;}
+    .hero-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:1.2rem;position:relative;z-index:1;}
+    .hero-stats{display:flex;gap:1.5rem;flex-wrap:wrap;position:relative;z-index:1;}
+    .hero-stat{text-align:center;}
+    .hero-stat-num{font-size:1.6rem;font-weight:700;line-height:1;}
+    .hero-stat-lbl{font-size:.7rem;color:rgba(255,255,255,.6);}
+
+    /* PROGRESO */
+    .progreso-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.4rem;margin-bottom:1.5rem;}
+    .card-title{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--texto-light);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;}
+    .progreso-bars{display:flex;flex-direction:column;gap:.8rem;}
+    .prog-row{display:flex;align-items:center;gap:.8rem;}
+    .prog-label{font-size:.78rem;color:var(--texto-mid);width:180px;flex-shrink:0;}
+    .prog-track{flex:1;height:8px;background:var(--gris);border-radius:4px;overflow:hidden;}
+    .prog-fill{height:100%;border-radius:4px;transition:width .8s ease;}
+    .prog-val{font-size:.78rem;font-weight:700;width:55px;text-align:right;flex-shrink:0;}
+
+    /* LAYOUT */
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;}
+    .section-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--texto-light);margin-bottom:1rem;}
+
+    /* EJERCICIOS DEL DÍA */
+    .ejercicios-list{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.5rem;}
+    .ej-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.1rem;transition:border-color .2s;}
+    .ej-card.completado{border-color:var(--verde);background:var(--verde-light);}
+    .ej-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem;margin-bottom:.5rem;}
+    .ej-titulo{font-weight:700;font-size:.9rem;color:var(--texto);}
+    .ej-nivel{font-size:.68rem;font-weight:600;padding:.18rem .55rem;border-radius:8px;}
+    .ej-desc{font-size:.78rem;color:var(--texto-mid);line-height:1.45;margin-bottom:.6rem;}
+    .ej-meta{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem;}
+    .ej-tag{font-size:.68rem;font-weight:600;padding:.15rem .45rem;border-radius:6px;display:flex;align-items:center;gap:.25rem;}
+    .ej-footer{display:flex;align-items:center;justify-content:space-between;}
+    .ej-objetivo{font-size:.72rem;color:var(--verde);font-weight:600;}
+    .btn-completar{padding:.4rem .9rem;border:none;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.3rem;}
+    .btn-completar.pendiente{background:var(--azul);color:white;}
+    .btn-completar.pendiente:hover{background:var(--azul-dark);}
+    .btn-completar.hecho{background:var(--verde);color:white;cursor:default;}
+
+    /* HISTORIAL EVALUACIONES */
+    .hist-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+    .hist-header{padding:.9rem 1.1rem;border-bottom:1px solid var(--borde);}
+    .hist-title{font-size:.82rem;font-weight:700;color:var(--texto);}
+    .hist-item{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.1rem;border-bottom:1px solid var(--borde);}
+    .hist-item:last-child{border-bottom:none;}
+    .hist-escala{font-size:.8rem;font-weight:600;color:var(--texto);}
+    .hist-fecha{font-size:.72rem;color:var(--texto-light);}
+    .hist-score{font-size:.78rem;font-weight:700;padding:.15rem .45rem;border-radius:6px;}
+
+    /* PANEL DERECHO */
+    .panel-right{display:flex;flex-direction:column;gap:1.2rem;}
+
+    /* INFO CLINICA */
+    .info-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;}
+    .info-header{background:var(--azul);padding:1.1rem;color:white;}
+    .info-avatar{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;margin-bottom:.6rem;}
+    .info-nombre{font-weight:700;font-size:.95rem;margin-bottom:.15rem;}
+    .info-dx{font-size:.75rem;color:rgba(255,255,255,.7);}
+    .info-body{padding:1rem;}
+    .info-row{display:flex;align-items:flex-start;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--borde);font-size:.78rem;}
+    .info-row:last-child{border-bottom:none;}
+    .info-key{color:var(--texto-light);font-weight:600;}
+    .info-val{color:var(--texto);text-align:right;max-width:130px;}
+
+    /* TERAPEUTA ASIGNADO */
+    .tera-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.1rem;}
+    .tera-header{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;}
+    .tera-avatar{width:38px;height:38px;border-radius:10px;background:var(--azul);color:white;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0;}
+    .tera-nombre{font-weight:700;font-size:.88rem;color:var(--texto);}
+    .tera-esp{font-size:.72rem;color:var(--texto-light);}
+    .tera-badge{display:inline-block;font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:8px;background:var(--verde-light);color:var(--verde);margin-top:.3rem;}
+
+    /* MOTIVACION */
+    .motivacion-card{background:linear-gradient(135deg,var(--morado),#7c5cbf);border-radius:12px;padding:1.2rem;color:white;}
+    .mot-icon{font-size:1.5rem;margin-bottom:.5rem;}
+    .mot-title{font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:.3rem;}
+    .mot-text{font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.5;}
+
+    .empty-state{text-align:center;padding:2rem;color:var(--texto-light);font-size:.82rem;}
+    .empty-state svg{width:32px;height:32px;margin-bottom:.6rem;opacity:.3;display:block;margin-inline:auto;}
+
+    #loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+    #pageContent{display:none;}
+
+    @media(max-width:800px){
+      .layout{grid-template-columns:1fr;}
+      .main{padding:1rem;}
+      .hero-stats{gap:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">--</div>
+      <span class="user-name" id="userName">...</span>
+    </div>
+    <span class="user-rol">Paciente</span>
+    <button class="btn-top" id="btnSignOut">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Salir
+    </button>
+  </div>
+</header>
+
+<main class="main">
+  <div id="loadState">Cargando tu panel...</div>
+  <div id="pageContent">
+
+    <!-- HERO -->
+    <div class="hero">
+      <p class="hero-tag">Mi rehabilitación</p>
+      <h1 class="hero-title" id="heroTitle">¡Hola!</h1>
+      <p class="hero-sub" id="heroSub">Aquí puedes ver tus ejercicios, evaluaciones y progreso clínico.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num" id="statEj">0</div><div class="hero-stat-lbl">Ejercicios totales</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="statEval">0</div><div class="hero-stat-lbl">Evaluaciones</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="statPlanes">0</div><div class="hero-stat-lbl">Planes activos</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="statComp">0%</div><div class="hero-stat-lbl">Progreso hoy</div></div>
+      </div>
+    </div>
+
+    <!-- PROGRESO CLÍNICO -->
+    <div class="progreso-card" id="progresoCard" style="display:none">
+      <p class="card-title">
+        Progreso clínico por área
+        <span style="font-size:.72rem;font-weight:500;color:var(--texto-light);text-transform:none;letter-spacing:0">Basado en tus últimas evaluaciones</span>
+      </p>
+      <div class="progreso-bars" id="progresoBars"></div>
+    </div>
+
+    <div class="layout">
+      <!-- COLUMNA IZQUIERDA -->
+      <div>
+
+        <!-- Ejercicios del día -->
+        <p class="section-label">Mis ejercicios de hoy</p>
+        <div class="ejercicios-list" id="ejerciciosList">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+            <p>Aún no tienes un plan de ejercicios asignado.<br>Tu terapeuta lo generará pronto.</p>
+          </div>
+        </div>
+
+        <!-- Historial evaluaciones -->
+        <p class="section-label">Mis evaluaciones clínicas</p>
+        <div class="hist-card">
+          <div class="hist-header">
+            <span class="hist-title">Historial de escalas aplicadas</span>
+          </div>
+          <div id="histEval">
+            <div class="empty-state">Sin evaluaciones registradas aún.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUMNA DERECHA -->
+      <div class="panel-right">
+
+        <!-- Info clínica -->
+        <div class="info-card" id="infoCard">
+          <div class="info-header">
+            <div class="info-avatar" id="infoAvatar">--</div>
+            <div class="info-nombre" id="infoNombre">Cargando...</div>
+            <div class="info-dx" id="infoDx">—</div>
+          </div>
+          <div class="info-body" id="infoBody"></div>
+        </div>
+
+        <!-- Terapeuta asignado -->
+        <div class="tera-card" id="teraCard" style="display:none">
+          <p class="section-label" style="margin-bottom:.7rem">Mi terapeuta</p>
+          <div class="tera-header">
+            <div class="tera-avatar" id="teraAvatar">--</div>
+            <div>
+              <div class="tera-nombre" id="teraNombre">—</div>
+              <div class="tera-esp" id="teraEsp">—</div>
+              <span class="tera-badge">Terapeuta asignado/a</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivación -->
+        <div class="motivacion-card" id="motivacionCard">
+          <div class="mot-icon">💪</div>
+          <div class="mot-title">¡Sigue adelante!</div>
+          <div class="mot-text" id="motivacionTxt">Cada ejercicio que realizas es un paso hacia tu recuperación. La constancia es la clave del éxito en la rehabilitación neurológica.</div>
+        </div>
+
+        <!-- Próximo paso -->
+        <div class="info-card">
+          <div class="hist-header">
+            <span class="hist-title">Próximo paso</span>
+          </div>
+          <div style="padding:1rem;font-size:.82rem;color:var(--texto-mid);line-height:1.5" id="proximoPaso">
+            Realiza tus ejercicios de hoy y marca cada uno como completado para que tu terapeuta pueda ver tu progreso.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,doc,getDoc,getDocs,collection,query,where,orderBy,limit } from './firebase.js';
+
+let currentUser=null, currentUserData=null;
+let ejerciciosCompletados=new Set();
+
+const MOTIVACIONES=[
+  'Cada ejercicio que realizas es un paso hacia tu recuperación. ¡Tú puedes!',
+  'La rehabilitación neurológica requiere constancia. Cada día cuenta.',
+  'Tu cerebro tiene una capacidad increíble de adaptación. Ayúdalo con tus ejercicios.',
+  'El progreso puede ser lento, pero cada pequeña mejora importa.',
+  'Confía en tu terapeuta y en el proceso. La recuperación lleva tiempo.',
+  'Tu dedicación hoy es la base de tu independencia mañana.',
+];
+
+const NIVEL_COLORS={
+  'Básico':{bg:'#E8F5F0',c:'#1A7A5E'},
+  'Intermedio':{bg:'#FFF3EB',c:'#C05621'},
+  'Avanzado':{bg:'#EBF2FB',c:'#1A4F8A'},
+};
+
+onAuthStateChanged(auth,async(user)=>{
+  if(!user){window.location.href='index.html';return;}
+  const snap=await getDoc(doc(db,'usuarios',user.uid));
+  if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+
+  const data=snap.data();
+  if(data.rol==='admin'){window.location.href='dashboard-admin.html';return;}
+  if(data.rol==='terapeuta'){window.location.href='dashboard-terapeuta.html';return;}
+
+  currentUser=user; currentUserData=data;
+  const n=data.nombre||'Paciente';
+  const apellido=data.apellido||'';
+  const iniciales=(n[0]+(apellido[0]||'')).toUpperCase();
+
+  document.getElementById('userName').textContent=n;
+  document.getElementById('userAvatar').textContent=iniciales;
+  document.getElementById('heroTitle').textContent=`¡Hola, ${n}! 👋`;
+  document.getElementById('heroSub').textContent='Aquí puedes ver tus ejercicios, evaluaciones y progreso clínico.';
+
+  // Info clínica
+  document.getElementById('infoAvatar').textContent=iniciales;
+  document.getElementById('infoNombre').textContent=`${n} ${apellido}`;
+  document.getElementById('infoDx').textContent=data.diagnostico||'Diagnóstico no registrado';
+
+  const infoBody=document.getElementById('infoBody');
+  const rows=[
+    {k:'Cédula',v:data.cedula||'—'},
+    {k:'Diagnóstico',v:data.diagnostico||'—'},
+    {k:'Especialidad',v:data.especialidad||'—'},
+    {k:'Evolución',v:data.evolucion||'—'},
+    {k:'Lado afectado',v:data.ladoAfectado||'No aplica'},
+  ];
+  infoBody.innerHTML=rows.map(r=>`
+    <div class="info-row">
+      <span class="info-key">${r.k}</span>
+      <span class="info-val">${r.v}</span>
+    </div>`).join('');
+
+  // Motivación aleatoria
+  document.getElementById('motivacionTxt').textContent=MOTIVACIONES[Math.floor(Math.random()*MOTIVACIONES.length)];
+
+  await Promise.all([
+    cargarTerapeuta(data.terapeutaId),
+    cargarEvaluaciones(user.uid),
+    cargarPlanes(user.uid),
+  ]);
+
+  document.getElementById('loadState').style.display='none';
+  document.getElementById('pageContent').style.display='block';
+});
+
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+
+// TERAPEUTA
+async function cargarTerapeuta(tid){
+  if(!tid)return;
+  try{
+    const snap=await getDoc(doc(db,'usuarios',tid));
+    if(!snap.exists())return;
+    const t=snap.data();
+    const nombre=t.nombreCompleto||`${t.nombre||''} ${t.apellido||''}`;
+    const iniciales=nombre.substring(0,2).toUpperCase();
+    const esps=Array.isArray(t.especialidades)?t.especialidades.join(', '):(t.especialidad||'—');
+    document.getElementById('teraAvatar').textContent=iniciales;
+    document.getElementById('teraNombre').textContent=nombre;
+    document.getElementById('teraEsp').textContent=esps;
+    document.getElementById('teraCard').style.display='block';
+  }catch(e){console.error(e);}
+}
+
+// EVALUACIONES
+async function cargarEvaluaciones(uid){
+  try{
+    const q=query(collection(db,'evaluaciones'),where('pacienteId','==',uid),orderBy('fecha','desc'),limit(10));
+    const snap=await getDocs(q);
+    document.getElementById('statEval').textContent=snap.size;
+
+    const hist=document.getElementById('histEval');
+    if(snap.empty){hist.innerHTML='<div class="empty-state">Sin evaluaciones registradas aún.</div>';return;}
+
+    const evalData=[];
+    hist.innerHTML=snap.docs.map(d=>{
+      const ev=d.data();
+      evalData.push(ev);
+      const fecha=ev.fecha?.toDate?ev.fecha.toDate().toLocaleDateString('es-CO'):'—';
+      const pct=ev.puntajeMax?Math.round((ev.puntaje/ev.puntajeMax)*100):null;
+      const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+      return `<div class="hist-item">
+        <div>
+          <div class="hist-escala">${(ev.escalaNombre||ev.escalaId||'').substring(0,25)}</div>
+          <div class="hist-fecha">${fecha} · ${ev.especialidad||''}</div>
+        </div>
+        <span class="hist-score" style="background:${color}18;color:${color}">${ev.puntaje}${ev.puntajeMax?'/'+ev.puntajeMax:''}</span>
+      </div>`;
+    }).join('');
+
+    // Progreso clínico
+    const areas={};
+    evalData.forEach(ev=>{
+      if(ev.puntajeMax&&ev.area){
+        if(!areas[ev.area]||ev.fecha?.seconds>areas[ev.area].fecha?.seconds){
+          areas[ev.area]={puntaje:ev.puntaje,max:ev.puntajeMax,fecha:ev.fecha};
+        }
+      }
+    });
+    if(Object.keys(areas).length>0){
+      document.getElementById('progresoCard').style.display='block';
+      document.getElementById('progresoBars').innerHTML=Object.entries(areas).map(([area,d])=>{
+        const pct=Math.round((d.puntaje/d.max)*100);
+        const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+        return `<div class="prog-row">
+          <span class="prog-label">${area}</span>
+          <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${color}"></div></div>
+          <span class="prog-val" style="color:${color}">${pct}%</span>
+        </div>`;
+      }).join('');
+    }
+  }catch(e){console.error(e);}
+}
+
+// PLANES Y EJERCICIOS
+async function cargarPlanes(uid){
+  try{
+    const q=query(collection(db,'planes_ejercicios'),where('pacienteId','==',uid),orderBy('fecha','desc'),limit(3));
+    const snap=await getDocs(q);
+    document.getElementById('statPlanes').textContent=snap.size;
+
+    if(snap.empty)return;
+
+    const plan=snap.docs[0].data().plan;
+    if(!plan)return;
+
+    // Mostrar ejercicios del nivel básico primero
+    const todos=[];
+    if(plan.basico) plan.basico.forEach(e=>todos.push({...e,nivel:'Básico'}));
+    if(plan.intermedio) plan.intermedio.forEach(e=>todos.push({...e,nivel:'Intermedio'}));
+    if(plan.avanzado) plan.avanzado.forEach(e=>todos.push({...e,nivel:'Avanzado'}));
+
+    document.getElementById('statEj').textContent=todos.length;
+
+    const lista=document.getElementById('ejerciciosList');
+    if(!todos.length)return;
+
+    lista.innerHTML=todos.slice(0,6).map((ej,i)=>{
+      const col=NIVEL_COLORS[ej.nivel]||{bg:'var(--gris)',c:'var(--texto-mid)'};
+      const completado=ejerciciosCompletados.has(i);
+      return `<div class="ej-card ${completado?'completado':''}" id="ejcard-${i}">
+        <div class="ej-header">
+          <div class="ej-titulo">${ej.nombre}</div>
+          <span class="ej-nivel" style="background:${col.bg};color:${col.c}">${ej.nivel}</span>
+        </div>
+        <div class="ej-desc">${ej.descripcion}</div>
+        <div class="ej-meta">
+          ${ej.series?`<span class="ej-tag" style="background:${col.bg};color:${col.c}">${ej.series} series</span>`:''}
+          ${ej.repeticiones?`<span class="ej-tag" style="background:${col.bg};color:${col.c}">${ej.repeticiones} rep</span>`:''}
+          ${ej.duracion?`<span class="ej-tag" style="background:var(--gris);color:var(--texto-mid)">⏱ ${ej.duracion}</span>`:''}
+        </div>
+        ${ej.objetivo?`<div class="ej-footer">
+          <span class="ej-objetivo">🎯 ${ej.objetivo}</span>
+          <button class="btn-completar ${completado?'hecho':'pendiente'}" onclick="marcarCompletado(${i},this)">
+            ${completado?'✓ Completado':'Marcar completado'}
+          </button>
+        </div>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){console.error(e);}
+}
+
+window.marcarCompletado=function(i,btn){
+  ejerciciosCompletados.add(i);
+  btn.className='btn-completar hecho';
+  btn.textContent='✓ Completado';
+  document.getElementById(`ejcard-${i}`).classList.add('completado');
+  const total=document.querySelectorAll('.ej-card').length;
+  const comp=ejerciciosCompletados.size;
+  const pct=Math.round((comp/total)*100);
+  document.getElementById('statComp').textContent=`${pct}%`;
+};
+</script>
+
+</body>
+</html>

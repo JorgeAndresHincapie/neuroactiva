@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Panel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:        #1A4F8A;
+      --azul-dark:   #123769;
+      --azul-light:  #EBF2FB;
+      --verde:       #1A7A5E;
+      --verde-light: #E8F5F0;
+      --naranja:     #C05621;
+      --naranja-light: #FFF3EB;
+      --morado:      #553C9A;
+      --morado-light: #F0EBFF;
+      --gris:        #F4F6F9;
+      --borde:       #DDE3EC;
+      --texto:       #1A2332;
+      --texto-mid:   #4A5568;
+      --texto-light: #8896A7;
+      --blanco:      #FFFFFF;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--gris);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--azul);
+      height: 58px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .topbar-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .topbar-icon svg { width: 18px; height: 18px; color: white; }
+
+    .topbar-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.01em;
+    }
+
+    .topbar-brand span { color: rgba(255,255,255,0.5); font-weight: 400; }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem 0.25rem 0.3rem;
+    }
+
+    .user-avatar {
+      width: 26px; height: 26px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .user-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: white;
+    }
+
+    .user-rol {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.1);
+      padding: 0.1rem 0.5rem;
+      border-radius: 10px;
+    }
+
+    .btn-signout {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    .btn-signout:hover { background: rgba(255,255,255,0.18); }
+
+    /* ── Layout principal ── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* ── Header bienvenida ── */
+    .welcome-header {
+      margin-bottom: 2rem;
+    }
+
+    .welcome-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--azul-light);
+      color: var(--azul);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 0.6rem;
+    }
+
+    .welcome-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.9rem;
+      color: var(--texto);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3rem;
+    }
+
+    .welcome-sub {
+      font-size: 0.85rem;
+      color: var(--texto-light);
+    }
+
+    /* ── Stats row ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--blanco);
+      border: 1.5px solid var(--borde);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon svg { width: 20px; height: 20px; }
+
+    .stat-num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--texto);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-label {
+      font-size: 0.76rem;
+      color: var(--texto-light);
+    }
+
+    /* ── Sección label ── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--texto-light);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Módulos grid ── */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .module-card {
+      background: var(--blanco);
+      border: 1.5px solid var(--borde);
+      border-radius: 12px;
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .module-card:hover {
+      border-color: var(--azul);
+      box-shadow: 0 4px 16px rgba(26,79,138,0.1);
+      transform: translateY(-2px);
+    }
+
+    .module-icon {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .module-icon svg { width: 22px; height: 22px; }
+
+    .module-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--texto);
+      margin-bottom: 0.25rem;
+    }
+
+    .module-desc {
+      font-size: 0.78rem;
+      color: var(--texto-light);
+      line-height: 1.45;
+    }
+
+    .module-badge {
+      display: inline-block;
+      margin-top: 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.18rem 0.55rem;
+      border-radius: 10px;
+    }
+
+    /* Colores módulos */
+    .m-azul   { background: var(--azul-light); }
+    .m-azul   .module-icon { background: var(--azul-light); color: var(--azul); }
+    .m-azul   .module-badge { background: var(--azul-light); color: var(--azul); }
+
+    .m-verde  { background: var(--blanco); }
+    .m-verde  .module-icon { background: var(--verde-light); color: var(--verde); }
+    .m-verde  .module-badge { background: var(--verde-light); color: var(--verde); }
+
+    .m-naranja { background: var(--blanco); }
+    .m-naranja .module-icon { background: var(--naranja-light); color: var(--naranja); }
+    .m-naranja .module-badge { background: var(--naranja-light); color: var(--naranja); }
+
+    .m-morado { background: var(--blanco); }
+    .m-morado .module-icon { background: var(--morado-light); color: var(--morado); }
+    .m-morado .module-badge { background: var(--morado-light); color: var(--morado); }
+
+    /* ── Loading ── */
+    #loadingState {
+      text-align: center;
+      padding: 4rem;
+      color: var(--texto-light);
+      font-size: 0.9rem;
+    }
+
+    #dashContent { display: none; }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .main { padding: 1rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .modules-grid { grid-template-columns: 1fr 1fr; }
+      .topbar { padding: 0 1rem; }
+      .user-rol { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          <path d="M14.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+        </svg>
+      </div>
+      <span class="topbar-brand">Neuro<span>Activa</span></span>
+    </div>
+    <div class="topbar-right">
+      <div class="user-badge">
+        <div class="user-avatar" id="userAvatar">--</div>
+        <span class="user-name" id="userName">Cargando...</span>
+      </div>
+      <span class="user-rol">Admin</span>
+      <button class="btn-signout" id="btnSignOut">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div id="loadingState">Cargando panel...</div>
+
+    <div id="dashContent">
+
+      <!-- Bienvenida -->
+      <div class="welcome-header">
+        <div class="welcome-tag">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          Panel de administración
+        </div>
+        <h1 class="welcome-title" id="welcomeTitle">Bienvenido</h1>
+        <p class="welcome-sub">Gestiona terapeutas, pacientes y ejercicios de NeuroActiva.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--azul-light); color: var(--azul);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-num" id="statTerapeutas">—</div>
+            <div class="stat-label">Terapeutas</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--verde-light); color: var(--verde);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-num" id="statPacientes">—</div>
+            <div class="stat-label">Pacientes</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--naranja-light); color: var(--naranja);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-num" id="statEjercicios">—</div>
+            <div class="stat-label">Ejercicios generados</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--morado-light); color: var(--morado);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-num" id="statSesiones">—</div>
+            <div class="stat-label">Sesiones activas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Módulos -->
+      <p class="section-label">Módulos del sistema</p>
+
+      <div class="modules-grid">
+
+        <a class="module-card m-azul" href="terapeutas.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <p class="module-name">Terapeutas</p>
+          <p class="module-desc">Gestiona el equipo de profesionales y sus especialidades.</p>
+          <span class="module-badge">Gestión</span>
+        </a>
+
+        <a class="module-card m-verde" href="pacientes.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <p class="module-name">Pacientes</p>
+          <p class="module-desc">Directorio de pacientes, diagnósticos y planes activos.</p>
+          <span class="module-badge">Directorio</span>
+        </a>
+
+        <a class="module-card m-naranja" href="ejercicios.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <p class="module-name">Generador de Ejercicios</p>
+          <p class="module-desc">Genera planes terapéuticos progresivos con IA según escala.</p>
+          <span class="module-badge">IA</span>
+        </a>
+
+        <a class="module-card m-morado" href="pruebas.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <p class="module-name">Escalas Clínicas</p>
+          <p class="module-desc">Aplica y registra valoraciones: Fugl-Meyer, Barthel, Berg, MoCA.</p>
+          <span class="module-badge">Valoración</span>
+        </a>
+
+        <a class="module-card m-azul" href="reportes.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+          <p class="module-name">Reportes</p>
+          <p class="module-desc">Visualiza la evolución clínica y progresión de los pacientes.</p>
+          <span class="module-badge">Análisis</span>
+        </a>
+
+        <a class="module-card m-verde" href="configuracion.html">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <p class="module-name">Configuración</p>
+          <p class="module-desc">Ajusta parámetros del sistema y permisos de usuarios.</p>
+          <span class="module-badge">Sistema</span>
+        </a>
+
+      </div>
+    </div>
+  </main>
+
+<script type="module">
+  import { auth, db, onAuthStateChanged, signOut, doc, getDoc, collection, getDocs, query, where } from './firebase.js';
+
+  const btnSignOut   = document.getElementById('btnSignOut');
+  const userName     = document.getElementById('userName');
+  const userAvatar   = document.getElementById('userAvatar');
+  const welcomeTitle = document.getElementById('welcomeTitle');
+  const loadingState = document.getElementById('loadingState');
+  const dashContent  = document.getElementById('dashContent');
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'index.html'; return; }
+
+    try {
+      const snap = await getDoc(doc(db, 'usuarios', user.uid));
+      if (!snap.exists() || snap.data().rol !== 'admin') {
+        await signOut(auth);
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const data = snap.data();
+      const nombre = data.nombre || 'Admin';
+      const iniciales = (nombre.charAt(0) + (data.apellido?.charAt(0) || '')).toUpperCase();
+
+      userName.textContent     = nombre;
+      userAvatar.textContent   = iniciales;
+      welcomeTitle.textContent = `Hola, ${nombre}`;
+
+      // Cargar stats
+      try {
+        const qTerapeutas = query(collection(db, 'usuarios'), where('rol', '==', 'terapeuta'));
+        const qPacientes  = query(collection(db, 'usuarios'), where('rol', '==', 'paciente'));
+        const [tSnap, pSnap] = await Promise.all([getDocs(qTerapeutas), getDocs(qPacientes)]);
+        document.getElementById('statTerapeutas').textContent = tSnap.size;
+        document.getElementById('statPacientes').textContent  = pSnap.size;
+        document.getElementById('statEjercicios').textContent = '0';
+        document.getElementById('statSesiones').textContent   = '0';
+      } catch(e) {
+        console.warn('No se pudieron cargar las estadísticas:', e);
+      }
+
+      loadingState.style.display = 'none';
+      dashContent.style.display  = 'block';
+
+    } catch(e) {
+      console.error('Error cargando dashboard:', e);
+      loadingState.textContent = 'Error al cargar el panel. Recarga la página.';
+    }
+  });
+
+  btnSignOut.addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>

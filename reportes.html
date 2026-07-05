@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Reportes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+      --verde:#1A7A5E;--verde-light:#E8F5F0;
+      --naranja:#C05621;--naranja-light:#FFF3EB;
+      --morado:#553C9A;--morado-light:#F0EBFF;
+      --rojo:#C53030;--rojo-light:#FFF5F5;
+      --gris:#F4F6F9;--borde:#DDE3EC;
+      --texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+    }
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+    /* TOPBAR */
+    .topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:.7rem;}
+    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .brand-icon svg{width:18px;height:18px;color:white;}
+    .topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+    .topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+    .user-name{font-size:.8rem;font-weight:500;color:white;}
+    .btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;text-decoration:none;}
+    .btn-top:hover{background:rgba(255,255,255,.18);}
+
+    /* MAIN */
+    .main{max-width:1200px;margin:0 auto;padding:2rem;}
+    .page-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--naranja-light);color:var(--naranja);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;margin-bottom:.6rem;}
+    .page-title{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--texto);letter-spacing:-.02em;margin-bottom:.3rem;}
+    .page-sub{font-size:.85rem;color:var(--texto-light);margin-bottom:1.5rem;}
+
+    /* FILTROS */
+    .filtros-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;margin-bottom:1.5rem;}
+    .filtros-row{display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;}
+    .filtro-group{display:flex;flex-direction:column;gap:.35rem;min-width:180px;}
+    .filtro-group label{font-size:.76rem;font-weight:600;color:var(--texto-mid);}
+    .filtro-group select,.filtro-group input{padding:.6rem .85rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--texto);background:var(--blanco);outline:none;transition:border-color .2s;appearance:none;}
+    .filtro-group select:focus,.filtro-group input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+    .btn-generar{padding:.65rem 1.2rem;background:var(--azul);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:background .2s;align-self:flex-end;}
+    .btn-generar:hover{background:var(--azul-dark);}
+    .btn-imprimir{padding:.65rem 1.1rem;background:var(--gris);color:var(--texto-mid);border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:all .2s;align-self:flex-end;}
+    .btn-imprimir:hover{border-color:var(--azul);color:var(--azul);}
+
+    /* RESUMEN */
+    .resumen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+    .resumen-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.1rem 1.2rem;}
+    .res-label{font-size:.74rem;color:var(--texto-light);margin-bottom:.3rem;}
+    .res-num{font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:.2rem;}
+    .res-sub{font-size:.72rem;display:flex;align-items:center;gap:.3rem;}
+    .res-up{color:var(--verde);}
+    .res-down{color:var(--rojo);}
+
+    /* GRÁFICAS */
+    .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+    .chart-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.3rem;}
+    .chart-card.full{grid-column:1/-1;}
+    .chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+    .chart-title{font-size:.88rem;font-weight:700;color:var(--texto);}
+    .chart-sub{font-size:.74rem;color:var(--texto-light);}
+    .chart-wrap{position:relative;height:220px;}
+    .chart-wrap-tall{position:relative;height:260px;}
+
+    /* TABLA DETALLE */
+    .tabla-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+    .tabla-header{padding:1rem 1.2rem;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;}
+    .tabla-title{font-size:.85rem;font-weight:700;color:var(--texto);}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--gris);border-bottom:1px solid var(--borde);}
+    th{padding:.65rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--texto-light);}
+    tbody tr{border-bottom:1px solid var(--borde);transition:background .15s;}
+    tbody tr:last-child{border-bottom:none;}
+    tbody tr:hover{background:#f8fafc;}
+    td{padding:.75rem 1rem;font-size:.82rem;color:var(--texto);}
+    .badge-nivel{font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:7px;}
+    .trend-up{color:var(--verde);font-weight:700;}
+    .trend-down{color:var(--rojo);font-weight:700;}
+    .trend-eq{color:var(--texto-light);font-weight:700;}
+
+    /* EMPTY */
+    .empty-state{text-align:center;padding:3rem;color:var(--texto-light);}
+    .empty-state svg{width:40px;height:40px;margin-bottom:.8rem;opacity:.3;display:block;margin-inline:auto;}
+    .empty-state h3{font-size:.95rem;color:var(--texto-mid);margin-bottom:.3rem;}
+    .empty-state p{font-size:.82rem;}
+
+    #loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+    #pageContent{display:none;}
+    #reporteContent{display:none;}
+
+    @media print{
+      .topbar,.filtros-card,.btn-imprimir,.btn-generar{display:none!important;}
+      .main{padding:0;}
+      .chart-card{break-inside:avoid;}
+    }
+    @media(max-width:900px){
+      .charts-grid{grid-template-columns:1fr;}
+      .resumen-grid{grid-template-columns:repeat(2,1fr);}
+      .main{padding:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <a class="btn-top" href="dashboard-admin.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Panel
+    </a>
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">--</div>
+      <span class="user-name" id="userName">...</span>
+    </div>
+    <button class="btn-top" id="btnSignOut">Salir</button>
+  </div>
+</header>
+
+<main class="main">
+  <div id="loadState">Cargando reportes...</div>
+  <div id="pageContent">
+
+    <div class="page-tag">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Análisis Clínico
+    </div>
+    <h1 class="page-title">Reportes de Evolución</h1>
+    <p class="page-sub">Visualiza el progreso clínico de tus pacientes basado en las evaluaciones con escalas gold standard.</p>
+
+    <!-- Filtros -->
+    <div class="filtros-card">
+      <div class="filtros-row">
+        <div class="filtro-group">
+          <label>Paciente</label>
+          <select id="selPaciente">
+            <option value="">Selecciona paciente...</option>
+          </select>
+        </div>
+        <div class="filtro-group">
+          <label>Especialidad</label>
+          <select id="selEsp">
+            <option value="">Todas las especialidades</option>
+            <option value="fisioterapia">Fisioterapia</option>
+            <option value="hidroterapia">Hidroterapia</option>
+            <option value="ocupacional">Terapia Ocupacional</option>
+            <option value="lenguaje">Terapia del Lenguaje</option>
+            <option value="psicologia">Psicología</option>
+            <option value="neuropsicologia">Neuropsicología</option>
+          </select>
+        </div>
+        <div class="filtro-group">
+          <label>Período</label>
+          <select id="selPeriodo">
+            <option value="30">Últimos 30 días</option>
+            <option value="60">Últimos 60 días</option>
+            <option value="90" selected>Últimos 90 días</option>
+            <option value="180">Últimos 6 meses</option>
+            <option value="365">Último año</option>
+            <option value="0">Todo el historial</option>
+          </select>
+        </div>
+        <button class="btn-generar" onclick="generarReporte()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Generar reporte
+        </button>
+        <button class="btn-imprimir" onclick="window.print()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Imprimir
+        </button>
+      </div>
+    </div>
+
+    <!-- Estado vacío inicial -->
+    <div id="emptyState">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        <h3>Selecciona un paciente para generar su reporte</h3>
+        <p>Verás la evolución clínica basada en todas las escalas aplicadas.</p>
+      </div>
+    </div>
+
+    <!-- Contenido del reporte -->
+    <div id="reporteContent">
+
+      <!-- Info paciente -->
+      <div style="background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div id="pacAvatar" style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:white;background:var(--azul)">--</div>
+          <div>
+            <div style="font-weight:700;font-size:1rem" id="pacNombre">—</div>
+            <div style="font-size:.78rem;color:var(--texto-light)" id="pacInfo">—</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap" id="pacBadges"></div>
+      </div>
+
+      <!-- Resumen estadístico -->
+      <div class="resumen-grid">
+        <div class="resumen-card">
+          <div class="res-label">Total evaluaciones</div>
+          <div class="res-num" id="resTotal" style="color:var(--azul)">0</div>
+          <div class="res-sub"><span id="resEscalas" style="color:var(--texto-light)">en el período</span></div>
+        </div>
+        <div class="resumen-card">
+          <div class="res-label">Mejor resultado</div>
+          <div class="res-num" id="resMejor" style="color:var(--verde)">—</div>
+          <div class="res-sub res-up" id="resMejorEscala">—</div>
+        </div>
+        <div class="resumen-card">
+          <div class="res-label">Área más comprometida</div>
+          <div class="res-num" id="resComprometida" style="color:var(--rojo);font-size:1.1rem">—</div>
+          <div class="res-sub res-down" id="resComprometidaPct">—</div>
+        </div>
+        <div class="resumen-card">
+          <div class="res-label">Tendencia general</div>
+          <div class="res-num" id="resTendencia" style="font-size:1.5rem">—</div>
+          <div class="res-sub" id="resTendenciaTxt">—</div>
+        </div>
+      </div>
+
+      <!-- Gráficas -->
+      <div class="charts-grid">
+
+        <!-- Evolución por escala en el tiempo -->
+        <div class="chart-card full">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Evolución clínica en el tiempo</div>
+              <div class="chart-sub">Puntaje porcentual por escala a lo largo del período</div>
+            </div>
+          </div>
+          <div class="chart-wrap-tall"><canvas id="chartEvolucion"></canvas></div>
+        </div>
+
+        <!-- Radar de áreas -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Perfil de áreas clínicas</div>
+              <div class="chart-sub">Comparativa de última evaluación por área</div>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chartRadar"></canvas></div>
+        </div>
+
+        <!-- Barras por especialidad -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">Puntaje por especialidad</div>
+              <div class="chart-sub">Promedio de puntajes en el período seleccionado</div>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chartBarras"></canvas></div>
+        </div>
+
+      </div>
+
+      <!-- Tabla detalle -->
+      <div class="tabla-card">
+        <div class="tabla-header">
+          <span class="tabla-title">Detalle de evaluaciones</span>
+          <span style="font-size:.75rem;color:var(--texto-light)" id="tablaInfo">—</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Escala</th>
+                <th>Especialidad</th>
+                <th>Área</th>
+                <th>Puntaje</th>
+                <th>% Máximo</th>
+                <th>Tendencia</th>
+                <th>Terapeuta</th>
+              </tr>
+            </thead>
+            <tbody id="tablaDetalle"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,doc,getDoc,getDocs,collection,query,where,orderBy } from './firebase.js';
+
+let currentUser=null, currentUserData=null;
+let chartEvolucion=null, chartRadar=null, chartBarras=null;
+
+const ESP_COLORS={
+  fisioterapia:'#1A4F8A',hidroterapia:'#1A7A5E',ocupacional:'#553C9A',
+  lenguaje:'#C05621',psicologia:'#C53030',neuropsicologia:'#92400E',
+};
+
+const CHART_COLORS=['#1A4F8A','#1A7A5E','#553C9A','#C05621','#C53030','#92400E','#0891b2','#d97706'];
+
+const PAC_COLORS=['#1A4F8A','#1A7A5E','#553C9A','#C05621','#C53030','#92400E'];
+function getColor(str){let h=0;for(let c of str)h=c.charCodeAt(0)+((h<<5)-h);return PAC_COLORS[Math.abs(h)%PAC_COLORS.length];}
+
+onAuthStateChanged(auth,async(user)=>{
+  if(!user){window.location.href='index.html';return;}
+  const snap=await getDoc(doc(db,'usuarios',user.uid));
+  if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+  currentUser=user;currentUserData=snap.data();
+  const n=currentUserData.nombre||'Usuario';
+  document.getElementById('userName').textContent=n;
+  document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+  await cargarPacientes();
+  document.getElementById('loadState').style.display='none';
+  document.getElementById('pageContent').style.display='block';
+});
+
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+
+async function cargarPacientes(){
+  const q=query(collection(db,'usuarios'),where('rol','==','paciente'),orderBy('nombre'));
+  const snap=await getDocs(q);
+  const sel=document.getElementById('selPaciente');
+  sel.innerHTML='<option value="">Selecciona paciente...</option>';
+  snap.forEach(d=>{
+    const data=d.data();
+    const o=document.createElement('option');
+    o.value=d.id;
+    o.textContent=data.nombreCompleto||`${data.nombre} ${data.apellido}`;
+    sel.appendChild(o);
+  });
+}
+
+window.generarReporte=async function(){
+  const pacId=document.getElementById('selPaciente').value;
+  const esp=document.getElementById('selEsp').value;
+  const dias=parseInt(document.getElementById('selPeriodo').value);
+
+  if(!pacId){alert('Selecciona un paciente para generar el reporte.');return;}
+
+  // Cargar datos del paciente
+  const pacSnap=await getDoc(doc(db,'usuarios',pacId));
+  if(!pacSnap.exists())return;
+  const pac=pacSnap.data();
+  const nombre=pac.nombreCompleto||`${pac.nombre||''} ${pac.apellido||''}`;
+  const iniciales=nombre.substring(0,2).toUpperCase();
+  const color=getColor(nombre);
+
+  document.getElementById('pacAvatar').textContent=iniciales;
+  document.getElementById('pacAvatar').style.background=color;
+  document.getElementById('pacNombre').textContent=nombre;
+  document.getElementById('pacInfo').textContent=`CC: ${pac.cedula||'—'} · ${pac.diagnostico||'Sin diagnóstico'} · ${pac.especialidad||''}`;
+
+  const badges=document.getElementById('pacBadges');
+  badges.innerHTML=[
+    pac.diagnostico?`<span style="font-size:.72rem;font-weight:600;padding:.2rem .6rem;border-radius:8px;background:var(--azul-light);color:var(--azul)">${pac.diagnostico}</span>`:'',
+    pac.evolucion?`<span style="font-size:.72rem;font-weight:600;padding:.2rem .6rem;border-radius:8px;background:var(--gris);color:var(--texto-mid)">${pac.evolucion}</span>`:'',
+    pac.ladoAfectado&&pac.ladoAfectado!=='No aplica'?`<span style="font-size:.72rem;font-weight:600;padding:.2rem .6rem;border-radius:8px;background:var(--naranja-light);color:var(--naranja)">Lado ${pac.ladoAfectado}</span>`:'',
+  ].join('');
+
+  // Cargar evaluaciones
+  let q=query(collection(db,'evaluaciones'),where('pacienteId','==',pacId),orderBy('fecha','asc'));
+  const snap=await getDocs(q);
+  let evals=[];
+  snap.forEach(d=>evals.push({id:d.id,...d.data()}));
+
+  // Filtrar por período
+  if(dias>0){
+    const corte=new Date();corte.setDate(corte.getDate()-dias);
+    evals=evals.filter(e=>e.fecha?.toDate&&e.fecha.toDate()>=corte);
+  }
+  // Filtrar por especialidad
+  if(esp) evals=evals.filter(e=>e.especialidad===esp);
+
+  if(!evals.length){
+    document.getElementById('emptyState').innerHTML=`<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <h3>Sin evaluaciones en el período seleccionado</h3>
+      <p>Este paciente no tiene evaluaciones registradas con los filtros actuales.</p>
+    </div>`;
+    document.getElementById('emptyState').style.display='block';
+    document.getElementById('reporteContent').style.display='none';
+    return;
+  }
+
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('reporteContent').style.display='block';
+
+  // Calcular estadísticas
+  const evalConMax=evals.filter(e=>e.puntajeMax>0);
+  const pcts=evalConMax.map(e=>Math.round((e.puntaje/e.puntajeMax)*100));
+  const promedio=pcts.length?Math.round(pcts.reduce((a,b)=>a+b,0)/pcts.length):0;
+
+  // Mejor resultado
+  const mejor=evalConMax.reduce((a,b)=>(b.puntaje/b.puntajeMax)>(a.puntaje/a.puntajeMax)?b:a,evalConMax[0]);
+  const peor=evalConMax.reduce((a,b)=>(b.puntaje/b.puntajeMax)<(a.puntaje/a.puntajeMax)?b:a,evalConMax[0]);
+
+  // Tendencia (comparar primera mitad vs segunda mitad)
+  let tendencia='→',tendenciaTxt='Sin cambios significativos',tendenciaColor='var(--texto-light)';
+  if(pcts.length>=2){
+    const mitad=Math.floor(pcts.length/2);
+    const primera=pcts.slice(0,mitad).reduce((a,b)=>a+b,0)/mitad;
+    const segunda=pcts.slice(mitad).reduce((a,b)=>a+b,0)/(pcts.length-mitad);
+    const diff=Math.round(segunda-primera);
+    if(diff>5){tendencia='↑';tendenciaTxt=`Mejora de +${diff}% vs inicio`;tendenciaColor='var(--verde)';}
+    else if(diff<-5){tendencia='↓';tendenciaTxt=`Descenso de ${diff}% vs inicio`;tendenciaColor='var(--rojo)';}
+  }
+
+  document.getElementById('resTotal').textContent=evals.length;
+  document.getElementById('resEscalas').textContent=`${new Set(evals.map(e=>e.escalaId)).size} escalas distintas`;
+  if(mejor){
+    document.getElementById('resMejor').textContent=`${Math.round((mejor.puntaje/mejor.puntajeMax)*100)}%`;
+    document.getElementById('resMejorEscala').textContent=(mejor.escalaNombre||mejor.escalaId||'').substring(0,20);
+  }
+  if(peor){
+    document.getElementById('resComprometida').textContent=peor.area||peor.especialidad||'—';
+    document.getElementById('resComprometidaPct').textContent=`${Math.round((peor.puntaje/peor.puntajeMax)*100)}% del máximo`;
+  }
+  document.getElementById('resTendencia').textContent=tendencia;
+  document.getElementById('resTendencia').style.color=tendenciaColor;
+  document.getElementById('resTendenciaTxt').textContent=tendenciaTxt;
+  document.getElementById('resTendenciaTxt').style.color=tendenciaColor;
+
+  // GRÁFICA 1: Evolución en el tiempo
+  const escalaIds=[...new Set(evals.map(e=>e.escalaId))];
+  const datasets=escalaIds.slice(0,6).map((escId,i)=>{
+    const puntos=evals.filter(e=>e.escalaId===escId&&e.puntajeMax>0).map(e=>({
+      x:e.fecha?.toDate?e.fecha.toDate().toLocaleDateString('es-CO'):'—',
+      y:Math.round((e.puntaje/e.puntajeMax)*100),
+    }));
+    const nombre=(evals.find(e=>e.escalaId===escId)?.escalaNombre||escId||'').substring(0,20);
+    return{label:nombre,data:puntos,borderColor:CHART_COLORS[i],backgroundColor:CHART_COLORS[i]+'22',fill:false,tension:.3,pointRadius:5,pointHoverRadius:7};
+  });
+  const fechas=[...new Set(evals.map(e=>e.fecha?.toDate?e.fecha.toDate().toLocaleDateString('es-CO'):'—'))];
+
+  if(chartEvolucion)chartEvolucion.destroy();
+  chartEvolucion=new Chart(document.getElementById('chartEvolucion'),{
+    type:'line',
+    data:{labels:fechas,datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'},title:{display:true,text:'% del puntaje máximo',font:{size:11}}},x:{ticks:{font:{size:10}}}}}
+  });
+
+  // GRÁFICA 2: Radar por áreas
+  const areas={};
+  evals.filter(e=>e.puntajeMax>0).forEach(e=>{
+    const a=e.area||e.especialidad||'Otro';
+    if(!areas[a]||e.fecha?.seconds>areas[a].fecha?.seconds){areas[a]={pct:Math.round((e.puntaje/e.puntajeMax)*100),fecha:e.fecha};}
+  });
+  const areaLabels=Object.keys(areas);
+  const areaData=areaLabels.map(a=>areas[a].pct);
+
+  if(chartRadar)chartRadar.destroy();
+  chartRadar=new Chart(document.getElementById('chartRadar'),{
+    type:'radar',
+    data:{labels:areaLabels,datasets:[{label:'Última evaluación',data:areaData,borderColor:CHART_COLORS[0],backgroundColor:CHART_COLORS[0]+'33',pointBackgroundColor:CHART_COLORS[0],pointRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:9}},pointLabels:{font:{size:10}}}}}
+  });
+
+  // GRÁFICA 3: Barras por especialidad
+  const espData={};
+  evals.filter(e=>e.puntajeMax>0).forEach(e=>{
+    if(!espData[e.especialidad])espData[e.especialidad]=[];
+    espData[e.especialidad].push(Math.round((e.puntaje/e.puntajeMax)*100));
+  });
+  const espLabels=Object.keys(espData);
+  const espPromedios=espLabels.map(e=>{const arr=espData[e];return Math.round(arr.reduce((a,b)=>a+b,0)/arr.length);});
+  const espColores=espLabels.map(e=>ESP_COLORS[e]||CHART_COLORS[0]);
+
+  if(chartBarras)chartBarras.destroy();
+  chartBarras=new Chart(document.getElementById('chartBarras'),{
+    type:'bar',
+    data:{labels:espLabels.map(e=>e.charAt(0).toUpperCase()+e.slice(1)),datasets:[{label:'Promedio %',data:espPromedios,backgroundColor:espColores.map(c=>c+'bb'),borderColor:espColores,borderWidth:2,borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'},title:{display:true,text:'Promedio % del máximo',font:{size:11}}},x:{ticks:{font:{size:11}}}}}
+  });
+
+  // TABLA DETALLE
+  document.getElementById('tablaInfo').textContent=`${evals.length} evaluaciones encontradas`;
+  const tbody=document.getElementById('tablaDetalle');
+  // Ordenar de más reciente a más antiguo para tabla
+  const evalsDesc=[...evals].reverse();
+  tbody.innerHTML=evalsDesc.map((ev,i)=>{
+    const fecha=ev.fecha?.toDate?ev.fecha.toDate().toLocaleDateString('es-CO'):'—';
+    const pct=ev.puntajeMax?Math.round((ev.puntaje/ev.puntajeMax)*100):null;
+    const color=pct>=70?'var(--verde)':pct>=40?'var(--naranja)':'var(--rojo)';
+    const bg=pct>=70?'var(--verde-light)':pct>=40?'var(--naranja-light)':'var(--rojo-light)';
+    // Tendencia respecto a evaluación anterior de la misma escala
+    const anterior=evalsDesc.slice(i+1).find(e=>e.escalaId===ev.escalaId&&e.puntajeMax>0);
+    let trend='<span class="trend-eq">—</span>';
+    if(anterior&&ev.puntajeMax>0&&anterior.puntajeMax>0){
+      const diff=Math.round((ev.puntaje/ev.puntajeMax)*100)-Math.round((anterior.puntaje/anterior.puntajeMax)*100);
+      if(diff>0)trend=`<span class="trend-up">↑ +${diff}%</span>`;
+      else if(diff<0)trend=`<span class="trend-down">↓ ${diff}%</span>`;
+      else trend=`<span class="trend-eq">→ 0%</span>`;
+    }
+    return `<tr>
+      <td>${fecha}</td>
+      <td style="font-weight:600">${(ev.escalaNombre||ev.escalaId||'').substring(0,25)}</td>
+      <td><span style="font-size:.72rem;font-weight:600;padding:.15rem .45rem;border-radius:6px;background:${ESP_COLORS[ev.especialidad]||'#888'}22;color:${ESP_COLORS[ev.especialidad]||'#888'}">${ev.especialidad||'—'}</span></td>
+      <td style="font-size:.78rem;color:var(--texto-mid)">${ev.area||'—'}</td>
+      <td style="font-weight:700">${ev.puntaje}${ev.puntajeMax?'/'+ev.puntajeMax:''}</td>
+      <td>${pct!==null?`<span style="font-size:.78rem;font-weight:700;padding:.15rem .5rem;border-radius:7px;background:${bg};color:${color}">${pct}%</span>`:'—'}</td>
+      <td>${trend}</td>
+      <td style="font-size:.76rem;color:var(--texto-light)">${ev.terapeutaNombre||'—'}</td>
+    </tr>`;
+  }).join('');
+};
+</script>
+
+</body>
+</html>

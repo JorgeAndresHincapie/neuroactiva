@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Ingresar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:        #1A4F8A;
+      --azul-dark:   #123769;
+      --azul-light:  #EBF2FB;
+      --verde:       #1A7A5E;
+      --verde-light: #E8F5F0;
+      --gris:        #F4F6F9;
+      --borde:       #DDE3EC;
+      --texto:       #1A2332;
+      --texto-mid:   #4A5568;
+      --texto-light: #8896A7;
+      --blanco:      #FFFFFF;
+      --error:       #C53030;
+      --error-bg:    #FFF5F5;
+      --exito:       #276749;
+      --exito-bg:    #F0FFF4;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--gris);
+      color: var(--texto);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+    }
+
+    /* ── Panel izquierdo ── */
+    .panel-left {
+      background: var(--azul);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -100px; right: -150px;
+    }
+
+    .panel-left::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      bottom: 80px; left: -80px;
+    }
+
+    .brand { position: relative; z-index: 1; }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 3rem;
+    }
+
+    .brand-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-icon svg { width: 22px; height: 22px; color: white; }
+
+    .brand-wordmark {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-wordmark span {
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+    }
+
+    .panel-headline {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.4rem;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-headline em {
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .panel-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    /* Especialidades */
+    .especialidades {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .esp-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.3rem;
+    }
+
+    .esp-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      width: fit-content;
+    }
+
+    .esp-tag svg { width: 14px; height: 14px; }
+
+    .panel-footer {
+      position: relative;
+      z-index: 1;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Panel derecho ── */
+    .panel-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem;
+      background: var(--blanco);
+    }
+
+    .login-box { width: 100%; max-width: 390px; }
+
+    .login-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--texto);
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.02em;
+    }
+
+    .login-sub {
+      font-size: 0.85rem;
+      color: var(--texto-light);
+      margin-bottom: 2rem;
+    }
+
+    /* Tabs rol */
+    .rol-tabs {
+      display: flex;
+      background: var(--gris);
+      border-radius: 8px;
+      padding: 3px;
+      margin-bottom: 1.8rem;
+      gap: 3px;
+    }
+
+    .rol-tab {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--texto-light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .rol-tab.active {
+      background: var(--blanco);
+      color: var(--azul);
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    /* Formulario */
+    .form-group { margin-bottom: 1.2rem; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--texto-mid);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-wrap svg.icon-left {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--texto-light);
+      pointer-events: none;
+      width: 16px; height: 16px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      border: 1.5px solid var(--borde);
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--texto);
+      background: var(--blanco);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(26,79,138,0.1);
+    }
+
+    input::placeholder { color: #b0bcc8; }
+
+    .btn-toggle-pass {
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--texto-light);
+      display: flex;
+      align-items: center;
+    }
+
+    .forgot-link {
+      text-align: right;
+      margin-top: 0.3rem;
+    }
+
+    .forgot-link a {
+      font-size: 0.76rem;
+      color: var(--azul);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot-link a:hover { text-decoration: underline; }
+
+    /* Mensajes */
+    .msg {
+      display: none;
+      align-items: flex-start;
+      gap: 0.5rem;
+      border-radius: 7px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.82rem;
+      margin-bottom: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .msg.visible { display: flex; }
+    .msg svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    .msg-error {
+      background: var(--error-bg);
+      border: 1px solid #FED7D7;
+      color: var(--error);
+    }
+
+    .msg-exito {
+      background: var(--exito-bg);
+      border: 1px solid #C6F6D5;
+      color: var(--exito);
+    }
+
+    /* Botón */
+    .btn-primary {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--azul);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary:hover { background: var(--azul-dark); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { background: #8ea8c8; cursor: not-allowed; }
+
+    .spinner {
+      display: none;
+      width: 17px; height: 17px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .divider {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--texto-light);
+      margin: 1.2rem 0;
+      position: relative;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 42%;
+      height: 1px;
+      background: var(--borde);
+    }
+
+    .divider::before { left: 0; }
+    .divider::after  { right: 0; }
+
+    .registro-link {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--texto-light);
+    }
+
+    .registro-link a {
+      color: var(--azul);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .registro-link a:hover { text-decoration: underline; }
+
+    /* Indicador fuerza contraseña */
+    .strength-bar {
+      display: none;
+      margin-top: 0.4rem;
+      gap: 3px;
+    }
+
+    .strength-bar.visible { display: flex; }
+    .strength-seg {
+      flex: 1; height: 3px; border-radius: 2px;
+      background: var(--borde);
+      transition: background 0.3s;
+    }
+
+    .strength-text {
+      font-size: 0.7rem;
+      margin-top: 0.25rem;
+      color: var(--texto-light);
+    }
+
+    @media (max-width: 700px) {
+      .page { grid-template-columns: 1fr; }
+      .panel-left { display: none; }
+      .panel-right { padding: 2rem 1.5rem; align-items: flex-start; padding-top: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Panel izquierdo -->
+  <div class="panel-left">
+    <div class="brand">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+            <path d="M14.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+            <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+            <path d="M8 15c-2 1-3 3-3 5h14c0-2-1-4-3-5"/>
+          </svg>
+        </div>
+        <span class="brand-wordmark">Neuro<span>Activa</span></span>
+      </div>
+
+      <h1 class="panel-headline">
+        Rehabilitación neurológica <em>guiada por IA</em>
+      </h1>
+      <p class="panel-desc">
+        Plataforma de ejercicios terapéuticos personalizados, con progresión inteligente y valoración clínica basada en escalas estándar.
+      </p>
+    </div>
+
+    <div class="especialidades">
+      <p class="esp-label">Especialidades disponibles</p>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="5" r="3"/><path d="M12 8v8M8 12h8"/>
+        </svg>
+        Fisioterapia
+      </div>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6c0 0 4 3 9 3s9-3 9-3M3 18c0 0 4-3 9-3s9 3 9 3"/>
+        </svg>
+        Hidroterapia
+      </div>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Terapia Ocupacional
+      </div>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Terapia del Lenguaje
+      </div>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        Psicología
+      </div>
+      <div class="esp-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          <path d="M14.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+        </svg>
+        Neuropsicología
+      </div>
+    </div>
+
+    <p class="panel-footer">© 2026 NeuroActiva — Plataforma clínica de rehabilitación</p>
+  </div>
+
+  <!-- Panel derecho: login -->
+  <div class="panel-right">
+    <div class="login-box">
+
+      <h2 class="login-title">Bienvenido</h2>
+      <p class="login-sub">Ingresa a tu cuenta para continuar.</p>
+
+      <!-- Tabs de rol -->
+      <div class="rol-tabs">
+        <button class="rol-tab active" id="tabTerapeuta" onclick="setRol('terapeuta')">Terapeuta</button>
+        <button class="rol-tab" id="tabPaciente" onclick="setRol('paciente')">Paciente</button>
+      </div>
+
+      <!-- Mensaje error -->
+      <div class="msg msg-error" id="errorMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span id="errorText">Correo o contraseña incorrectos.</span>
+      </div>
+
+      <!-- Mensaje éxito -->
+      <div class="msg msg-exito" id="exitoMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span id="exitoText"></span>
+      </div>
+
+      <!-- Correo -->
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <div class="input-wrap">
+          <svg class="icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email"/>
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <div class="input-wrap">
+          <svg class="icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input type="password" id="password" placeholder="Tu contraseña" autocomplete="current-password"/>
+          <button class="btn-toggle-pass" type="button" id="togglePass">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="forgot-link">
+          <a href="#" id="linkOlvide">¿Olvidaste tu contraseña?</a>
+        </div>
+      </div>
+
+      <!-- Botón ingresar -->
+      <button class="btn-primary" id="btnLogin">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">Ingresar</span>
+      </button>
+
+      <div class="divider">o</div>
+
+      <p class="registro-link">
+        ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+<script type="module" src="app.js"></script>
+
+<script>
+  // Tabs de rol
+  let rolActivo = 'terapeuta';
+
+  function setRol(rol) {
+    rolActivo = rol;
+    document.getElementById('tabTerapeuta').classList.toggle('active', rol === 'terapeuta');
+    document.getElementById('tabPaciente').classList.toggle('active', rol === 'paciente');
+    window._rolLogin = rol;
+  }
+
+  window._rolLogin = 'terapeuta';
+
+  // Toggle contraseña
+  document.getElementById('togglePass').addEventListener('click', () => {
+    const input = document.getElementById('password');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+</script>
+
+</body>
+</html>

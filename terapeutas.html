@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Terapeutas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+      --verde:#1A7A5E;--verde-light:#E8F5F0;
+      --naranja:#C05621;--naranja-light:#FFF3EB;
+      --morado:#553C9A;--morado-light:#F0EBFF;
+      --rojo:#C53030;--rojo-light:#FFF5F5;
+      --gris:#F4F6F9;--borde:#DDE3EC;
+      --texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+    }
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+    .topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:.7rem;}
+    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .brand-icon svg{width:18px;height:18px;color:white;}
+    .topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+    .topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+    .user-name{font-size:.8rem;font-weight:500;color:white;}
+    .btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;text-decoration:none;}
+    .btn-top:hover{background:rgba(255,255,255,.18);}
+    .main{max-width:1200px;margin:0 auto;padding:2rem;}
+    .page-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--azul-light);color:var(--azul);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;margin-bottom:.6rem;}
+    .page-title{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--texto);letter-spacing:-.02em;margin-bottom:.3rem;}
+    .page-sub{font-size:.85rem;color:var(--texto-light);margin-bottom:1.5rem;}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+    .stat-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:10px;padding:1rem 1.2rem;display:flex;align-items:center;gap:.9rem;}
+    .stat-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .stat-icon svg{width:18px;height:18px;}
+    .stat-num{font-size:1.5rem;font-weight:700;line-height:1;}
+    .stat-lbl{font-size:.74rem;color:var(--texto-light);}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+    .toolbar-left{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+    .search-wrap{position:relative;}
+    .search-wrap svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--texto-light);pointer-events:none;width:16px;height:16px;}
+    .search-input{padding:.6rem 1rem .6rem 2.4rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--texto);background:var(--blanco);outline:none;width:240px;}
+    .search-input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+    .filter-select{padding:.6rem .85rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;color:var(--texto);background:var(--blanco);outline:none;cursor:pointer;appearance:none;}
+    .btn-nuevo{display:flex;align-items:center;gap:.4rem;padding:.65rem 1.1rem;background:var(--azul);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s;}
+    .btn-nuevo:hover{background:var(--azul-dark);}
+
+    /* GRID DE TARJETAS */
+    .terapeutas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;}
+    .terapeuta-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;transition:box-shadow .2s,transform .15s;}
+    .terapeuta-card:hover{box-shadow:0 4px 16px rgba(26,79,138,.1);transform:translateY(-2px);}
+    .card-top{padding:1.3rem;display:flex;align-items:flex-start;gap:1rem;}
+    .t-avatar{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:white;flex-shrink:0;}
+    .t-info{flex:1;}
+    .t-nombre{font-weight:700;font-size:.95rem;color:var(--texto);margin-bottom:.2rem;}
+    .t-email{font-size:.76rem;color:var(--texto-light);margin-bottom:.4rem;}
+    .t-esp-wrap{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .t-esp{font-size:.68rem;font-weight:600;padding:.18rem .5rem;border-radius:8px;}
+    .card-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--borde);}
+    .card-stat{padding:.75rem;text-align:center;border-right:1px solid var(--borde);}
+    .card-stat:last-child{border-right:none;}
+    .card-stat-num{font-size:1.2rem;font-weight:700;color:var(--texto);}
+    .card-stat-lbl{font-size:.68rem;color:var(--texto-light);}
+    .card-actions{padding:.8rem 1.1rem;border-top:1px solid var(--borde);display:flex;gap:.5rem;}
+    .badge-activo{display:inline-block;font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:8px;background:var(--verde-light);color:var(--verde);}
+    .badge-inactivo{display:inline-block;font-size:.68rem;font-weight:600;padding:.15rem .5rem;border-radius:8px;background:var(--gris);color:var(--texto-light);}
+    .btn-action{padding:.35rem .65rem;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .15s;display:flex;align-items:center;gap:.3rem;flex:1;justify-content:center;}
+    .btn-ver{border-color:var(--azul);color:var(--azul);background:var(--azul-light);}
+    .btn-ver:hover{background:var(--azul);color:white;}
+    .btn-edit{border-color:var(--borde);color:var(--texto-mid);background:var(--blanco);}
+    .btn-edit:hover{border-color:var(--azul);color:var(--azul);}
+    .btn-toggle-t{border-color:var(--borde);color:var(--texto-mid);background:var(--blanco);}
+    .btn-toggle-t:hover{border-color:var(--rojo);color:var(--rojo);}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:center;justify-content:center;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--blanco);border-radius:14px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;}
+    .modal-title{font-family:'Instrument Serif',serif;font-size:1.25rem;color:var(--texto);}
+    .modal-close{background:none;border:none;cursor:pointer;color:var(--texto-light);padding:.25rem;border-radius:6px;display:flex;align-items:center;}
+    .modal-close:hover{color:var(--rojo);}
+    .modal-body{padding:1.2rem 1.5rem;}
+    .modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--borde);display:flex;gap:.6rem;justify-content:flex-end;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+    .form-group{margin-bottom:.9rem;}
+    .form-group label{display:block;font-size:.76rem;font-weight:600;color:var(--texto-mid);margin-bottom:.35rem;}
+    .form-group input,.form-group select{width:100%;padding:.62rem .85rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--texto);background:var(--blanco);outline:none;transition:border-color .2s;appearance:none;}
+    .form-group input:focus,.form-group select:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+    .form-section{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--texto-light);margin-bottom:.8rem;margin-top:1rem;}
+    .esp-checks{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .esp-check{display:flex;align-items:center;gap:.35rem;padding:.3rem .65rem;border:1.5px solid var(--borde);border-radius:20px;cursor:pointer;font-size:.76rem;font-weight:500;color:var(--texto-mid);transition:all .15s;}
+    .esp-check:hover{border-color:var(--azul);color:var(--azul);}
+    .esp-check.sel{border-color:var(--azul);background:var(--azul-light);color:var(--azul);}
+    .esp-check input{display:none;}
+    .msg{display:none;align-items:flex-start;gap:.5rem;border-radius:7px;padding:.65rem .9rem;font-size:.8rem;margin-bottom:.8rem;line-height:1.4;}
+    .msg.vis{display:flex;}
+    .msg svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;}
+    .msg-ok{background:var(--verde-light);border:1px solid #a7d7c5;color:var(--verde);}
+    .msg-err{background:var(--rojo-light);border:1px solid #fecaca;color:var(--rojo);}
+    .btn-primary{flex:1;padding:.72rem;background:var(--azul);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+    .btn-primary:hover{background:var(--azul-dark);}
+    .btn-primary:disabled{background:#8ea8c8;cursor:not-allowed;}
+    .btn-cancel{padding:.72rem 1.1rem;background:var(--gris);color:var(--texto-mid);border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;}
+    .btn-cancel:hover{border-color:var(--azul);color:var(--azul);}
+    .empty-grid{background:var(--blanco);border:1.5px dashed var(--borde);border-radius:12px;padding:3rem;text-align:center;color:var(--texto-light);grid-column:1/-1;}
+    .empty-grid svg{width:38px;height:38px;margin-bottom:.8rem;opacity:.3;}
+    #loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+    #pageContent{display:none;}
+    @media(max-width:900px){.stats-row{grid-template-columns:repeat(2,1fr);},.form-row{grid-template-columns:1fr;}.main{padding:1rem;}}
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <a class="btn-top" href="dashboard-admin.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Panel
+    </a>
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">--</div>
+      <span class="user-name" id="userName">...</span>
+    </div>
+    <button class="btn-top" id="btnSignOut">Salir</button>
+  </div>
+</header>
+
+<main class="main">
+  <div id="loadState">Cargando terapeutas...</div>
+  <div id="pageContent">
+
+    <div class="page-tag">Equipo Clínico</div>
+    <h1 class="page-title">Terapeutas</h1>
+    <p class="page-sub">Gestiona el equipo de profesionales, sus especialidades y pacientes asignados.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--azul-light);color:var(--azul);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">Total terapeutas</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--verde-light);color:var(--verde);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div><div class="stat-num" id="statActivos">0</div><div class="stat-lbl">Activos</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--morado-light);color:var(--morado);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div><div class="stat-num" id="statEspecialidades">0</div><div class="stat-lbl">Especialidades cubiertas</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--naranja-light);color:var(--naranja);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div><div class="stat-num" id="statPacientesTotal">0</div><div class="stat-lbl">Pacientes atendidos</div></div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" id="searchInput" placeholder="Buscar terapeuta..." oninput="filtrar()"/>
+        </div>
+        <select class="filter-select" id="filterEsp" onchange="filtrar()">
+          <option value="">Todas las especialidades</option>
+          <option value="fisioterapia">Fisioterapia</option>
+          <option value="hidroterapia">Hidroterapia</option>
+          <option value="ocupacional">Terapia Ocupacional</option>
+          <option value="lenguaje">Terapia del Lenguaje</option>
+          <option value="psicologia">Psicología</option>
+          <option value="neuropsicologia">Neuropsicología</option>
+        </select>
+      </div>
+      <button class="btn-nuevo" onclick="abrirModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nuevo terapeuta
+      </button>
+    </div>
+
+    <div class="msg msg-ok" id="msgOk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg><span id="msgOkTxt"></span></div>
+    <div class="msg msg-err" id="msgErr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg><span id="msgErrTxt"></span></div>
+
+    <div class="terapeutas-grid" id="terapeutasGrid">
+      <div class="empty-grid"><p>Cargando...</p></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="cerrarSiOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Nuevo terapeuta</span>
+      <button class="modal-close" onclick="cerrarModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="msg msg-err" id="modalErr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/></svg><span id="modalErrTxt"></span></div>
+
+      <p class="form-section">Datos personales</p>
+      <div class="form-row">
+        <div class="form-group"><label>Nombre *</label><input type="text" id="fNombre" placeholder="Nombre"/></div>
+        <div class="form-group"><label>Apellido *</label><input type="text" id="fApellido" placeholder="Apellido"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Correo electrónico *</label><input type="email" id="fEmail" placeholder="correo@ejemplo.com"/></div>
+        <div class="form-group"><label>Teléfono</label><input type="text" id="fTelefono" placeholder="300 000 0000"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Número de registro profesional</label><input type="text" id="fRegistro" placeholder="TP-XXXX o equivalente"/></div>
+        <div class="form-group"><label>Institución / Clínica</label><input type="text" id="fInstitucion" placeholder="Nombre de la institución"/></div>
+      </div>
+
+      <p class="form-section">Especialidades</p>
+      <div class="esp-checks" id="espChecks">
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="fisioterapia"/>Fisioterapia</label>
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="hidroterapia"/>Hidroterapia</label>
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="ocupacional"/>T. Ocupacional</label>
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="lenguaje"/>T. del Lenguaje</label>
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="psicologia"/>Psicología</label>
+        <label class="esp-check" onclick="toggleEsp(this)"><input type="checkbox" value="neuropsicologia"/>Neuropsicología</label>
+      </div>
+
+      <p class="form-section" id="passSection">Acceso al sistema</p>
+      <div class="form-row" id="passRow">
+        <div class="form-group"><label>Contraseña inicial *</label><input type="password" id="fPassword" placeholder="Mínimo 8 caracteres"/></div>
+        <div class="form-group"><label>Estado</label>
+          <select id="fEstado"><option value="true">Activo</option><option value="false">Inactivo</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-primary" id="btnGuardar" onclick="guardarTerapeuta()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        Guardar terapeuta
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,createUserWithEmailAndPassword,sendEmailVerification,doc,setDoc,getDoc,getDocs,updateDoc,collection,query,where,orderBy,serverTimestamp } from './firebase.js';
+
+let currentUser=null,currentUserData=null;
+let terapeutas=[],terapeutasFiltrados=[],editandoId=null;
+let pacientesCount={};
+
+const ESP_COLORS={
+  fisioterapia:{bg:'#EBF2FB',c:'#1A4F8A'},
+  hidroterapia:{bg:'#E8F5F0',c:'#1A7A5E'},
+  ocupacional:{bg:'#F0EBFF',c:'#553C9A'},
+  lenguaje:{bg:'#FFF3EB',c:'#C05621'},
+  psicologia:{bg:'#FFF5F5',c:'#C53030'},
+  neuropsicologia:{bg:'#FFFBEB',c:'#92400E'},
+};
+const AVATAR_COLORS=['#1A4F8A','#1A7A5E','#553C9A','#C05621','#C53030','#92400E'];
+function getColor(str){let h=0;for(let c of str)h=c.charCodeAt(0)+((h<<5)-h);return AVATAR_COLORS[Math.abs(h)%AVATAR_COLORS.length];}
+
+onAuthStateChanged(auth,async(user)=>{
+  if(!user){window.location.href='index.html';return;}
+  const snap=await getDoc(doc(db,'usuarios',user.uid));
+  if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+  currentUser=user;currentUserData=snap.data();
+  const n=currentUserData.nombre||'Usuario';
+  document.getElementById('userName').textContent=n;
+  document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+  await Promise.all([cargarTerapeutas(),cargarPacientesCount()]);
+  document.getElementById('loadState').style.display='none';
+  document.getElementById('pageContent').style.display='block';
+});
+
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+
+async function cargarTerapeutas(){
+  const q=query(collection(db,'usuarios'),where('rol','==','terapeuta'),orderBy('fechaRegistro','desc'));
+  const snap=await getDocs(q);
+  terapeutas=[];
+  snap.forEach(d=>terapeutas.push({id:d.id,...d.data()}));
+  actualizarStats();
+  filtrar();
+}
+
+async function cargarPacientesCount(){
+  const q=query(collection(db,'usuarios'),where('rol','==','paciente'));
+  const snap=await getDocs(q);
+  pacientesCount={};
+  snap.forEach(d=>{
+    const tid=d.data().terapeutaId;
+    if(tid)pacientesCount[tid]=(pacientesCount[tid]||0)+1;
+  });
+  document.getElementById('statPacientesTotal').textContent=snap.size;
+}
+
+function actualizarStats(){
+  const activos=terapeutas.filter(t=>t.activo!==false).length;
+  const esps=new Set();
+  terapeutas.forEach(t=>{
+    if(Array.isArray(t.especialidades))t.especialidades.forEach(e=>esps.add(e));
+    else if(t.especialidad)esps.add(t.especialidad);
+  });
+  document.getElementById('statTotal').textContent=terapeutas.length;
+  document.getElementById('statActivos').textContent=activos;
+  document.getElementById('statEspecialidades').textContent=esps.size;
+}
+
+window.filtrar=function(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const esp=document.getElementById('filterEsp').value;
+  terapeutasFiltrados=terapeutas.filter(t=>{
+    const n=(t.nombreCompleto||`${t.nombre} ${t.apellido}`).toLowerCase();
+    const matchQ=!q||n.includes(q)||(t.email||'').toLowerCase().includes(q);
+    const esps=Array.isArray(t.especialidades)?t.especialidades:[t.especialidad||''];
+    const matchE=!esp||esps.some(e=>e===esp||(e||'').includes(esp));
+    return matchQ&&matchE;
+  });
+  renderGrid();
+};
+
+function renderGrid(){
+  const grid=document.getElementById('terapeutasGrid');
+  if(!terapeutasFiltrados.length){
+    grid.innerHTML=`<div class="empty-grid">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <p>No se encontraron terapeutas con los filtros actuales.</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML=terapeutasFiltrados.map(t=>{
+    const nombre=t.nombreCompleto||`${t.nombre||''} ${t.apellido||''}`;
+    const iniciales=nombre.substring(0,2).toUpperCase();
+    const color=getColor(nombre);
+    const esps=Array.isArray(t.especialidades)?t.especialidades:[t.especialidad||''].filter(Boolean);
+    const activo=t.activo!==false;
+    const npac=pacientesCount[t.id]||0;
+    const fecha=t.fechaRegistro?.toDate?t.fechaRegistro.toDate().toLocaleDateString('es-CO'):'—';
+
+    return `<div class="terapeuta-card">
+      <div class="card-top">
+        <div class="t-avatar" style="background:${color}">${iniciales}</div>
+        <div class="t-info">
+          <div class="t-nombre">${nombre} <span class="${activo?'badge-activo':'badge-inactivo'}">${activo?'Activo':'Inactivo'}</span></div>
+          <div class="t-email">${t.email||'Sin correo'}</div>
+          <div class="t-esp-wrap">
+            ${esps.map(e=>{const col=ESP_COLORS[e]||{bg:'var(--gris)',c:'var(--texto-mid)'};return `<span class="t-esp" style="background:${col.bg};color:${col.c}">${e}</span>`;}).join('')}
+            ${!esps.length?'<span class="t-esp" style="background:var(--gris);color:var(--texto-light)">Sin especialidad</span>':''}
+          </div>
+          ${t.registro?`<div style="font-size:.72rem;color:var(--texto-light);margin-top:.3rem">TP: ${t.registro}</div>`:''}
+        </div>
+      </div>
+      <div class="card-stats">
+        <div class="card-stat"><div class="card-stat-num">${npac}</div><div class="card-stat-lbl">Pacientes</div></div>
+        <div class="card-stat"><div class="card-stat-num">${esps.length}</div><div class="card-stat-lbl">Especialidades</div></div>
+        <div class="card-stat"><div class="card-stat-num" style="font-size:.8rem">${fecha}</div><div class="card-stat-lbl">Registro</div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-action btn-ver" onclick='verPacientes("${t.id}","${nombre}")'>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Pacientes
+        </button>
+        <button class="btn-action btn-edit" onclick='editar("${t.id}")'>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar
+        </button>
+        <button class="btn-action btn-toggle-t" onclick='toggleActivo("${t.id}",${activo})'>
+          ${activo?'Desactivar':'Activar'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// MODAL
+window.abrirModal=function(id){
+  editandoId=id||null;
+  document.getElementById('modalTitle').textContent=id?'Editar terapeuta':'Nuevo terapeuta';
+  document.getElementById('modalErr').classList.remove('vis');
+  limpiarForm();
+  document.getElementById('passSection').style.display=id?'none':'block';
+  document.getElementById('passRow').style.display=id?'none':'grid';
+  if(id){
+    const t=terapeutas.find(x=>x.id===id);
+    if(t)rellenarForm(t);
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+};
+window.cerrarModal=function(){document.getElementById('modalOverlay').classList.remove('open');};
+window.cerrarSiOverlay=function(e){if(e.target.id==='modalOverlay')cerrarModal();};
+window.editar=function(id){abrirModal(id);};
+
+function limpiarForm(){
+  ['fNombre','fApellido','fEmail','fTelefono','fRegistro','fInstitucion','fPassword'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('fEstado').value='true';
+  document.querySelectorAll('.esp-check').forEach(el=>{el.querySelector('input').checked=false;el.classList.remove('sel');});
+}
+
+function rellenarForm(t){
+  document.getElementById('fNombre').value=t.nombre||'';
+  document.getElementById('fApellido').value=t.apellido||'';
+  document.getElementById('fEmail').value=t.email||'';
+  document.getElementById('fTelefono').value=t.telefono||'';
+  document.getElementById('fRegistro').value=t.registro||'';
+  document.getElementById('fInstitucion').value=t.institucion||'';
+  document.getElementById('fEstado').value=t.activo!==false?'true':'false';
+  const esps=Array.isArray(t.especialidades)?t.especialidades:[t.especialidad||''].filter(Boolean);
+  document.querySelectorAll('.esp-check').forEach(el=>{
+    const val=el.querySelector('input').value;
+    if(esps.includes(val)){el.querySelector('input').checked=true;el.classList.add('sel');}
+  });
+}
+
+window.toggleEsp=function(el){
+  el.classList.toggle('sel',el.querySelector('input').checked);
+};
+
+window.guardarTerapeuta=async function(){
+  document.getElementById('modalErr').classList.remove('vis');
+  const nombre=document.getElementById('fNombre').value.trim();
+  const apellido=document.getElementById('fApellido').value.trim();
+  const email=document.getElementById('fEmail').value.trim();
+  const telefono=document.getElementById('fTelefono').value.trim();
+  const registro=document.getElementById('fRegistro').value.trim();
+  const institucion=document.getElementById('fInstitucion').value.trim();
+  const password=document.getElementById('fPassword').value;
+  const activo=document.getElementById('fEstado').value==='true';
+  const especialidades=[...document.querySelectorAll('.esp-check input:checked')].map(i=>i.value);
+
+  if(!nombre){showModalErr('El nombre es obligatorio.');return;}
+  if(!apellido){showModalErr('El apellido es obligatorio.');return;}
+  if(!email){showModalErr('El correo es obligatorio.');return;}
+  if(!especialidades.length){showModalErr('Selecciona al menos una especialidad.');return;}
+
+  const btn=document.getElementById('btnGuardar');btn.disabled=true;
+
+  try{
+    if(editandoId){
+      await updateDoc(doc(db,'usuarios',editandoId),{
+        nombre,apellido,nombreCompleto:`${nombre} ${apellido}`,
+        email,telefono,registro,institucion,especialidades,
+        especialidad:especialidades[0],activo,
+      });
+      mostrarOk('Terapeuta actualizado correctamente.');
+    } else {
+      if(!password||password.length<8){showModalErr('La contraseña debe tener al menos 8 caracteres.');btn.disabled=false;return;}
+      const userCred=await createUserWithEmailAndPassword(auth,email,password);
+      const user=userCred.user;
+      await sendEmailVerification(user);
+      await setDoc(doc(db,'usuarios',user.uid),{
+        nombre,apellido,nombreCompleto:`${nombre} ${apellido}`,
+        email,telefono,registro,institucion,
+        especialidades,especialidad:especialidades[0],
+        rol:'terapeuta',activo,
+        emailVerificado:false,
+        fechaRegistro:serverTimestamp(),
+      });
+      mostrarOk(`Terapeuta ${nombre} ${apellido} creado. Se envió correo de verificación a ${email}.`);
+    }
+    cerrarModal();
+    await cargarTerapeutas();
+  }catch(e){
+    console.error(e);
+    if(e.code==='auth/email-already-in-use')showModalErr('Ya existe un usuario con ese correo electrónico.');
+    else showModalErr('Error al guardar. Intenta de nuevo.');
+  }
+  btn.disabled=false;
+};
+
+window.toggleActivo=async function(id,activo){
+  if(!confirm(`¿${!activo?'Activar':'Desactivar'} este terapeuta?`))return;
+  await updateDoc(doc(db,'usuarios',id),{activo:!activo});
+  mostrarOk(`Terapeuta ${!activo?'activado':'desactivado'} correctamente.`);
+  await cargarTerapeutas();
+};
+
+window.verPacientes=function(tid,nombre){
+  window.location.href=`pacientes.html?terapeutaId=${tid}`;
+};
+
+function showModalErr(txt){document.getElementById('modalErrTxt').textContent=txt;document.getElementById('modalErr').classList.add('vis');}
+function mostrarOk(txt){document.getElementById('msgOkTxt').textContent=txt;document.getElementById('msgOk').classList.add('vis');setTimeout(()=>document.getElementById('msgOk').classList.remove('vis'),4000);}
+</script>
+
+</body>
+</html>
