@@ -182,9 +182,13 @@
           </div>
           <div class="escalas-lista" id="escalasList"></div>
           <button class="btn-primary" id="btnAgregar" onclick="agregarEscala()" disabled>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Agregar a sesión
-          </button>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+Agregar a sesión
+</button>
+<button class="btn-primary" id="btnAgregarTodas" style="background:var(--morado);display:none" onclick="agregarTodasEscalas()">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+Añadir TODAS (modo prueba admin)
+</button>
         </div>
 
         <div class="card" id="sesionCard" style="display:none">
@@ -570,9 +574,12 @@ onAuthStateChanged(auth,async(user)=>{
   const n=currentUserData.nombre||'Usuario';
   document.getElementById('userName').textContent=n;
   document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+  document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+  if(currentUserData.rol==='admin'){
+    document.getElementById('btnAgregarTodas').style.display='flex';
+    document.querySelector('.page-sub').insertAdjacentHTML('afterend','<div style="background:var(--morado-light);color:var(--morado);border:1.5px solid #d8ceef;border-radius:8px;padding:.7rem 1rem;font-size:.8rem;margin-bottom:1.2rem">🔧 <strong>Modo administrador:</strong> puedes probar cualquier escala sin seleccionar paciente. Las pruebas no se guardan en la base de datos.</div>');
+  }
   await cargarPacientes();
-  document.getElementById('loadState').style.display='none';
-  document.getElementById('pageContent').style.display='block';
 });
 
 document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
@@ -633,7 +640,17 @@ window.agregarEscala=function(){
   renderPruebas();
   document.getElementById('emptyState').style.display='none';
 };
-
+window.agregarTodasEscalas=function(){
+if(!espActual)return;
+if(!confirm(`¿Añadir las ${BANCO[espActual].length} escalas de esta especialidad a la sesión de prueba?`))return;
+BANCO[espActual].forEach(info=>{
+if(sesion.find(s=>s.escalaId===info.id))return;
+sesion.push({escalaId:info.id,especialidad:espActual,info,respuestas:{},puntaje:0,notas:''});
+});
+actualizarSesionBadges();
+renderPruebas();
+document.getElementById('emptyState').style.display='none';
+};
 function actualizarSesionBadges(){
   const cont=document.getElementById('sesionBadges'),card=document.getElementById('sesionCard');
   if(sesion.length===0){card.style.display='none';return;}
@@ -792,10 +809,16 @@ function actualizarComparador(){
 
 window.guardarUna=async function(si){
   const pid=document.getElementById('selPaciente').value;
-  if(!pid){mostrarMsg(si,'err','Selecciona un paciente.');return;}
+  const esModoPrueba=(currentUserData?.rol==='admin' && !pid);
+  if(!pid && !esModoPrueba){mostrarMsg(si,'err','Selecciona un paciente.');return;}
   const s=sesion[si];
   const btn=document.querySelector(`#pc-${si} .btn-guardar`);
   if(btn)btn.disabled=true;
+  if(esModoPrueba){
+    mostrarMsg(si,'ok',`✓ Prueba completada (modo administrador — no se guardó en la base de datos). Puntaje: ${s.puntaje}${s.info.max>0?'/'+s.info.max:''}`);
+    if(btn)btn.disabled=false;
+    return;
+  }
   try{
     await addDoc(collection(db,'evaluaciones'),{
       pacienteId:pid,terapeutaId:currentUser.uid,
@@ -811,10 +834,11 @@ window.guardarUna=async function(si){
   }catch(e){mostrarMsg(si,'err','Error al guardar. Intenta de nuevo.');}
   if(btn)btn.disabled=false;
 };
+};
 
 window.guardarSesion=async function(){
   const pid=document.getElementById('selPaciente').value;
-  if(!pid){alert('Selecciona un paciente primero.');return;}
+  if(!pid && currentUserData?.rol!=='admin'){alert('Selecciona un paciente primero.');return;}
   for(let i=0;i<sesion.length;i++)await guardarUna(i);
 };
 
