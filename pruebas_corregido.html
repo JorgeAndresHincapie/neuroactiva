@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeuroActiva — Pruebas Gold Standard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+--azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+--verde:#1A7A5E;--verde-light:#E8F5F0;
+--naranja:#C05621;--naranja-light:#FFF3EB;
+--morado:#553C9A;--morado-light:#F0EBFF;
+--rojo:#C53030;--rojo-light:#FFF5F5;
+--gris:#F4F6F9;--borde:#DDE3EC;
+--texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+.topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-left{display:flex;align-items:center;gap:.7rem;}
+.brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.brand-icon svg{width:18px;height:18px;color:white;}
+.topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+.topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+.topbar-right{display:flex;align-items:center;gap:.8rem;}
+.user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+.user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+.user-name{font-size:.8rem;font-weight:500;color:white;}
+.btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;text-decoration:none;}
+.btn-top:hover{background:rgba(255,255,255,.18);}
+.main{max-width:1200px;margin:0 auto;padding:2rem;}
+.page-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--azul-light);color:var(--azul);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;margin-bottom:.6rem;}
+.page-title{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--texto);letter-spacing:-.02em;margin-bottom:.3rem;}
+.page-sub{font-size:.85rem;color:var(--texto-light);margin-bottom:2rem;}
+.layout{display:grid;grid-template-columns:320px 1fr;gap:1.5rem;}
+.panel-left{display:flex;flex-direction:column;gap:1rem;}
+.card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;}
+.card-title{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--texto-light);margin-bottom:.9rem;}
+.field{margin-bottom:.9rem;}
+.field label{display:block;font-size:.76rem;font-weight:600;color:var(--texto-mid);margin-bottom:.35rem;}
+.field select,.field input{width:100%;padding:.6rem .85rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--texto);background:var(--blanco);outline:none;transition:border-color .2s;appearance:none;}
+.field select:focus,.field input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+.esp-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+.esp-tab{padding:.35rem .7rem;border:1.5px solid var(--borde);border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--blanco);color:var(--texto-mid);}
+.esp-tab:hover{border-color:var(--azul);color:var(--azul);}
+.esp-tab.active{background:var(--azul);border-color:var(--azul);color:white;}
+.escalas-lista{display:flex;flex-direction:column;gap:.4rem;max-height:280px;overflow-y:auto;}
+.escala-item{display:flex;align-items:center;justify-content:space-between;padding:.55rem .75rem;border:1.5px solid var(--borde);border-radius:8px;cursor:pointer;transition:all .15s;background:var(--blanco);}
+.escala-item:hover{border-color:var(--azul);background:var(--azul-light);}
+.escala-item.selected{border-color:var(--azul);background:var(--azul-light);}
+.escala-item-name{font-size:.79rem;font-weight:600;color:var(--texto);}
+.escala-item-sub{font-size:.71rem;color:var(--texto-light);margin-top:.1rem;}
+.escala-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--borde);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.escala-item.selected .escala-check{background:var(--azul);border-color:var(--azul);}
+.escala-item.selected .escala-check::after{content:'✓';color:white;font-size:.65rem;font-weight:700;}
+.btn-primary{width:100%;padding:.72rem;background:var(--azul);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:.5rem;}
+.btn-primary:hover{background:var(--azul-dark);}
+.btn-primary:disabled{background:#8ea8c8;cursor:not-allowed;}
+.sesion-badges{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.8rem;}
+.sesion-badge{font-size:.72rem;font-weight:600;padding:.2rem .55rem;border-radius:10px;display:flex;align-items:center;gap:.3rem;}
+.sesion-badge button{background:none;border:none;cursor:pointer;font-size:.7rem;color:inherit;padding:0;line-height:1;}
+.panel-right{display:flex;flex-direction:column;gap:1rem;}
+.comparador{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.4rem;display:none;}
+.comparador.visible{display:block;}
+.comp-title{font-size:.85rem;font-weight:700;color:var(--texto);margin-bottom:1rem;}
+.comp-bars{display:flex;flex-direction:column;gap:.6rem;}
+.comp-bar-row{display:flex;align-items:center;gap:.8rem;}
+.comp-bar-label{font-size:.78rem;color:var(--texto-mid);width:200px;flex-shrink:0;}
+.comp-bar-track{flex:1;height:8px;background:var(--gris);border-radius:4px;overflow:hidden;}
+.comp-bar-fill{height:100%;border-radius:4px;transition:width .5s;}
+.comp-bar-val{font-size:.78rem;font-weight:700;width:60px;text-align:right;flex-shrink:0;}
+.comp-alerta{margin-top:1rem;padding:.75rem 1rem;border-radius:8px;font-size:.82rem;line-height:1.5;}
+.prueba-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;}
+.prueba-card-header{padding:1.2rem 1.4rem;border-bottom:1px solid var(--borde);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+.prueba-nombre{font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--texto);margin-bottom:.3rem;}
+.prueba-meta{display:flex;gap:.5rem;flex-wrap:wrap;}
+.meta-tag{font-size:.7rem;font-weight:600;padding:.18rem .55rem;border-radius:10px;}
+.prueba-desc{font-size:.8rem;color:var(--texto-mid);line-height:1.5;margin-top:.5rem;}
+.puntaje-box{text-align:center;flex-shrink:0;}
+.puntaje-num{font-size:2rem;font-weight:700;color:var(--azul);line-height:1;}
+.puntaje-den{font-size:.72rem;color:var(--texto-light);}
+.seccion{border-bottom:1px solid var(--borde);}
+.seccion:last-child{border-bottom:none;}
+.seccion-hdr{padding:.8rem 1.2rem;background:var(--gris);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.seccion-hdr:hover{background:#eaeef4;}
+.seccion-nombre{font-size:.82rem;font-weight:700;color:var(--texto);}
+.seccion-score{font-size:.8rem;font-weight:700;color:var(--azul);}
+.seccion-body{padding:.8rem 1.2rem;display:flex;flex-direction:column;gap:.65rem;}
+.item-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+.item-label{font-size:.81rem;color:var(--texto-mid);flex:1;line-height:1.4;padding-top:.3rem;}
+.item-opciones{display:flex;gap:.3rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:240px;}
+.op-btn{min-width:32px;height:32px;padding:0 .4rem;border:1.5px solid var(--borde);border-radius:7px;background:var(--blanco);font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:600;color:var(--texto-mid);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.op-btn:hover{border-color:var(--azul);color:var(--azul);}
+.op-btn.sel{background:var(--azul);border-color:var(--azul);color:white;}
+.input-directo{padding:1rem 1.2rem;}
+.input-directo label{font-size:.76rem;font-weight:600;color:var(--texto-mid);margin-right:.6rem;}
+.input-directo input{width:140px;padding:.55rem .8rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--texto);outline:none;text-align:center;}
+.input-directo input:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+.resultado-bar{height:6px;background:var(--borde);margin:0 1.2rem;border-radius:3px;overflow:hidden;}
+.resultado-fill{height:100%;border-radius:3px;transition:width .5s;}
+.interpretacion-box{margin:.8rem 1.2rem;padding:.75rem 1rem;border-radius:8px;font-size:.82rem;line-height:1.5;}
+.prueba-footer{padding:1rem 1.2rem;border-top:1px solid var(--borde);}
+.notas-wrap label{display:block;font-size:.76rem;font-weight:600;color:var(--texto-mid);margin-bottom:.35rem;}
+.notas-wrap textarea{width:100%;padding:.6rem .85rem;border:1.5px solid var(--borde);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;color:var(--texto);resize:vertical;min-height:60px;outline:none;margin-bottom:.8rem;}
+.notas-wrap textarea:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(26,79,138,.1);}
+.btn-row{display:flex;gap:.6rem;}
+.btn-guardar{flex:1;padding:.7rem;background:var(--verde);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.btn-guardar:hover{background:#145f49;}
+.btn-guardar:disabled{background:#7ab8a8;cursor:not-allowed;}
+.btn-ia{flex:1;padding:.7rem;background:var(--morado);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.btn-ia:hover{background:#3d2b7a;}
+.hist-item{display:flex;align-items:center;justify-content:space-between;padding:.5rem .65rem;background:var(--gris);border-radius:7px;font-size:.76rem;margin-bottom:.4rem;}
+.hist-escala{font-weight:600;color:var(--texto);}
+.hist-fecha{color:var(--texto-light);font-size:.7rem;}
+.hist-score{font-weight:700;font-size:.78rem;padding:.15rem .45rem;border-radius:6px;}
+.msg{display:none;align-items:flex-start;gap:.5rem;border-radius:7px;padding:.6rem .9rem;font-size:.8rem;margin:.5rem 1.2rem;line-height:1.4;}
+.msg.vis{display:flex;}
+.msg svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;}
+.msg-ok{background:var(--verde-light);border:1px solid #a7d7c5;color:var(--verde);}
+.msg-err{background:var(--rojo-light);border:1px solid #fecaca;color:var(--rojo);}
+.empty{background:var(--blanco);border:1.5px dashed var(--borde);border-radius:12px;padding:3rem;text-align:center;color:var(--texto-light);}
+.empty svg{width:40px;height:40px;margin-bottom:1rem;opacity:.3;}
+#loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+#pageContent{display:none;}
+@media(max-width:800px){.layout{grid-template-columns:1fr;}.main{padding:1rem;}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="topbar-left">
+<div class="brand-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+<path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+</svg>
+</div>
+<span class="topbar-brand">Neuro<span>Activa</span></span>
+</div>
+<div class="topbar-right">
+<a class="btn-top" href="dashboard-admin.html">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+Panel
+</a>
+<div class="user-badge">
+<div class="user-avatar" id="userAvatar">--</div>
+<span class="user-name" id="userName">...</span>
+</div>
+<button class="btn-top" id="btnSignOut">Salir</button>
+</div>
+</header>
+<main class="main">
+<div id="loadState">Cargando módulo...</div>
+<div id="pageContent">
+<div class="page-tag">Evaluación Clínica</div>
+<h1 class="page-title">Pruebas Gold Standard</h1>
+<p class="page-sub">Banco completo internacional · 80+ escalas validadas · Múltiples pruebas por sesión · Comparador de áreas afectadas · Generación de ejercicios con IA</p>
+<div class="layout">
+<!-- PANEL IZQ -->
+<div class="panel-left">
+<div class="card">
+<p class="card-title">Paciente</p>
+<div class="field">
+<label>Seleccionar paciente</label>
+<select id="selPaciente" onchange="onPacienteChange()">
+<option value="">Selecciona paciente...</option>
+</select>
+</div>
+</div>
+<div class="card">
+<p class="card-title">Especialidad</p>
+<div class="esp-tabs">
+<button class="esp-tab" onclick="selEsp('fisioterapia',this)">Fisioterapia</button>
+<button class="esp-tab" onclick="selEsp('hidroterapia',this)">Hidroterapia</button>
+<button class="esp-tab" onclick="selEsp('ocupacional',this)">Ocupacional</button>
+<button class="esp-tab" onclick="selEsp('lenguaje',this)">Lenguaje</button>
+<button class="esp-tab" onclick="selEsp('psicologia',this)">Psicología</button>
+<button class="esp-tab" onclick="selEsp('neuropsicologia',this)">Neuropsicología</button>
+</div>
+<div class="escalas-lista" id="escalasList"></div>
+<button class="btn-primary" id="btnAgregar" onclick="agregarEscala()" disabled>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+Agregar a sesión
+</button>
+<button class="btn-primary" id="btnAgregarTodas" style="background:var(--morado);display:none" onclick="agregarTodasEscalas()">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+Añadir TODAS (modo prueba admin)
+</button>
+</div>
+<div class="card" id="sesionCard" style="display:none">
+<p class="card-title">Sesión activa</p>
+<div class="sesion-badges" id="sesionBadges"></div>
+<button class="btn-primary" style="background:var(--verde)" onclick="guardarSesion()">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+Guardar toda la sesión
+</button>
+</div>
+<div class="card">
+<p class="card-title">Historial del paciente</p>
+<div id="histList"><p style="font-size:.78rem;color:var(--texto-light)">Selecciona un paciente.</p></div>
+</div>
+</div>
+<!-- PANEL DER -->
+<div class="panel-right" id="panelRight">
+<div class="comparador" id="comparador">
+<p class="comp-title">📊 Análisis comparativo — Áreas más afectadas</p>
+<div class="comp-bars" id="compBars"></div>
+<div class="comp-alerta" id="compAlerta"></div>
+</div>
+<div class="empty" id="emptyState">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+</svg>
+<p>Selecciona una especialidad y agrega escalas para comenzar la evaluación.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,doc,getDoc,getDocs,addDoc,collection,query,where,orderBy,serverTimestamp } from './firebase.js';
+const BANCO = {
+fisioterapia:[
+{id:'fugl-ms',nombre:'Fugl-Meyer Miembro Superior',max:66,area:'Motor MS',desc:'Recuperación motora del MS en hemiplejía. Reflejos, sinergias, movimiento voluntario, coordinación, sensibilidad.'},
+{id:'fugl-mi',nombre:'Fugl-Meyer Miembro Inferior',max:34,area:'Motor MI',desc:'Recuperación motora del MI: reflejos, sinergias de cadera/rodilla/tobillo, coordinación.'},
+{id:'fugl-sens',nombre:'Fugl-Meyer Sensorial',max:24,area:'Sensorial',desc:'Sensibilidad superficial y propioceptiva post-ACV en MS y MI.'},
+{id:'barthel',nombre:'Índice de Barthel',max:100,area:'AVD funcionales',desc:'10 ítems de independencia en AVD: comer, baño, vestido, continencia, traslados, marcha, escaleras.'},
+{id:'berg',nombre:'Escala de Equilibrio de Berg',max:56,area:'Equilibrio',desc:'14 ítems de equilibrio estático y dinámico. Predice riesgo de caídas (≥45 bajo riesgo).'},
+{id:'tinetti',nombre:'Escala de Tinetti',max:28,area:'Marcha y equilibrio',desc:'Equilibrio (16 pts) y marcha (12 pts). ≤18: alto riesgo caída, 19-23: moderado, ≥24: bajo.'},
+{id:'tug',nombre:'Timed Up and Go (TUG)',max:0,area:'Movilidad funcional',desc:'Tiempo en segundos: levantarse, caminar 3m, girar, regresar y sentarse. <12s normal, >20s alto riesgo.'},
+{id:'6mwt',nombre:'Test de Marcha 6 Minutos (6MWT)',max:0,area:'Resistencia cardiorrespiratoria',desc:'Metros recorridos en 6 min. Evalúa capacidad funcional. Se compara con valores normativos por edad/sexo.'},
+{id:'ashworth',nombre:'Escala de Ashworth Modificada',max:4,area:'Espasticidad',desc:'Tono muscular: 0=normal, 1=leve aumento, 1+=leve con tope, 2=moderado, 3=considerable, 4=rigidez.'},
+{id:'daniels',nombre:'Test de Daniels (Fuerza Muscular)',max:5,area:'Fuerza muscular',desc:'0=sin contracción, 1=contracción sin movimiento, 2=movimiento sin gravedad, 3=contra gravedad, 4=contra resistencia parcial, 5=normal.'},
+{id:'eva',nombre:'Escala Visual Analógica (EVA/NRS)',max:10,area:'Dolor',desc:'Intensidad del dolor 0-10. 0=sin dolor, 1-3=leve, 4-6=moderado, 7-10=severo.'},
+{id:'brunnstrom',nombre:'Estadios de Brunnstrom',max:6,area:'Recuperación neuromotora',desc:'Estadio 1=flacidez, 2=espasticidad inicial, 3=espasticidad máxima, 4=movimiento voluntario, 5=independencia de sinergias, 6=coordinación normal.'},
+{id:'mas',nombre:'Motor Assessment Scale (MAS)',max:48,area:'Motor global',desc:'8 ítems funcionales (0-6 c/u) + 1 de tono muscular. Supino→sentado, balance, caminar, función MS.'},
+{id:'dash',nombre:'DASH (Discapacidad MS)',max:100,area:'Función MS autoreporte',desc:'30 ítems sobre capacidad funcional y síntomas del MS en últimas semanas. 0=sin discapacidad.'},
+{id:'rivermead',nombre:'Rivermead Motor Assessment',max:38,area:'Motor global',desc:'3 subescalas: función gruesa(13), pierna/tronco(10), brazo(15). Valida recuperación motora post-ACV.'},
+{id:'10mwt',nombre:'10-Meter Walk Test (10MWT)',max:0,area:'Velocidad de marcha',desc:'Tiempo en segundos para caminar 10 metros a velocidad normal y máxima. Gold estándar de velocidad de marcha. <0.4m/s=comunidad con asistencia, 0.4-0.8=comunidad limitada, >0.8=comunidad independiente.'},
+{id:'handgrip',nombre:'Handgrip Strength (Dinamometría Manual)',max:0,area:'Fuerza de prensión',desc:'Fuerza de prensión manual en kg con dinamómetro Jamar. Comparar con normas por edad/sexo. Predictor de mortalidad, sarcopenia y discapacidad funcional.'},
+{id:'sts',nombre:'Sit-to-Stand Test (STS 5 y 30s)',max:0,area:'Fuerza miembros inferiores',desc:'5-STS: tiempo para levantarse 5 veces de silla sin usar brazos. 30s-STS: número de repeticiones en 30s. Evalúa fuerza y potencia de MMII.'},
+{id:'cpet',nombre:'CPET (Cardiopulmonary Exercise Test)',max:0,area:'Capacidad aeróbica máxima',desc:'Gold estándar en capacidad cardiorrespiratoria. Mide VO2max, umbral anaeróbico, VE/VCO2. Requiere equipo especializado y supervisión médica.'},
+{id:'iswt',nombre:'Incremental Shuttle Walk Test (ISWT)',max:0,area:'Capacidad funcional respiratoria',desc:'Test de lanzadera incremental: caminar entre conos a velocidad progresiva siguiendo señal sonora. Gold estándar en EPOC y enfermedades respiratorias.'},
+{id:'sppb',nombre:'Short Physical Performance Battery (SPPB)',max:12,area:'Función física global',desc:'3 pruebas: equilibrio en tándem(4pts), velocidad de marcha 4m(4pts), 5 levantadas de silla(4pts). ≤6 = alto riesgo discapacidad. Muy usado en geriatría.'},
+{id:'odi',nombre:'Oswestry Disability Index (ODI)',max:100,area:'Discapacidad lumbar',desc:'10 ítems sobre dolor lumbar e incapacidad. 0-20% discapacidad mínima, 21-40% moderada, 41-60% severa, 61-80% muy severa, 81-100% postración.'},
+{id:'rmdq',nombre:'Roland-Morris Disability Questionnaire (RMDQ)',max:24,area:'Función en dolor lumbar',desc:'24 afirmaciones sobre limitaciones por dolor lumbar. Mayor puntaje = mayor discapacidad. Sensible a cambios en dolor lumbar agudo y crónico.'},
+{id:'womac',nombre:'WOMAC (Osteoartritis Rodilla/Cadera)',max:96,area:'Función articular',desc:'3 subescalas: dolor(20pts), rigidez(8pts), función física(68pts). Gold estándar en artrosis de rodilla y cadera. Mayor puntaje = mayor afectación.'},
+{id:'rmi',nombre:'Rivermead Mobility Index (RMI)',max:15,area:'Movilidad neurológica',desc:'15 ítems de movilidad funcional post-ACV: voltear en cama, sentarse, transferencias, marcha, escaleras. Gold estándar de movilidad en neurorrehabilitación.'},
+{id:'constant-murley',nombre:'Constant-Murley Score (Hombro)',max:100,area:'Función de hombro',desc:'4 dominios: dolor(15pts), AVD(20pts), rango de movimiento(40pts), fuerza(25pts). Gold estándar en patología del hombro y manguito rotador.'},
+],
+hidroterapia:[
+{id:'wota1',nombre:'Halliwick WOTA1',max:20,area:'Habilidades acuáticas básicas',desc:'10 ítems del Aquatic Observational Tool para ajuste mental, equilibrio y movimiento básico en agua.'},
+{id:'wota2',nombre:'Halliwick WOTA2',max:40,area:'Habilidades acuáticas avanzadas',desc:'20 ítems para habilidades avanzadas del concepto Halliwick: control rotacional, nado, propulsión.'},
+{id:'borg-rpe',nombre:'Escala de Borg RPE (6-20)',max:20,area:'Esfuerzo percibido',desc:'Esfuerzo percibido durante ejercicio acuático. 6=reposo absoluto, 20=esfuerzo máximo exhaustivo.'},
+{id:'borg-cr10',nombre:'Escala de Borg CR-10',max:10,area:'Disnea y dolor en agua',desc:'Versión 0-10 para disnea, dolor o esfuerzo. 0=nada, 5=fuerte, 10=máximo absoluto.'},
+{id:'barthel-a',nombre:'Barthel Adaptado Acuático',max:100,area:'Funcionalidad acuática',desc:'Adaptación del Barthel al contexto acuático: entrada al agua, desplazamiento, flotación, salida.'},
+{id:'aim',nombre:'Aquatic Independence Measure (AIM)',max:48,area:'Independencia acuática',desc:'Mide independencia en el medio acuático: control vertical, horizontal, respiratorio y propulsión.'},
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:52,area:'Natación funcional',desc:'Evalúa capacidad de natación funcional como herramienta terapéutica neurológica.'},
+{id:'fear-w',nombre:'Fear of Water Scale (FWS)',max:10,area:'Ansiedad acuática',desc:'Nivel de miedo/ansiedad al agua (0=ninguno, 10=pánico). Guía la progresión del programa.'},
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:100,area:'Resultado hidroterapia',desc:'Medida de resultado de fisioterapia acuática basada en criterios APTA. Funcionalidad global.'},
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:50,area:'Progresión hidroterapia',desc:'Escala de progresión clínica específica para hidroterapia neurológica. 10 dominios de 5 pts.'},
+{id:'frt',nombre:'Functional Reach Test (FRT)',max:0,area:'Control postural en agua',desc:'Distancia máxima (cm) que puede alcanzar al frente sin perder el equilibrio. <15cm=alto riesgo caída, 15-25cm=moderado, >25cm=bajo riesgo. Aplicable en contexto acuático.'},
+{id:'sf36',nombre:'SF-36 Health Survey (Calidad de Vida)',max:100,area:'Calidad de vida relacionada con salud',desc:'36 ítems en 8 dominios: función física, rol físico, dolor corporal, salud general, vitalidad, función social, rol emocional, salud mental. Transformado 0-100.'},
+{id:'sppb-h',nombre:'SPPB Adaptado (Contexto Acuático)',max:12,area:'Función física global en agua',desc:'Adaptación del Short Physical Performance Battery al contexto acuático: equilibrio en agua, desplazamiento, levantadas asistidas. Evalúa progresión en hidroterapia.'},
+{id:'odi-h',nombre:'ODI Hidroterapia (Dolor y Función)',max:100,area:'Discapacidad por dolor en hidroterapia',desc:'Aplicación del Oswestry Disability Index para medir el impacto del dolor musculoesquelético en pacientes de hidroterapia. Evalúa respuesta al tratamiento acuático.'},
+{id:'cpet-h',nombre:'CPET Adaptado Acuático',max:0,area:'Capacidad cardiorrespiratoria en agua',desc:'Prueba de esfuerzo cardiopulmonar adaptada al medio acuático. Mide respuesta cardiovascular durante ejercicio en piscina terapéutica. Requiere supervisión médica.'},
+],
+ocupacional:[
+{id:'fim',nombre:'FIM (Medida de Independencia Funcional)',max:126,area:'Independencia funcional',desc:'18 ítems: motor(13) y cognitivo(5). Puntaje 1=asistencia total a 7=independencia completa.'},
+{id:'copm',nombre:'COPM (Medida Canadiense)',max:10,area:'Desempeño ocupacional',desc:'Entrevista: identifica problemas ocupacionales y mide desempeño y satisfacción (1-10) en autocuidado, productividad y ocio.'},
+{id:'box-block',nombre:'Box and Block Test (BBT)',max:150,area:'Destreza manual gruesa',desc:'Cubos transferidos en 1 minuto por mano. Evalúa destreza manual gruesa unilateral.'},
+{id:'jebsen',nombre:'Jebsen-Taylor Hand Function',max:0,area:'Función funcional de mano',desc:'7 subtareas cronometradas: escritura, voltear tarjetas, recoger objetos, simular alimentación, apilar fichas.'},
+{id:'purdue',nombre:'Purdue Pegboard Test',max:25,area:'Destreza manual fina',desc:'Clavijas en tablero en 30s: mano dom, no-dom, bimanual y ensamblaje. Evalúa coordinación fina.'},
+{id:'9hpp',nombre:'9-Hole Peg Test (9-HPT)',max:0,area:'Destreza fina cronometrada',desc:'Tiempo para insertar y retirar 9 clavijas en tablero. Muy sensible a cambios en MS neurológico.'},
+{id:'amps',nombre:'AMPS (Habilidades Motoras y de Proceso)',max:0,area:'Habilidades ocupacionales',desc:'Observación estandarizada de 16 habilidades motoras y 20 de proceso en tareas de la vida diaria.'},
+{id:'katz',nombre:'Índice de KATZ (ABVD)',max:6,area:'AVD básicas',desc:'6 ABVD: baño, vestido, inodoro, transferencia, continencia, alimentación. 6=independiente, 0=dependiente.'},
+{id:'lawton',nombre:'Escala de Lawton-Brody (AIVD)',max:8,area:'AVD instrumentales',desc:'8 AIVD: teléfono, compras, cocina, limpieza, lavandería, transporte, medicación, finanzas.'},
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:0,area:'Perfil ocupacional global',desc:'Basado en MOHO. 6 secciones: motivación, patrones, comunicación, habilidades procesamiento, motor, ambiente.'},
+{id:'lotca',nombre:'LOTCA (Cognitivo Loewenstein)',max:119,area:'Cognición funcional',desc:'4 áreas cognitivas: orientación, percepción, organización visuomotora, operaciones mentales. 26 subtests.'},
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:0,area:'Interacción social',desc:'20 habilidades de comunicación e interacción social observadas en contexto grupal o con terapeuta.'},
+{id:'weefim',nombre:'WeeFIM (Funcional Pediátrico)',max:126,area:'Independencia infantil',desc:'Versión pediátrica del FIM. 18 ítems para niños de 6m a 7 años. Motor y cognitivo.'},
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:0,area:'Funciones ejecutivas en AVD',desc:'Evalúa funciones ejecutivas aplicadas a tareas cotidianas: preparar desayuno, manejo de medicamentos, llamada telefónica, pagar facturas. Gold estándar ecológico.'},
+{id:'osa',nombre:'Occupational Self Assessment (OSA)',max:0,area:'Autopercepción ocupacional',desc:'Basado en MOHO. El paciente valora su propia competencia ocupacional y la importancia de sus actividades. Orienta los objetivos terapéuticos centrados en la persona.'},
+{id:'role-checklist',nombre:'Role Checklist (Checklist de Roles)',max:0,area:'Roles ocupacionales',desc:'Identifica los roles ocupacionales del paciente (estudiante, trabajador, voluntario, cuidador, etc.) y su percepción de valor. Evalúa participación social y sentido de identidad.'},
+{id:'pdms2',nombre:'Peabody Developmental Motor Scales (PDMS-2)',max:0,area:'Desarrollo motor infantil',desc:'Evalúa habilidades motoras gruesas y finas en niños de 0-5 años. 6 subtests: reflejos, estacionario, locomoción, manipulación objetos, agarre y destreza visual-motora.'},
+{id:'bot2',nombre:'Bruininks-Oseretsky Test of Motor Proficiency (BOT-2)',max:0,area:'Habilidades motoras niños/adolescentes',desc:'8 subtests de habilidades motoras en niños 4-21 años: precisión motora fina, integración motora fina, destreza manual, coordinación bilateral, equilibrio, velocidad y agilidad.'},
+{id:'sensory-profile',nombre:'Sensory Profile 2 (Procesamiento Sensorial)',max:0,area:'Procesamiento sensorial',desc:'Evalúa el procesamiento sensorial en niños y adultos. Identifica patrones de respuesta a estímulos táctiles, auditivos, visuales, vestibulares y propioceptivos.'},
+{id:'pedi',nombre:'PEDI (Pediatric Evaluation of Disability Inventory)',max:0,area:'Funcionalidad infantil',desc:'Evalúa capacidades funcionales, asistencia del cuidador y modificaciones del entorno en 3 áreas: autocuidado, movilidad y función social. Niños de 6m a 7.5 años.'},
+{id:'dynamometry-to',nombre:'Dynamometry - Handgrip (TO)',max:0,area:'Fuerza prensión manual',desc:'Fuerza de prensión manual con dinamómetro Jamar. En TO evalúa el impacto de la fuerza en el desempeño ocupacional y la funcionalidad de la mano en AVD.'},
+],
+lenguaje:[
+{id:'boston',nombre:'Test de Boston para Afasia',max:34,area:'Afasia global',desc:'Clasifica severidad en 7 perfiles. Denominación(60 ítems), repetición, comprensión auditiva y lectura.'},
+{id:'wab',nombre:'Western Aphasia Battery (WAB)',max:100,area:'Cociente de afasia',desc:'Cociente de afasia: fluidez(20), comprensión(200), repetición(100), denominación(100). Clasifica tipo.'},
+{id:'token',nombre:'Token Test',max:36,area:'Comprensión auditiva',desc:'36 órdenes con fichas de colores/formas/tamaños de complejidad creciente. Sensible a afasia leve.'},
+{id:'fois',nombre:'FOIS (Ingesta Oral Funcional)',max:7,area:'Deglución funcional',desc:'7 niveles de ingesta: 1=nada VO hasta 7=dieta normal sin restricción. Referencia internacional disfagia.'},
+{id:'eat10',nombre:'EAT-10 (Síntomas de Disfagia)',max:40,area:'Disfagia autoreporte',desc:'10 ítems autoadministrados. Puntaje ≥3 indica riesgo de disfagia. Simple y rápido.'},
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:200,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución. Puntaje ≤177 riesgo aspiración, ≤168 aspiración probable.'},
+{id:'guss',nombre:'GUSS (Gugging Swallowing Screen)',max:20,area:'Cribado de deglución',desc:'Evaluación 2 partes: evaluación indirecta(5) + directa: semisólido(5), líquido(5), sólido(5).'},
+{id:'doss',nombre:'Protocolo DOSS (Deglución)',max:7,area:'Función deglutoria',desc:'7 niveles: 1=dependencia total NE hasta 7=dieta normal independiente. Orientado a alta funcional.'},
+{id:'mbgr',nombre:'Protocolo MBGR (Motricidad Orofacial)',max:126,area:'Motricidad orofacial',desc:'Facies, postura, respiración, voz, movilidad orofacial, masticación, deglución. Referencia brasileña-LATAM.'},
+{id:'ssq',nombre:'Sydney Swallow Questionnaire (SSQ)',max:1700,area:'Disfagia VAS',desc:'17 ítems tipo VAS (0-100). Síntomas de disfagia autoreportados. Sensible a cambios longitudinales.'},
+{id:'frenchay',nombre:'Escala de Disartria de Frenchay',max:28,area:'Disartria',desc:'28 ítems en 8 secciones: reflejos, respiración, labios, paladar, laringe, lengua, habla inteligibilidad.'},
+{id:'abfw',nombre:'ABFW (Fonología Pediátrica)',max:0,area:'Fonología infantil',desc:'Evalúa sistema fonológico infantil: vocabulario, pragmática, articulación, fonología. 0-12 años.'},
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:8,area:'Deglución radiológica',desc:'8 parámetros videofluoroscópicos: residuo vallécula, seno piriforme, penetración, aspiración, etc.'},
+{id:'celf5',nombre:'CELF-5 (Clinical Evaluation of Language Fundamentals)',max:0,area:'Lenguaje integral niños/adolescentes',desc:'Gold estándar en evaluación del lenguaje 5-21 años. Evalúa comprensión y expresión del lenguaje, memoria de trabajo lingüística y coherencia narrativa.'},
+{id:'ppvt4',nombre:'PPVT-4 (Peabody Picture Vocabulary Test)',max:0,area:'Vocabulario receptivo',desc:'Evaluación del vocabulario receptivo en todas las edades mediante selección de imagen. No requiere respuesta verbal. Sensible a trastornos del lenguaje y cognitivos.'},
+{id:'evt2',nombre:'EVT-2 (Expressive Vocabulary Test)',max:0,area:'Vocabulario expresivo',desc:'Mide vocabulario expresivo y fluidez de recuperación de palabras. Complementa al PPVT-4 para perfil léxico completo. Todas las edades.'},
+{id:'pls5',nombre:'PLS-5 (Preschool Language Scale)',max:0,area:'Lenguaje preescolar',desc:'Evalúa lenguaje temprano en niños de 0-7 años: atención auditiva y memoria, comprensión verbal, expresión verbal y habilidades integradoras. Gold estándar en primera infancia.'},
+{id:'gfta3',nombre:'Goldman-Fristoe Test of Articulation (GFTA-3)',max:0,area:'Articulación y fonética',desc:'Evalúa producción de sonidos del habla en inglés/español adaptado. Identifica errores articulatorios específicos. Niños 2-21 años. Muy usado en terapia del habla.'},
+{id:'klpa3',nombre:'Khan-Lewis Phonological Analysis (KLPA-3)',max:0,area:'Procesos fonológicos',desc:'Análisis de procesos fonológicos basado en el GFTA-3. Identifica patrones de simplificación fonológica: omisiones, sustituciones, asimilaciones.'},
+{id:'arizona4',nombre:'Arizona Articulation and Phonology Scale (Arizona-4)',max:0,area:'Articulación y fonología',desc:'Evalúa articulación y fonología en niños y adultos. Fácil administración, ampliamente usado en LATAM. Puntaje de intelligibilidad por fonemas.'},
+{id:'ados2',nombre:'ADOS-2 (Autism Diagnostic Observation Schedule)',max:0,area:'Comunicación en TEA',desc:'Gold estándar observacional para TEA. 5 módulos según nivel de lenguaje y edad. Evalúa comunicación social, juego, interacción y conductas repetitivas.'},
+{id:'ccc2',nombre:'CCC-2 (Children\'s Communication Checklist)',max:0,area:'Perfil comunicativo pragmático',desc:'Cuestionario para padres/cuidadores sobre habilidades comunicativas del niño. Identifica dificultades pragmáticas y riesgo de TEA. Niños 4-16 años.'},
+{id:'cdi',nombre:'MacArthur-Bates CDI (Inventario de Desarrollo)',max:0,area:'Desarrollo comunicativo temprano',desc:'Inventario padre/cuidador sobre vocabulario y gramática emergente en bebés y niños pequeños (8-30 meses). Gold estándar en detección temprana de retraso del lenguaje.'},
+{id:'hint',nombre:'HINT (Hearing in Noise Test)',max:0,area:'Comprensión del habla en ruido',desc:'Evalúa comprensión del habla en diferentes condiciones de ruido. Usado en evaluación audiológica post-implante coclear y hipoacusia. Resultado en dB SNR.'},
+],
+psicologia:[
+{id:'bdi2',nombre:'BDI-II (Inventario de Depresión de Beck)',max:63,area:'Depresión',desc:'21 ítems (0-3 c/u). 0-13 mínima, 14-19 leve, 20-28 moderada, 29-63 severa. Última semana.'},
+{id:'hamilton',nombre:'HDRS (Hamilton para Depresión)',max:52,area:'Depresión clínica',desc:'17-21 ítems heteroadministrados. <8 normal, 8-13 leve, 14-18 moderada, 19-22 severa, >22 muy severa.'},
+{id:'phq9',nombre:'PHQ-9 (Patient Health Questionnaire)',max:27,area:'Depresión cribado',desc:'9 ítems DSM. 0-4 mínima, 5-9 leve, 10-14 moderada, 15-19 moderada-severa, ≥20 severa.'},
+{id:'gad7',nombre:'GAD-7 (Ansiedad Generalizada)',max:21,area:'Ansiedad',desc:'7 ítems. 0-4 mínima, 5-9 leve, 10-14 moderada, ≥15 severa. Derivar si moderada-severa.'},
+{id:'dass21',nombre:'DASS-21 (Depresión-Ansiedad-Estrés)',max:63,area:'Triada emocional',desc:'21 ítems divididos en 3 subescalas de 7: depresión, ansiedad y estrés. Puntuación x2 para escala real.'},
+{id:'pcl5',nombre:'PCL-5 (Síntomas PTSD)',max:80,area:'Trauma y PTSD',desc:'20 ítems DSM-5 para TEPT: intrusión, evitación, cognición/estado de ánimo, activación. PC: ≥31.'},
+{id:'audit',nombre:'AUDIT (Consumo de Alcohol OMS)',max:40,area:'Alcohol',desc:'10 ítems OMS. 0-7 bajo riesgo, 8-15 consumo riesgo, 16-19 perjudicial, ≥20 probable dependencia.'},
+{id:'pss',nombre:'PSS-10 (Estrés Percibido)',max:40,area:'Estrés percibido',desc:'10 ítems sobre percepción de estrés en el último mes. Mayor puntaje = mayor estrés percibido.'},
+{id:'scl90',nombre:'SCL-90-R (Síntomas Psicopatológicos)',max:360,area:'Psicopatología global',desc:'90 ítems en 9 dimensiones + 3 índices globales. GSI, PSDI, PST. Cribado psicopatológico amplio.'},
+{id:'whoqol',nombre:'WHOQOL-BREF (Calidad de Vida OMS)',max:100,area:'Calidad de vida',desc:'26 ítems en 4 dominios: físico, psicológico, relaciones sociales, ambiente. Transformado 0-100.'},
+{id:'zung',nombre:'Escala de Zung para Depresión',max:80,area:'Depresión autoreporte',desc:'20 ítems Likert. SDS index: <50 normal, 50-59 leve, 60-69 moderada, ≥70 severa.'},
+{id:'ghq28',nombre:'GHQ-28 (Salud General)',max:28,area:'Salud mental general',desc:'28 ítems en 4 subescalas: síntomas somáticos(7), ansiedad/insomnio(7), disfunción social(7), depresión grave(7).'},
+{id:'cage',nombre:'CAGE (Dependencia Alcohol)',max:4,area:'Alcohol cribado rápido',desc:'4 preguntas de cribado. ≥2 respuestas positivas = probable dependencia alcohólica. Rápido (2 min).'},
+{id:'cssrs',nombre:'Columbia SSRS (Riesgo Suicida)',max:25,area:'Riesgo suicida',desc:'Referencia internacional para ideación y conducta suicida. Obligatoria en protocolo de urgencias de salud mental.'},
+{id:'bai',nombre:'BAI (Beck Anxiety Inventory)',max:63,area:'Ansiedad síntomas somáticos',desc:'21 ítems sobre síntomas somáticos de ansiedad. 0-21 ansiedad baja, 22-35 moderada, >36 severa. Complemento del BDI-II para perfil emocional completo.'},
+{id:'hars',nombre:'HARS (Hamilton Anxiety Rating Scale)',max:56,area:'Ansiedad clínica',desc:'14 ítems heteroadministrados. Síntomas ansiosos somáticos y psíquicos. <17 leve, 18-24 moderada, 25-30 moderada-severa, >30 severa. Complemento del HDRS.'},
+{id:'mmpi2',nombre:'MMPI-2 (Minnesota Multiphasic Personality Inventory)',max:0,area:'Personalidad y psicopatología',desc:'Gold estándar en evaluación de personalidad clínica. 567 ítems, 10 escalas clínicas, escalas de validez y contenido. Requiere psicólogo clínico para interpretación.'},
+{id:'neopi',nombre:'NEO-PI-R (Inventario de Personalidad NEO)',max:0,area:'Personalidad normal (5 grandes)',desc:'240 ítems, 5 factores: Neuroticismo, Extraversión, Apertura, Amabilidad, Responsabilidad. 30 facetas. Perfil de personalidad normal en adultos.'},
+{id:'16pf',nombre:'16PF (Sixteen Personality Factors)',max:0,area:'Rasgos de personalidad',desc:'16 factores primarios de personalidad de Cattell. Ampliamente usado en contextos clínicos, laborales y educativos. Incluye 5 factores globales.'},
+{id:'scid5',nombre:'SCID-5 (Structured Clinical Interview DSM-5)',max:0,area:'Diagnóstico clínico estructurado',desc:'Gold estándar diagnóstico para trastornos mentales DSM-5. Entrevista estructurada para diagnósticos principales: depresión, ansiedad, TEPT, trastornos psicóticos, adictivos.'},
+{id:'mini',nombre:'MINI (Mini International Neuropsychiatric Interview)',max:0,area:'Cribado psiquiátrico rápido',desc:'Entrevista diagnóstica breve (15-30 min) para 17 trastornos psiquiátricos del DSM-5/CIE-10. Muy usada en APS y cuando no se dispone de tiempo para SCID-5.'},
+],
+neuropsicologia:[
+{id:'moca',nombre:'MoCA (Montreal Cognitive Assessment)',max:30,area:'Cognición global',desc:'30 ítems en 8 dominios. ≥26 normal (±1 si <12 años educación), 18-25 DL, 10-17 DM, <10 DS.'},
+{id:'mmse',nombre:'MMSE (Mini-Mental State Examination)',max:30,area:'Cognición cribado',desc:'30 ítems en orientación(10), registro(3), atención(5), recuerdo(3), lenguaje/construcción(9). <24 = deterioro.'},
+{id:'fab',nombre:'FAB (Frontal Assessment Battery)',max:18,area:'Funciones frontales',desc:'6 subtests frontales: semejanzas, fluidez fonológica, serie motora de Luria, órdenes conflictivas, Go-NoGo, comportamiento de aprensión.'},
+{id:'tmt-a',nombre:'Trail Making Test A (TMT-A)',max:0,area:'Velocidad psicomotora',desc:'Tiempo para unir números 1-25 en secuencia. Evalúa rastreo visual y velocidad de procesamiento.'},
+{id:'tmt-b',nombre:'Trail Making Test B (TMT-B)',max:0,area:'Flexibilidad cognitiva',desc:'Alternar números y letras (1-A-2-B...). TMT-B/A ratio evalúa flexibilidad mental e inhibición.'},
+{id:'stroop',nombre:'Test de Stroop (Color-Palabra)',max:0,area:'Control inhibitorio',desc:'3 láminas: lectura(P), denominación color(C), interferencia(PC). Índice de interferencia = PC-(P×C)/(P+C).'},
+{id:'fvf',nombre:'Fluidez Verbal Fonológica (F-A-S)',max:0,area:'Función ejecutiva y lenguaje',desc:'Palabras con F, A y S en 1 min c/u. Normal >44 total. Sensible a daño frontal izquierdo.'},
+{id:'fvs',nombre:'Fluidez Verbal Semántica (Animales)',max:0,area:'Memoria semántica',desc:'Animales en 1 minuto. Normal >18. Sensible a EA, demencia semántica y daño temporal.'},
+{id:'digspan',nombre:'Digit Span (Span de Dígitos WAIS)',max:0,area:'Memoria de trabajo',desc:'Orden directo (MCP auditiva) e inverso (memoria de trabajo). Comparar con normas por edad.'},
+{id:'rey-fig',nombre:'Figura Compleja de Rey (FCR)',max:36,area:'Visoconstrucción y memoria visual',desc:'Copia(36 pts) y reproducción de memoria inmediata y diferida. Evalúa organización perceptiva y memoria visual.'},
+{id:'sdmt',nombre:'Symbol Digit Modalities Test (SDMT)',max:0,area:'Velocidad de procesamiento',desc:'Claves número-símbolo en 90s. Muy sensible a EM, TEC y deterioro cognitivo. Versión oral y escrita.'},
+{id:'rbmt',nombre:'Rivermead Behavioural Memory Test (RBMT)',max:24,area:'Memoria funcional cotidiana',desc:'12 subtests de memoria cotidiana: nombre y cara, objeto escondido, foto, mensaje, ruta, historia, fecha, cara.'},
+{id:'bads',nombre:'BADS (Síndrome Disejecutivo Conductual)',max:24,area:'Ejecutivo funcional',desc:'6 pruebas ecológicas de función ejecutiva: zoológico, acción, búsqueda de llaves, programa temporal, juicio.'},
+{id:'wcst',nombre:'Wisconsin Card Sorting Test (WCST)',max:0,area:'Abstracción y perseveración',desc:'Clasifica cartas (color, forma, número) con reglas cambiantes. % error perseverativo = marcador frontal.'},
+{id:'cvlt',nombre:'CVLT (California Verbal Learning)',max:0,area:'Memoria verbal',desc:'Lista A (16 palabras) x 5 ensayos + lista B + recuerdo libre/señalado inmediato y diferido. Perfil de aprendizaje.'},
+{id:'halstead',nombre:'Halstead-Reitan Neuropsychological Battery',max:0,area:'Funciones neurocognitivas generales',desc:'Batería completa: categorías, ritmo de Seashore, percepción táctil, motor, afasia, TMT. Gold estándar para evaluación neuropsicológica global. Requiere 6-8 horas.'},
+{id:'nepsy2',nombre:'NEPSY-II (Neuropsicología Infantil)',max:0,area:'Neuropsicología pediátrica',desc:'Gold estándar neuropsicológico para niños 3-16 años. 32 subtests en 6 dominios: atención/funciones ejecutivas, lenguaje, memoria, sensoriomotor, visuoespacial, social.'},
+{id:'wais4',nombre:'WAIS-IV (Wechsler Adult Intelligence Scale)',max:0,area:'Inteligencia y cognición adultos',desc:'Gold estándar de inteligencia en adultos 16-90 años. 4 índices: comprensión verbal, razonamiento perceptivo, memoria de trabajo, velocidad de procesamiento. CI global.'},
+{id:'wisc5',nombre:'WISC-V (Wechsler Intelligence Scale Children)',max:0,area:'Inteligencia niños y adolescentes',desc:'Gold estándar de inteligencia para niños 6-16 años. 5 índices primarios: CV, visual-espacial, razonamiento fluido, memoria de trabajo, velocidad procesamiento.'},
+{id:'wppsi4',nombre:'WPPSI-IV (Wechsler Preschool Intelligence)',max:0,area:'Inteligencia preescolar',desc:'Gold estándar de inteligencia para niños 2.5-7 años. Evalúa vocabulario, información, semejanzas, matrices, rompecabezas, codificación y cancelación.'},
+{id:'raven',nombre:'Matrices Progresivas de Raven',max:60,area:'Inteligencia fluida y razonamiento',desc:'3 versiones: Coloreadas (niños 5-11), Estándar (11-65), Avanzadas (adultos alta capacidad). Mide razonamiento abstracto no verbal independiente del lenguaje.'},
+{id:'nepsy-ee',nombre:'NEPSY-II Funciones Ejecutivas (Subtests)',max:0,area:'Funciones ejecutivas infantiles',desc:'Subtests seleccionados del NEPSY-II: clasificación de cartas (DCCS), fluidez de diseño, inhibición, mapa del zoológico y tiempo de respuesta. Perfil ejecutivo infantil.'},
+],
+};
+const ITEMS_DETALLE = {
+'berg':{
+secciones:[
+{n:'Sedestación y bipedestación',items:[
+{t:'Sentarse sin apoyo de respaldo (2 min)',ops:[0,1,2,3,4]},
+{t:'Levantarse de la silla',ops:[0,1,2,3,4]},
+{t:'Mantenerse de pie sin apoyo (2 min)',ops:[0,1,2,3,4]},
+{t:'Sentarse desde de pie (control del descenso)',ops:[0,1,2,3,4]},
+]},
+{n:'Transferencias y alcances',items:[
+{t:'Transferencias silla con→sin apoyabrazos',ops:[0,1,2,3,4]},
+{t:'Mantenerse de pie con ojos cerrados (10s)',ops:[0,1,2,3,4]},
+{t:'Mantenerse de pie con pies juntos (1 min)',ops:[0,1,2,3,4]},
+{t:'Alcanzar hacia adelante con brazo extendido',ops:[0,1,2,3,4]},
+{t:'Recoger objeto del suelo desde de pie',ops:[0,1,2,3,4]},
+]},
+{n:'Giros, pasos y equilibrio avanzado',items:[
+{t:'Mirar hacia atrás por encima del hombro derecho e izquierdo',ops:[0,1,2,3,4]},
+{t:'Girar 360° — hacia la derecha',ops:[0,1,2,3,4]},
+{t:'Girar 360° — hacia la izquierda',ops:[0,1,2,3,4]},
+{t:'Contar número de veces que alternos pies en escalón/banquito (4 veces c/pie)',ops:[0,1,2,3,4]},
+{t:'Mantenerse de pie con un pie adelante (tándem) 30s',ops:[0,1,2,3,4]},
+{t:'Mantenerse parado en un pie 10s',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p>=45?{t:'Equilibrio normal. Bajo riesgo de caídas.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=36?{t:'Riesgo moderado de caídas. Se recomienda supervisión.',bg:'#FFF3EB',c:'#C05621'}:{t:'Alto riesgo de caídas. Requiere asistencia constante.',bg:'#FFF5F5',c:'#C53030'},
+},
+'moca':{
+secciones:[
+{n:'Visuoespacial / Ejecutivo',items:[
+{t:'Sendero alternante (1-A-2-B-3-C-4-D-5-E)',ops:[0,1]},
+{t:'Copia del cubo en perspectiva',ops:[0,1]},
+{t:'Reloj: contorno circular',ops:[0,1]},
+{t:'Reloj: números correctos (1-12)',ops:[0,1]},
+{t:'Reloj: agujas correctas (11:10)',ops:[0,1]},
+]},
+{n:'Denominación',items:[
+{t:'Denominación correcta: León',ops:[0,1]},
+{t:'Denominación correcta: Rinoceronte',ops:[0,1]},
+{t:'Denominación correcta: Camello/Dromedario',ops:[0,1]},
+]},
+{n:'Memoria (registro — sin puntaje)',items:[
+{t:'Registro 1ª lectura: cara, seda, iglesia, clavel, rojo (sin puntaje)',ops:[0]},
+{t:'Registro 2ª lectura (sin puntaje)',ops:[0]},
+]},
+{n:'Atención',items:[
+{t:'Dígitos directos: 2-1-8-5-4',ops:[0,1]},
+{t:'Dígitos inversos: 7-4-2',ops:[0,1]},
+{t:'Vigilancia: golpea mesa cuando oye A',ops:[0,1]},
+{t:'Resta serial: 100-7 (≥4 de 5 restas correctas=3pts, 2-3=2pts, 1=1pt)',ops:[0,1,2,3]},
+]},
+{n:'Lenguaje',items:[
+{t:'Repetición frase 1: "El gato siempre se esconde bajo el sofá..."',ops:[0,1]},
+{t:'Repetición frase 2: "No necesito que me ayudes a menos que..."',ops:[0,1]},
+{t:'Fluidez verbal: palabras con F en 1 min (≥11 palabras=1pt)',ops:[0,1]},
+]},
+{n:'Abstracción',items:[
+{t:'Semejanza: tren-bicicleta (medios de transporte)',ops:[0,1]},
+{t:'Semejanza: reloj-regla (instrumentos de medición)',ops:[0,1]},
+]},
+{n:'Recuerdo diferido',items:[
+{t:'Recuerdo: CARA (sin pista=2pt, pista cat=1pt, reconoc=0)',ops:[0,1,2]},
+{t:'Recuerdo: SEDA',ops:[0,1,2]},
+{t:'Recuerdo: IGLESIA',ops:[0,1,2]},
+{t:'Recuerdo: CLAVEL',ops:[0,1,2]},
+{t:'Recuerdo: ROJO',ops:[0,1,2]},
+]},
+{n:'Orientación',items:[
+{t:'Fecha (día del mes)',ops:[0,1]},
+{t:'Mes',ops:[0,1]},
+{t:'Año',ops:[0,1]},
+{t:'Día de la semana',ops:[0,1]},
+{t:'Lugar (ciudad/establecimiento)',ops:[0,1]},
+{t:'País',ops:[0,1]},
+]},
+],
+interp:(p)=>p>=26?{t:'Cognición normal (considerar +1 si <12 años escolaridad).',bg:'#E8F5F0',c:'#1A7A5E'}:p>=18?{t:'Deterioro cognitivo leve. Seguimiento y evaluación neuropsicológica recomendada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Deterioro cognitivo moderado a severo. Evaluación neurológica urgente.',bg:'#FFF5F5',c:'#C53030'},
+},
+'barthel':{
+secciones:[
+{n:'Cuidado personal',items:[
+{t:'Comer (alimentación)',ops:[0,5,10]},
+{t:'Bañarse/ducharse',ops:[0,5]},
+{t:'Arreglarse (cara, dientes, peinado, afeitarse)',ops:[0,5]},
+{t:'Vestirse (incluye calzado y botones)',ops:[0,5,10]},
+{t:'Control intestinal (últimas 24-48h)',ops:[0,5,10]},
+{t:'Control vesical (últimas 24-48h)',ops:[0,5,10]},
+]},
+{n:'Movilidad y transferencias',items:[
+{t:'Uso del inodoro (sentarse, levantarse, limpiarse)',ops:[0,5,10]},
+{t:'Traslado silla-cama (incluye sentarse en cama)',ops:[0,5,10,15]},
+{t:'Deambulación (en superficie plana)',ops:[0,5,10,15]},
+{t:'Subir y bajar escaleras',ops:[0,5,10]},
+]},
+],
+interp:(p)=>p===100?{t:'Independiente total.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=60?{t:'Dependencia leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=40?{t:'Dependencia moderada. Requiere ayuda parcial.',bg:'#FFF3EB',c:'#C05621'}:p>=20?{t:'Dependencia grave. Requiere ayuda importante.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia total.',bg:'#FFF5F5',c:'#C53030'},
+},
+'phq9':{
+secciones:[
+{n:'Durante las últimas 2 semanas ¿con qué frecuencia ha tenido molestias por los siguientes problemas? (0=Nunca, 1=Varios días, 2=Más de la mitad de los días, 3=Casi todos los días)',items:[
+{t:'Poco interés o placer en hacer las cosas',ops:[0,1,2,3]},
+{t:'Se ha sentido decaído/a, deprimido/a o sin esperanzas',ops:[0,1,2,3]},
+{t:'Ha tenido dificultad para quedarse dormido/a, seguir durmiendo o ha dormido demasiado',ops:[0,1,2,3]},
+{t:'Se ha sentido cansado/a o con poca energía',ops:[0,1,2,3]},
+{t:'Ha tenido poco apetito o ha comido en exceso',ops:[0,1,2,3]},
+{t:'Se ha sentido mal consigo mismo/a, o que es un fracasado/a',ops:[0,1,2,3]},
+{t:'Ha tenido dificultad para concentrarse en cosas como leer el periódico o ver la televisión',ops:[0,1,2,3]},
+{t:'Se ha movido o hablado tan lento que otras personas lo notaron, o al contrario, ha estado muy agitado/a',ops:[0,1,2,3]},
+{t:'Ha tenido pensamientos de que sería mejor estar muerto/a o de que haría daño de alguna manera',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p<=4?{t:'Síntomas mínimos de depresión.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=9?{t:'Depresión leve. Monitorear y repetir en 2 semanas.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=14?{t:'Depresión moderada. Plan de tratamiento y seguimiento.',bg:'#FFF3EB',c:'#C05621'}:p<=19?{t:'Depresión moderada-severa. Tratamiento activo recomendado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Depresión severa. Inicio inmediato de tratamiento. Evaluar ítem 9.',bg:'#FFF5F5',c:'#C53030'},
+},
+'gad7':{
+secciones:[
+{n:'Durante las últimas 2 semanas ¿con qué frecuencia ha tenido molestias por los siguientes problemas? (0=Nunca, 1=Varios días, 2=Más de la mitad, 3=Casi todos los días)',items:[
+{t:'Se ha sentido nervioso/a, ansioso/a o muy alterado/a',ops:[0,1,2,3]},
+{t:'No ha podido dejar de preocuparse o controlar la preocupación',ops:[0,1,2,3]},
+{t:'Se ha preocupado demasiado por cosas diferentes',ops:[0,1,2,3]},
+{t:'Ha tenido dificultad para relajarse',ops:[0,1,2,3]},
+{t:'Se ha sentido tan inquieto/a que no podía quedarse quieto/a',ops:[0,1,2,3]},
+{t:'Se ha molestado o irritado fácilmente',ops:[0,1,2,3]},
+{t:'Ha tenido miedo de que algo terrible fuera a pasar',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p<=4?{t:'Ansiedad mínima.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=9?{t:'Ansiedad leve. Monitorear.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=14?{t:'Ansiedad moderada. Evaluación y plan terapéutico.',bg:'#FFF3EB',c:'#C05621'}:{t:'Ansiedad severa. Evaluación clínica urgente.',bg:'#FFF5F5',c:'#C53030'},
+},
+'katz':{
+secciones:[
+{n:'Actividades Básicas de la Vida Diaria (1=Independiente, 0=Dependiente)',items:[
+{t:'BAÑO: Se baña completamente o solo necesita ayuda en una parte del cuerpo',ops:[0,1]},
+{t:'VESTIDO: Selecciona ropa y se viste completamente sin ayuda (excluye atarse los cordones)',ops:[0,1]},
+{t:'USO DEL INODORO: Va al baño, se limpia y arregla la ropa sin ayuda',ops:[0,1]},
+{t:'TRANSFERENCIA: Entra y sale de la cama o silla sin ayuda (puede usar bastón o andador)',ops:[0,1]},
+{t:'CONTINENCIA: Controla completamente la vejiga e intestino (no accidentes)',ops:[0,1]},
+{t:'ALIMENTACIÓN: Lleva la comida del plato (o bandeja) a la boca sin ayuda',ops:[0,1]},
+]},
+],
+interp:(p)=>p===6?{t:'Independencia total en todas las ABVD.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=4?{t:'Dependencia leve (1-2 funciones comprometidas).',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia severa (3 o más funciones comprometidas).',bg:'#FFF5F5',c:'#C53030'},
+},
+'bdi2':{
+secciones:[
+{n:'Estado afectivo (Cómo se ha sentido en las últimas 2 semanas)',items:[
+{t:'Tristeza (0=No, 1=A veces, 2=Frecuentemente, 3=Siempre)',ops:[0,1,2,3]},
+{t:'Pesimismo sobre el futuro',ops:[0,1,2,3]},
+{t:'Sentimientos de fracaso',ops:[0,1,2,3]},
+{t:'Pérdida de placer (anhedonia)',ops:[0,1,2,3]},
+{t:'Sentimientos de culpa',ops:[0,1,2,3]},
+{t:'Sentimientos de castigo o merecimiento',ops:[0,1,2,3]},
+{t:'Disconformidad consigo mismo/a',ops:[0,1,2,3]},
+]},
+{n:'Síntomas cognitivos y somáticos',items:[
+{t:'Autocrítica excesiva',ops:[0,1,2,3]},
+{t:'Pensamientos o deseos suicidas',ops:[0,1,2,3]},
+{t:'Episodios de llanto',ops:[0,1,2,3]},
+{t:'Agitación o inquietud',ops:[0,1,2,3]},
+{t:'Pérdida de interés en actividades',ops:[0,1,2,3]},
+{t:'Indecisión o dificultad para tomar decisiones',ops:[0,1,2,3]},
+{t:'Sentirse inútil o sin valor',ops:[0,1,2,3]},
+{t:'Pérdida de energía o fatiga',ops:[0,1,2,3]},
+{t:'Cambios en hábitos de sueño',ops:[0,1,2,3]},
+{t:'Irritabilidad',ops:[0,1,2,3]},
+{t:'Cambios en el apetito',ops:[0,1,2,3]},
+{t:'Dificultad de concentración',ops:[0,1,2,3]},
+{t:'Cansancio o fatiga fácil',ops:[0,1,2,3]},
+{t:'Pérdida de interés en el sexo',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p<=13?{t:'Depresión mínima.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=19?{t:'Depresión leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=28?{t:'Depresión moderada. Evaluación y tratamiento recomendado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Depresión severa. Intervención terapéutica urgente.',bg:'#FFF5F5',c:'#C53030'},
+},
+'fois':{
+secciones:[
+{n:'Nivel de Ingesta Oral Funcional — Seleccionar el nivel que mejor describe al paciente',items:[
+{t:'Nivel de FOIS (1=Nada VO / 7=Dieta oral normal sin restricciones)',ops:[1,2,3,4,5,6,7]},
+]},
+],
+interp:(p)=>p>=6?{t:'Dieta oral normal o con restricciones mínimas de textura.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=4?{t:'Dieta oral con modificaciones significativas. Supervisión recomendada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dieta oral muy restringida o ausente. Soporte nutricional alternativo indicado.',bg:'#FFF5F5',c:'#C53030'},
+},
+'fab':{
+secciones:[
+{n:'6 Subtests Frontales (0-3 pts cada uno)',items:[
+{t:'Semejanzas conceptuales (banana-naranja, mesa-silla, tulipán-rosa)',ops:[0,1,2,3]},
+{t:'Fluidez léxica (palabras con letra S en 60s: ≥9=3, 6-8=2, 3-5=1, <3=0)',ops:[0,1,2,3]},
+{t:'Serie motora de Luria (puño-canto-palma, 3 veces solo, 6 veces alternando)',ops:[0,1,2,3]},
+{t:'Órdenes conflictivas ("cuando golpee 1 vez, golpee 2; cuando golpee 2, golpee 1")',ops:[0,1,2,3]},
+{t:'Go-NoGo (golpear cuando diga A, no golpear cuando diga B)',ops:[0,1,2,3]},
+{t:'Comportamiento de aprensión/independencia ambiental',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p>=15?{t:'Función frontal normal.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=12?{t:'Disfunción frontal leve.',bg:'#FFF3EB',c:'#C05621'}:{t:'Disfunción frontal moderada-severa. Evaluación neuropsicológica completa indicada.',bg:'#FFF5F5',c:'#C53030'},
+},
+};
+let currentUser=null,currentUserData=null,espActual=null,escalaSeleccionada=null,sesion=[];
+onAuthStateChanged(auth,async(user)=>{
+if(!user){window.location.href='index.html';return;}
+try{
+const snap=await getDoc(doc(db,'usuarios',user.uid));
+if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+currentUser=user;currentUserData=snap.data();
+const n=currentUserData.nombre||'Usuario';
+document.getElementById('userName').textContent=n;
+document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+if(currentUserData.rol==='admin'){
+document.getElementById('btnAgregarTodas').style.display='flex';
+document.querySelector('.page-sub').insertAdjacentHTML('afterend','<div style="background:var(--morado-light);color:var(--morado);border:1.5px solid #d8ceef;border-radius:8px;padding:.7rem 1rem;font-size:.8rem;margin-bottom:1.2rem">🔧 <strong>Modo administrador:</strong> puedes probar cualquier escala sin seleccionar paciente. Las pruebas no se guardan en la base de datos.</div>');
+}
+await cargarPacientes();
+document.getElementById('loadState').style.display='none';
+document.getElementById('pageContent').style.display='block';
+}catch(e){
+console.error('Error cargando la página:',e);
+document.getElementById('loadState').textContent='Error al cargar: '+e.message;
+}
+});
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+async function cargarPacientes(){
+const sel=document.getElementById('selPaciente');
+const q=query(collection(db,'usuarios'),where('rol','==','paciente'));
+const snap=await getDocs(q);
+sel.innerHTML='<option value="">Selecciona paciente...</option>';
+snap.forEach(d=>{
+const data=d.data();
+const o=document.createElement('option');
+o.value=d.id;o.textContent=data.nombreCompleto||`${data.nombre} ${data.apellido}`;
+sel.appendChild(o);
+});
+}
+window.onPacienteChange=async function(){
+const pid=document.getElementById('selPaciente').value;
+await cargarHistorial(pid);
+actualizarComparador();
+};
+window.selEsp=function(esp,btn){
+espActual=esp;escalaSeleccionada=null;
+document.querySelectorAll('.esp-tab').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+renderEscalasList();
+document.getElementById('btnAgregar').disabled=true;
+};
+function renderEscalasList(){
+const lista=document.getElementById('escalasList');
+if(!espActual||!BANCO[espActual]){lista.innerHTML='';return;}
+lista.innerHTML=BANCO[espActual].map(e=>`
+<div class="escala-item" id="ei-${e.id}" onclick="selEscala('${e.id}',this)">
+<div style="flex:1">
+<div class="escala-item-name">${e.nombre}</div>
+<div class="escala-item-sub">${e.area}${e.max>0?' · Máx: '+e.max+' pts':' · Tiempo/Libre'}</div>
+</div>
+<div class="escala-check" id="ck-${e.id}"></div>
+</div>`).join('');
+}
+window.selEscala=function(id,el){
+escalaSeleccionada=id;
+document.querySelectorAll('.escala-item').forEach(e=>e.classList.remove('selected'));
+el.classList.add('selected');
+document.getElementById('btnAgregar').disabled=false;
+};
+window.agregarEscala=function(){
+if(!escalaSeleccionada||!espActual)return;
+if(sesion.find(s=>s.escalaId===escalaSeleccionada)){alert('Esta escala ya está en la sesión.');return;}
+const info=BANCO[espActual].find(e=>e.id===escalaSeleccionada);
+sesion.push({escalaId:escalaSeleccionada,especialidad:espActual,info,respuestas:{},puntaje:0,notas:''});
+actualizarSesionBadges();
+renderPruebas();
+document.getElementById('emptyState').style.display='none';
+};
+window.agregarTodasEscalas=function(){
+if(!espActual)return;
+if(!confirm(`¿Añadir las ${BANCO[espActual].length} escalas de esta especialidad a la sesión de prueba?`))return;
+BANCO[espActual].forEach(info=>{
+if(sesion.find(s=>s.escalaId===info.id))return;
+sesion.push({escalaId:info.id,especialidad:espActual,info,respuestas:{},puntaje:0,notas:''});
+});
+actualizarSesionBadges();
+renderPruebas();
+document.getElementById('emptyState').style.display='none';
+};
+function actualizarSesionBadges(){
+const cont=document.getElementById('sesionBadges'),card=document.getElementById('sesionCard');
+if(sesion.length===0){card.style.display='none';return;}
+card.style.display='block';
+const ec={'fisioterapia':'#1A4F8A','hidroterapia':'#1A7A5E','ocupacional':'#553C9A','lenguaje':'#C05621','psicologia':'#C53030','neuropsicologia':'#92400E'};
+cont.innerHTML=sesion.map((s,i)=>`
+<span class="sesion-badge" style="background:${ec[s.especialidad]}22;color:${ec[s.especialidad]}">
+${s.info.nombre.length>25?s.info.nombre.substring(0,25)+'...':s.info.nombre}
+<button onclick="quitarDeSesion(${i})" title="Quitar">✕</button>
+</span>`).join('');
+}
+window.quitarDeSesion=function(i){
+sesion.splice(i,1);actualizarSesionBadges();renderPruebas();
+if(sesion.length===0)document.getElementById('emptyState').style.display='block';
+actualizarComparador();
+};
+function renderPruebas(){
+const panel=document.getElementById('panelRight');
+const comp=document.getElementById('comparador');
+panel.innerHTML='';
+panel.appendChild(comp);
+sesion.forEach((s,si)=>{
+const div=document.createElement('div');
+div.id=`pc-${si}`;div.className='prueba-card';
+const det=ITEMS_DETALLE[s.escalaId];
+let html=`<div class="prueba-card-header">
+<div style="flex:1">
+<p class="prueba-nombre">${s.info.nombre}</p>
+<div class="prueba-meta">
+<span class="meta-tag" style="background:var(--azul-light);color:var(--azul)">${s.especialidad}</span>
+<span class="meta-tag" style="background:var(--gris);color:var(--texto-mid)">${s.info.area}</span>
+${s.info.max>0?`<span class="meta-tag" style="background:var(--gris);color:var(--texto-mid)">Máx: ${s.info.max} pts</span>`:''}
+</div>
+<p class="prueba-desc">${s.info.desc}</p>
+</div>
+<div class="puntaje-box">
+<div class="puntaje-num" id="pt-${si}">${s.puntaje}</div>
+<div class="puntaje-den">${s.info.max>0?'/ '+s.info.max+' pts':'pts'}</div>
+</div>
+</div>`;
+if(det){
+det.secciones.forEach((sec,seci)=>{
+html+=`<div class="seccion"><div class="seccion-hdr" onclick="toggleSec(this)">
+<span class="seccion-nombre">${sec.n}</span>
+<span class="seccion-score" id="ss-${si}-${seci}">0 pts</span>
+</div><div class="seccion-body">`;
+sec.items.forEach((item,ii)=>{
+const key=`${seci}-${ii}`;
+s.respuestas[key]=s.respuestas[key]||0;
+html+=`<div class="item-row">
+<span class="item-label">${item.t}</span>
+<div class="item-opciones">${item.ops.map(op=>`<button class="op-btn ${op===0&&s.respuestas[key]===0?'sel':op===s.respuestas[key]&&op!==0?'sel':''}" onclick="selOp(${si},'${key}',${op},this)">${op}</button>`).join('')}</div>
+</div>`;
+});
+html+=`</div></div>`;
+});
+html+=`<div class="resultado-bar"><div class="resultado-fill" id="rf-${si}" style="width:0%;background:var(--azul)"></div></div>
+<div class="interpretacion-box" id="ib-${si}" style="background:var(--gris);color:var(--texto-mid)">Completa la evaluación para ver la interpretación clínica.</div>`;
+} else {
+html+=`<div class="input-directo">
+<label>Puntaje obtenido:</label>
+<input type="number" id="inp-${si}" min="0" max="${s.info.max||99999}" value="${s.puntaje}" oninput="setPuntajeDirecto(${si},this.value)" placeholder="0"/>
+<span style="font-size:.74rem;color:var(--texto-light);margin-left:.5rem">${s.info.max===0?'(segundos / valor libre)':'pts de '+s.info.max}</span>
+</div>`;
+}
+html+=`<div class="msg msg-ok" id="ok-${si}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg><span id="ok-t-${si}"></span></div>
+<div class="msg msg-err" id="er-${si}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="er-t-${si}"></span></div>
+<div class="prueba-footer">
+<div class="notas-wrap">
+<label>Observaciones clínicas</label>
+<textarea id="nt-${si}" placeholder="Hallazgos, observaciones, recomendaciones clínicas..." oninput="sesion[${si}].notas=this.value">${s.notas}</textarea>
+</div>
+<div class="btn-row">
+<button class="btn-guardar" onclick="guardarUna(${si})">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+Guardar evaluación
+</button>
+<button class="btn-ia" onclick="irAEjercicios(${si})">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+Generar ejercicios IA
+</button>
+</div>
+</div>`;
+div.innerHTML=html;panel.appendChild(div);
+});
+}
+window.toggleSec=function(hdr){
+const b=hdr.nextElementSibling;b.style.display=b.style.display==='none'?'flex':'none';
+};
+window.selOp=function(si,key,valor,btn){
+sesion[si].respuestas[key]=valor;
+btn.closest('.item-opciones').querySelectorAll('.op-btn').forEach(b=>b.classList.remove('sel'));
+btn.classList.add('sel');
+recalcular(si);
+};
+window.setPuntajeDirecto=function(si,val){
+sesion[si].puntaje=parseFloat(val)||0;
+document.getElementById(`pt-${si}`).textContent=sesion[si].puntaje;
+actualizarComparador();
+};
+function recalcular(si){
+const s=sesion[si];
+const total=Object.values(s.respuestas).reduce((a,b)=>a+b,0);
+s.puntaje=total;
+document.getElementById(`pt-${si}`).textContent=total;
+const det=ITEMS_DETALLE[s.escalaId];
+if(det) det.secciones.forEach((sec,seci)=>{
+const st=Object.entries(s.respuestas).filter(([k])=>k.startsWith(`${seci}-`)).reduce((a,[,v])=>a+v,0);
+const el=document.getElementById(`ss-${si}-${seci}`);
+if(el)el.textContent=`${st} pts`;
+});
+if(s.info.max>0){
+const pct=Math.round((total/s.info.max)*100);
+const rf=document.getElementById(`rf-${si}`);
+if(rf){rf.style.width=pct+'%';rf.style.background=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';}
+}
+const iF=ITEMS_DETALLE[s.escalaId]?.interp;
+if(iF){
+const r=iF(total);
+const ib=document.getElementById(`ib-${si}`);
+if(ib){ib.style.background=r.bg;ib.style.color=r.c;ib.textContent=r.t;}
+}
+actualizarComparador();
+}
+function actualizarComparador(){
+const comp=document.getElementById('comparador'),bars=document.getElementById('compBars'),alerta=document.getElementById('compAlerta');
+const activas=sesion.filter(s=>s.info.max>0);
+if(activas.length<2){comp.classList.remove('visible');return;}
+comp.classList.add('visible');
+bars.innerHTML=activas.map(s=>{
+const pct=Math.round((s.puntaje/s.info.max)*100);
+const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+return `<div class="comp-bar-row">
+<span class="comp-bar-label">${s.info.area}</span>
+<div class="comp-bar-track"><div class="comp-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+<span class="comp-bar-val" style="color:${color}">${s.puntaje}/${s.info.max} (${pct}%)</span>
+</div>`;
+}).join('');
+const sorted=[...activas].sort((a,b)=>(a.puntaje/a.info.max)-(b.puntaje/b.info.max));
+const min=sorted[0];const minPct=Math.round((min.puntaje/min.info.max)*100);
+const colorA=minPct<40?'#FFF5F5':'#FFF3EB';const colorT=minPct<40?'#C53030':'#C05621';
+alerta.style.background=colorA;alerta.style.color=colorT;
+alerta.innerHTML=`⚠ <strong>Área más comprometida:</strong> ${min.info.area} — ${min.info.nombre.split('(')[0]} (${minPct}%). Se recomienda priorizar esta área en el plan terapéutico con IA.`;
+}
+window.guardarUna=async function(si){
+const pid=document.getElementById('selPaciente').value;
+const esModoPrueba=(currentUserData?.rol==='admin' && !pid);
+if(!pid && !esModoPrueba){mostrarMsg(si,'err','Selecciona un paciente.');return;}
+const s=sesion[si];
+const btn=document.querySelector(`#pc-${si} .btn-guardar`);
+if(btn)btn.disabled=true;
+if(esModoPrueba){
+mostrarMsg(si,'ok',`✓ Prueba completada (modo administrador — no se guardó en la base de datos). Puntaje: ${s.puntaje}${s.info.max>0?'/'+s.info.max:''}`);
+if(btn)btn.disabled=false;
+return;
+}
+try{
+await addDoc(collection(db,'evaluaciones'),{
+pacienteId:pid,terapeutaId:currentUser.uid,
+terapeutaNombre:currentUserData.nombreCompleto||currentUserData.nombre,
+especialidad:s.especialidad,escalaId:s.escalaId,
+escalaNombre:s.info.nombre,area:s.info.area,
+puntaje:s.puntaje,puntajeMax:s.info.max,
+respuestas:s.respuestas,notas:s.notas,
+fecha:serverTimestamp(),
+});
+mostrarMsg(si,'ok',`✓ Guardado. Puntaje: ${s.puntaje}${s.info.max>0?'/'+s.info.max:''}`);
+await cargarHistorial(pid);
+}catch(e){mostrarMsg(si,'err','Error al guardar. Intenta de nuevo.');}
+if(btn)btn.disabled=false;
+};
+window.guardarSesion=async function(){
+const pid=document.getElementById('selPaciente').value;
+if(!pid && currentUserData?.rol!=='admin'){alert('Selecciona un paciente primero.');return;}
+for(let i=0;i<sesion.length;i++)await guardarUna(i);
+};
+window.irAEjercicios=function(si){
+const pid=document.getElementById('selPaciente').value;
+if(!pid){mostrarMsg(si,'err','Selecciona un paciente primero.');return;}
+const s=sesion[si];
+const p=new URLSearchParams({pacId:pid,esp:s.especialidad,escId:s.escalaId,escalaNombre:s.info.nombre,puntaje:s.puntaje,puntajeMax:s.info.max,area:s.info.area});
+window.location.href=`ejercicios.html?${p}`;
+};
+function mostrarMsg(si,tipo,txt){
+const ok=document.getElementById(`ok-${si}`),er=document.getElementById(`er-${si}`);
+if(!ok||!er)return;
+if(tipo==='ok'){document.getElementById(`ok-t-${si}`).textContent=txt;ok.classList.add('vis');er.classList.remove('vis');}
+else{document.getElementById(`er-t-${si}`).textContent=txt;er.classList.add('vis');ok.classList.remove('vis');}
+}
+async function cargarHistorial(pid){
+const lista=document.getElementById('histList');
+if(!pid){lista.innerHTML='<p style="font-size:.78rem;color:var(--texto-light)">Selecciona un paciente.</p>';return;}
+try{
+const q=query(collection(db,'evaluaciones'),where('pacienteId','==',pid),orderBy('fecha','desc'));
+const snap=await getDocs(q);
+if(snap.empty){lista.innerHTML='<p style="font-size:.78rem;color:var(--texto-light)">Sin evaluaciones previas.</p>';return;}
+lista.innerHTML='';let count=0;
+snap.forEach(d=>{
+if(count++>9)return;
+const ev=d.data();
+const fecha=ev.fecha?.toDate?ev.fecha.toDate().toLocaleDateString('es-CO'):'—';
+const pct=ev.puntajeMax?Math.round((ev.puntaje/ev.puntajeMax)*100):null;
+const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+lista.innerHTML+=`<div class="hist-item">
+<div><div class="hist-escala">${(ev.escalaNombre||ev.escalaId).substring(0,30)}</div><div class="hist-fecha">${fecha} · ${ev.especialidad}</div></div>
+<span class="hist-score" style="background:${color}18;color:${color}">${ev.puntaje}${ev.puntajeMax?'/'+ev.puntajeMax:''}</span>
+</div>`;
+});
+}catch(e){console.error(e);}
+}
+</script>
+</body>
+</html>
