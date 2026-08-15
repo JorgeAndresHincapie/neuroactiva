@@ -658,8 +658,13 @@ actualizarComparador();
 function renderPruebas(){
 const panel=document.getElementById('panelRight');
 const comp=document.getElementById('comparador');
+const empty=document.getElementById('emptyState');
 panel.innerHTML='';
 panel.appendChild(comp);
+if(empty){
+empty.style.display=sesion.length===0?'block':'none';
+panel.appendChild(empty);
+}
 sesion.forEach((s,si)=>{
 const div=document.createElement('div');
 div.id=`pc-${si}`;div.className='prueba-card';
