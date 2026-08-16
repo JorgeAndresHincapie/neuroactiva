@@ -226,7 +226,7 @@ fisioterapia:[
 {id:'fugl-sens',nombre:'Fugl-Meyer Sensorial',max:24,area:'Sensorial',desc:'Sensibilidad superficial y propioceptiva post-ACV en MS y MI.'},
 {id:'barthel',nombre:'Índice de Barthel',max:100,area:'AVD funcionales',desc:'10 ítems de independencia en AVD: comer, baño, vestido, continencia, traslados, marcha, escaleras.'},
 {id:'berg',nombre:'Escala de Equilibrio de Berg',max:56,area:'Equilibrio',desc:'14 ítems de equilibrio estático y dinámico. Predice riesgo de caídas (≥45 bajo riesgo).'},
-{id:'tinetti',nombre:'Escala de Tinetti',max:28,area:'Marcha y equilibrio',desc:'Equilibrio (16 pts) y marcha (12 pts). ≤18: alto riesgo caída, 19-23: moderado, ≥24: bajo.'},
+{id:'tinetti',nombre:'Escala de Tinetti',max:26,area:'Marcha y equilibrio',desc:'Equilibrio (16 pts) y marcha (10 pts). ≤18: alto riesgo caída, 19-23: moderado, ≥24: bajo.'},
 {id:'tug',nombre:'Timed Up and Go (TUG)',max:0,area:'Movilidad funcional',desc:'Tiempo en segundos: levantarse, caminar 3m, girar, regresar y sentarse. <12s normal, >20s alto riesgo.'},
 {id:'6mwt',nombre:'Test de Marcha 6 Minutos (6MWT)',max:0,area:'Resistencia cardiorrespiratoria',desc:'Metros recorridos en 6 min. Evalúa capacidad funcional. Se compara con valores normativos por edad/sexo.'},
 {id:'ashworth',nombre:'Escala de Ashworth Modificada',max:4,area:'Espasticidad',desc:'Tono muscular: 0=normal, 1=leve aumento, 1+=leve con tope, 2=moderado, 3=considerable, 4=rigidez.'},
@@ -249,16 +249,17 @@ fisioterapia:[
 {id:'constant-murley',nombre:'Constant-Murley Score (Hombro)',max:100,area:'Función de hombro',desc:'4 dominios: dolor(15pts), AVD(20pts), rango de movimiento(40pts), fuerza(25pts). Gold estándar en patología del hombro y manguito rotador.'},
 ],
 hidroterapia:[
-{id:'wota1',nombre:'Halliwick WOTA1',max:20,area:'Habilidades acuáticas básicas',desc:'10 ítems del Aquatic Observational Tool para ajuste mental, equilibrio y movimiento básico en agua.'},
-{id:'wota2',nombre:'Halliwick WOTA2',max:40,area:'Habilidades acuáticas avanzadas',desc:'20 ítems para habilidades avanzadas del concepto Halliwick: control rotacional, nado, propulsión.'},
+{id:'wota1',nombre:'Halliwick WOTA1',max:81,area:'Habilidades acuáticas básicas',desc:'27 ítems del Water Orientation Test Alyn 1: adaptación mental, control respiratorio, equilibrio/progresión y estilos de natación.'},
+{id:'wota2',nombre:'Halliwick WOTA2',max:81,area:'Habilidades acuáticas avanzadas',desc:'27 ítems del Water Orientation Test Alyn 2: continuación del WOTA1, mismo formato y puntaje máximo (81).'},
 {id:'borg-rpe',nombre:'Escala de Borg RPE (6-20)',max:20,area:'Esfuerzo percibido',desc:'Esfuerzo percibido durante ejercicio acuático. 6=reposo absoluto, 20=esfuerzo máximo exhaustivo.'},
 {id:'borg-cr10',nombre:'Escala de Borg CR-10',max:10,area:'Disnea y dolor en agua',desc:'Versión 0-10 para disnea, dolor o esfuerzo. 0=nada, 5=fuerte, 10=máximo absoluto.'},
 {id:'barthel-a',nombre:'Barthel Adaptado Acuático',max:100,area:'Funcionalidad acuática',desc:'Adaptación del Barthel al contexto acuático: entrada al agua, desplazamiento, flotación, salida.'},
 {id:'aim',nombre:'Aquatic Independence Measure (AIM)',max:48,area:'Independencia acuática',desc:'Mide independencia en el medio acuático: control vertical, horizontal, respiratorio y propulsión.'},
-{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:52,area:'Natación funcional',desc:'Evalúa capacidad de natación funcional como herramienta terapéutica neurológica.'},
-{id:'fear-w',nombre:'Fear of Water Scale (FWS)',max:10,area:'Ansiedad acuática',desc:'Nivel de miedo/ansiedad al agua (0=ninguno, 10=pánico). Guía la progresión del programa.'},
-{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:100,area:'Resultado hidroterapia',desc:'Medida de resultado de fisioterapia acuática basada en criterios APTA. Funcionalidad global.'},
-{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:50,area:'Progresión hidroterapia',desc:'Escala de progresión clínica específica para hidroterapia neurológica. 10 dominios de 5 pts.'},
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:77,area:'Natación funcional',desc:'11 ítems con escala tipo FIM (1-7) adaptada al medio acuático.'},
+{id:'fear-w-nino',nombre:'Fear of Water Scale — Niños (FWS-Child)',max:30,area:'Ansiedad acuática infantil',desc:'10 ítems (escala 1-3) para niños de 4-12 años. Nivel Verde/Amarillo/Rojo de miedo al agua.'},
+{id:'fear-w-adulto',nombre:'Fear of Water Scale — Adultos (FWS-Adult)',max:40,area:'Ansiedad acuática adultos',desc:'10 ítems (escala 0-4) de autopercepción y respuestas somáticas de ansiedad acuática en adultos.'},
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:81,area:'Resultado hidroterapia',desc:'27 ítems (escala 0-3) en 3 secciones: adaptación mental/entrada, control postural/rotaciones, desplazamiento/propulsión.'},
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:0,area:'Progresión hidroterapia',desc:'Registro de sesión en cinta subacuática: nivel de inmersión, desempeño funcional (0-4), dolor y comparación evolutiva entre sesiones. No es un puntaje de suma simple.'},
 {id:'frt',nombre:'Functional Reach Test (FRT)',max:0,area:'Control postural en agua',desc:'Distancia máxima (cm) que puede alcanzar al frente sin perder el equilibrio. <15cm=alto riesgo caída, 15-25cm=moderado, >25cm=bajo riesgo. Aplicable en contexto acuático.'},
 {id:'sf36',nombre:'SF-36 Health Survey (Calidad de Vida)',max:100,area:'Calidad de vida relacionada con salud',desc:'36 ítems en 8 dominios: función física, rol físico, dolor corporal, salud general, vitalidad, función social, rol emocional, salud mental. Transformado 0-100.'},
 {id:'sppb-h',nombre:'SPPB Adaptado (Contexto Acuático)',max:12,area:'Función física global en agua',desc:'Adaptación del Short Physical Performance Battery al contexto acuático: equilibrio en agua, desplazamiento, levantadas asistidas. Evalúa progresión en hidroterapia.'},
@@ -266,7 +267,7 @@ hidroterapia:[
 {id:'cpet-h',nombre:'CPET Adaptado Acuático',max:0,area:'Capacidad cardiorrespiratoria en agua',desc:'Prueba de esfuerzo cardiopulmonar adaptada al medio acuático. Mide respuesta cardiovascular durante ejercicio en piscina terapéutica. Requiere supervisión médica.'},
 ],
 ocupacional:[
-{id:'fim',nombre:'FIM (Medida de Independencia Funcional)',max:126,area:'Independencia funcional',desc:'18 ítems: motor(13) y cognitivo(5). Puntaje 1=asistencia total a 7=independencia completa.'},
+{id:'fim',nombre:'FIM-FAM (Medida de Independencia Funcional Avanzada)',max:210,area:'Independencia funcional',desc:'30 ítems: motor(16) y cognitivo(14, incluye ítems FAM ampliados). Escala 1-7.'},
 {id:'copm',nombre:'COPM (Medida Canadiense)',max:10,area:'Desempeño ocupacional',desc:'Entrevista: identifica problemas ocupacionales y mide desempeño y satisfacción (1-10) en autocuidado, productividad y ocio.'},
 {id:'box-block',nombre:'Box and Block Test (BBT)',max:150,area:'Destreza manual gruesa',desc:'Cubos transferidos en 1 minuto por mano. Evalúa destreza manual gruesa unilateral.'},
 {id:'jebsen',nombre:'Jebsen-Taylor Hand Function',max:0,area:'Función funcional de mano',desc:'7 subtareas cronometradas: escritura, voltear tarjetas, recoger objetos, simular alimentación, apilar fichas.'},
@@ -275,11 +276,11 @@ ocupacional:[
 {id:'amps',nombre:'AMPS (Habilidades Motoras y de Proceso)',max:0,area:'Habilidades ocupacionales',desc:'Observación estandarizada de 16 habilidades motoras y 20 de proceso en tareas de la vida diaria.'},
 {id:'katz',nombre:'Índice de KATZ (ABVD)',max:6,area:'AVD básicas',desc:'6 ABVD: baño, vestido, inodoro, transferencia, continencia, alimentación. 6=independiente, 0=dependiente.'},
 {id:'lawton',nombre:'Escala de Lawton-Brody (AIVD)',max:8,area:'AVD instrumentales',desc:'8 AIVD: teléfono, compras, cocina, limpieza, lavandería, transporte, medicación, finanzas.'},
-{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:0,area:'Perfil ocupacional global',desc:'Basado en MOHO. 6 secciones: motivación, patrones, comunicación, habilidades procesamiento, motor, ambiente.'},
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:96,area:'Perfil ocupacional global',desc:'24 ítems en 6 dimensiones (4 c/u), escala 1-4.'},
 {id:'lotca',nombre:'LOTCA (Cognitivo Loewenstein)',max:119,area:'Cognición funcional',desc:'4 áreas cognitivas: orientación, percepción, organización visuomotora, operaciones mentales. 26 subtests.'},
-{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:0,area:'Interacción social',desc:'20 habilidades de comunicación e interacción social observadas en contexto grupal o con terapeuta.'},
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:80,area:'Interacción social',desc:'20 ítems en 3 dominios (Corporalidad, Intercambio de Información, Relaciones), escala 1-4.'},
 {id:'weefim',nombre:'WeeFIM (Funcional Pediátrico)',max:126,area:'Independencia infantil',desc:'Versión pediátrica del FIM. 18 ítems para niños de 6m a 7 años. Motor y cognitivo.'},
-{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:0,area:'Funciones ejecutivas en AVD',desc:'Evalúa funciones ejecutivas aplicadas a tareas cotidianas: preparar desayuno, manejo de medicamentos, llamada telefónica, pagar facturas. Gold estándar ecológico.'},
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:100,area:'Funciones ejecutivas en AVD',desc:'Matriz de 4 tareas x 5 funciones ejecutivas, escala 0-5 por celda. IMPORTANTE: 0=mejor desempeño y 100=peor (dirección inversa a la mayoría de las demás).'},
 {id:'osa',nombre:'Occupational Self Assessment (OSA)',max:0,area:'Autopercepción ocupacional',desc:'Basado en MOHO. El paciente valora su propia competencia ocupacional y la importancia de sus actividades. Orienta los objetivos terapéuticos centrados en la persona.'},
 {id:'role-checklist',nombre:'Role Checklist (Checklist de Roles)',max:0,area:'Roles ocupacionales',desc:'Identifica los roles ocupacionales del paciente (estudiante, trabajador, voluntario, cuidador, etc.) y su percepción de valor. Evalúa participación social y sentido de identidad.'},
 {id:'pdms2',nombre:'Peabody Developmental Motor Scales (PDMS-2)',max:0,area:'Desarrollo motor infantil',desc:'Evalúa habilidades motoras gruesas y finas en niños de 0-5 años. 6 subtests: reflejos, estacionario, locomoción, manipulación objetos, agarre y destreza visual-motora.'},
@@ -294,14 +295,14 @@ lenguaje:[
 {id:'token',nombre:'Token Test',max:36,area:'Comprensión auditiva',desc:'36 órdenes con fichas de colores/formas/tamaños de complejidad creciente. Sensible a afasia leve.'},
 {id:'fois',nombre:'FOIS (Ingesta Oral Funcional)',max:7,area:'Deglución funcional',desc:'7 niveles de ingesta: 1=nada VO hasta 7=dieta normal sin restricción. Referencia internacional disfagia.'},
 {id:'eat10',nombre:'EAT-10 (Síntomas de Disfagia)',max:40,area:'Disfagia autoreporte',desc:'10 ítems autoadministrados. Puntaje ≥3 indica riesgo de disfagia. Simple y rápido.'},
-{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:200,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución. Puntaje ≤177 riesgo aspiración, ≤168 aspiración probable.'},
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:240,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución (puntuación ponderada por ítem). Nota: fuente original citaba máximo 200, la suma real de los ítems documentados da 240.'},
 {id:'guss',nombre:'GUSS (Gugging Swallowing Screen)',max:20,area:'Cribado de deglución',desc:'Evaluación 2 partes: evaluación indirecta(5) + directa: semisólido(5), líquido(5), sólido(5).'},
 {id:'doss',nombre:'Protocolo DOSS (Deglución)',max:7,area:'Función deglutoria',desc:'7 niveles: 1=dependencia total NE hasta 7=dieta normal independiente. Orientado a alta funcional.'},
 {id:'mbgr',nombre:'Protocolo MBGR (Motricidad Orofacial)',max:126,area:'Motricidad orofacial',desc:'Facies, postura, respiración, voz, movilidad orofacial, masticación, deglución. Referencia brasileña-LATAM.'},
 {id:'ssq',nombre:'Sydney Swallow Questionnaire (SSQ)',max:1700,area:'Disfagia VAS',desc:'17 ítems tipo VAS (0-100). Síntomas de disfagia autoreportados. Sensible a cambios longitudinales.'},
 {id:'frenchay',nombre:'Escala de Disartria de Frenchay',max:28,area:'Disartria',desc:'28 ítems en 8 secciones: reflejos, respiración, labios, paladar, laringe, lengua, habla inteligibilidad.'},
 {id:'abfw',nombre:'ABFW (Fonología Pediátrica)',max:0,area:'Fonología infantil',desc:'Evalúa sistema fonológico infantil: vocabulario, pragmática, articulación, fonología. 0-12 años.'},
-{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:8,area:'Deglución radiológica',desc:'8 parámetros videofluoroscópicos: residuo vallécula, seno piriforme, penetración, aspiración, etc.'},
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:10,area:'Deglución radiológica',desc:'4 parámetros con ponderación biomecánica distinta: sello labial(1), residuo valecular(2), penetración laríngea(2), aspiración traqueal(5).'},
 {id:'celf5',nombre:'CELF-5 (Clinical Evaluation of Language Fundamentals)',max:0,area:'Lenguaje integral niños/adolescentes',desc:'Gold estándar en evaluación del lenguaje 5-21 años. Evalúa comprensión y expresión del lenguaje, memoria de trabajo lingüística y coherencia narrativa.'},
 {id:'ppvt4',nombre:'PPVT-4 (Peabody Picture Vocabulary Test)',max:0,area:'Vocabulario receptivo',desc:'Evaluación del vocabulario receptivo en todas las edades mediante selección de imagen. No requiere respuesta verbal. Sensible a trastornos del lenguaje y cognitivos.'},
 {id:'evt2',nombre:'EVT-2 (Expressive Vocabulary Test)',max:0,area:'Vocabulario expresivo',desc:'Mide vocabulario expresivo y fluidez de recuperación de palabras. Complementa al PPVT-4 para perfil léxico completo. Todas las edades.'},
@@ -315,6 +316,7 @@ lenguaje:[
 {id:'hint',nombre:'HINT (Hearing in Noise Test)',max:0,area:'Comprensión del habla en ruido',desc:'Evalúa comprensión del habla en diferentes condiciones de ruido. Usado en evaluación audiológica post-implante coclear y hipoacusia. Resultado en dB SNR.'},
 ],
 psicologia:[
+{id:'zarit',nombre:'Escala de Zarit (Carga del Cuidador)',max:88,area:'Sobrecarga del cuidador',desc:'22 ítems (0-4 c/u). ≤46 sin sobrecarga, 47-55 leve, ≥56 intensa.'},
 {id:'bdi2',nombre:'BDI-II (Inventario de Depresión de Beck)',max:63,area:'Depresión',desc:'21 ítems (0-3 c/u). 0-13 mínima, 14-19 leve, 20-28 moderada, 29-63 severa. Última semana.'},
 {id:'hamilton',nombre:'HDRS (Hamilton para Depresión)',max:52,area:'Depresión clínica',desc:'17-21 ítems heteroadministrados. <8 normal, 8-13 leve, 14-18 moderada, 19-22 severa, >22 muy severa.'},
 {id:'phq9',nombre:'PHQ-9 (Patient Health Questionnaire)',max:27,area:'Depresión cribado',desc:'9 ítems DSM. 0-4 mínima, 5-9 leve, 10-14 moderada, 15-19 moderada-severa, ≥20 severa.'},
@@ -338,6 +340,8 @@ psicologia:[
 {id:'mini',nombre:'MINI (Mini International Neuropsychiatric Interview)',max:0,area:'Cribado psiquiátrico rápido',desc:'Entrevista diagnóstica breve (15-30 min) para 17 trastornos psiquiátricos del DSM-5/CIE-10. Muy usada en APS y cuando no se dispone de tiempo para SCID-5.'},
 ],
 neuropsicologia:[
+{id:'reloj',nombre:'Test del Reloj (Clock Drawing Test)',max:10,area:'Función ejecutiva y visoconstrucción',desc:'10 ítems binarios. ≥7 normal, ≤6 positivo para deterioro cognitivo/apraxia.'},
+{id:'ace3',nombre:'ACE-III (Addenbrooke Cognitive Examination)',max:100,area:'Cribado cognitivo avanzado',desc:'100 puntos en 5 dominios. ≥88 normal, 83-87 sospecha, <83 predictivo de demencia.'},
 {id:'moca',nombre:'MoCA (Montreal Cognitive Assessment)',max:30,area:'Cognición global',desc:'30 ítems en 8 dominios. ≥26 normal (±1 si <12 años educación), 18-25 DL, 10-17 DM, <10 DS.'},
 {id:'mmse',nombre:'MMSE (Mini-Mental State Examination)',max:30,area:'Cognición cribado',desc:'30 ítems en orientación(10), registro(3), atención(5), recuerdo(3), lenguaje/construcción(9). <24 = deterioro.'},
 {id:'fab',nombre:'FAB (Frontal Assessment Battery)',max:18,area:'Funciones frontales',desc:'6 subtests frontales: semejanzas, fluidez fonológica, serie motora de Luria, órdenes conflictivas, Go-NoGo, comportamiento de aprensión.'},
@@ -1732,6 +1736,279 @@ var nota=' (Cada sección se promedia, no se suma.)';
 return{t:'Promedio general: '+p+'%'+detalle+sugTxt+nota,bg:p>=70?'#E8F5F0':p>=40?'#FFF3EB':'#FFF5F5',c:p>=70?'#1A7A5E':p>=40?'#C05621':'#C53030'};
 },
 },
+
+// ---------------------------------------------------------------
+// Fisioterapia tanda 2 (13 escalas adicionales)
+// ---------------------------------------------------------------
+'fugl-sens':{
+secciones:[
+{n:'Sensibilidad Táctil Superficial (0=Ausente, 1=Disminuida/Hiperestesia, 2=Normal)',items:[
+{t:'Hombro',ops:[0,1,2]},{t:'Codo',ops:[0,1,2]},{t:'Muñeca',ops:[0,1,2]},
+{t:'Cadera',ops:[0,1,2]},{t:'Rodilla',ops:[0,1,2]},{t:'Tobillo',ops:[0,1,2]},
+]},
+{n:'Sensibilidad Propioceptiva (0=Ausente, 1=Disminuida, 2=Normal)',items:[
+{t:'Hombro',ops:[0,1,2]},{t:'Codo',ops:[0,1,2]},{t:'Muñeca',ops:[0,1,2]},
+{t:'Cadera',ops:[0,1,2]},{t:'Rodilla',ops:[0,1,2]},{t:'Tobillo',ops:[0,1,2]},
+]},
+],
+interp:(p)=>p>=20?{t:'Sensibilidad conservada.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=12?{t:'Déficit sensorial moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Déficit sensorial severo. Alto riesgo de lesiones por falta de propiocepción.',bg:'#FFF5F5',c:'#C53030'},
+},
+'daniels':{
+secciones:[
+{n:'Escala de Fuerza Muscular (Test de Daniels) — indicar grupo muscular en Observaciones',items:[
+{t:'Grado de fuerza muscular',ops:[0,1,2,3,4,5]},
+]},
+],
+interp:(p)=>p===5?{t:'Fuerza normal.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=3?{t:'Fuerza contra gravedad, con o sin resistencia parcial.',bg:'#FFF3EB',c:'#C05621'}:{t:'Fuerza insuficiente para vencer gravedad.',bg:'#FFF5F5',c:'#C53030'},
+},
+'eva':{
+secciones:[
+{n:'Escala Visual Analógica del Dolor (0=Sin dolor, 10=Peor dolor imaginable)',items:[
+{t:'Intensidad del dolor',ops:[0,1,2,3,4,5,6,7,8,9,10]},
+]},
+],
+interp:(p)=>p===0?{t:'Sin dolor.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=3?{t:'Dolor leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=6?{t:'Dolor moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dolor severo.',bg:'#FFF5F5',c:'#C53030'},
+},
+'brunnstrom':{
+secciones:[
+{n:'Estadios de Recuperación Motora',items:[
+{t:'Estadio actual',ops:[1,2,3,4,5,6]},
+]},
+],
+interp:(p)=>p<=2?{t:'Flacidez / Espasticidad inicial.',bg:'#FFF5F5',c:'#C53030'}:p<=4?{t:'Espasticidad máxima a movimiento voluntario emergente.',bg:'#FFF3EB',c:'#C05621'}:{t:'Independencia de sinergias / Coordinación casi normal.',bg:'#E8F5F0',c:'#1A7A5E'},
+},
+'mas':{
+secciones:[
+{n:'Motor Assessment Scale (0-6 por ítem)',items:[
+{t:'1. Supino a decúbito lateral',ops:[0,1,2,3,4,5,6]},
+{t:'2. Supino a sentado en el borde de la cama',ops:[0,1,2,3,4,5,6]},
+{t:'3. Equilibrio en sedestación',ops:[0,1,2,3,4,5,6]},
+{t:'4. Sentado a de pie',ops:[0,1,2,3,4,5,6]},
+{t:'5. Marcha',ops:[0,1,2,3,4,5,6]},
+{t:'6. Función del brazo (alcance y prensión)',ops:[0,1,2,3,4,5,6]},
+{t:'7. Movimiento de la mano',ops:[0,1,2,3,4,5,6]},
+{t:'8. Actividades avanzadas de la mano',ops:[0,1,2,3,4,5,6]},
+]},
+],
+interp:(p)=>p>=40?{t:'Función motora global alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=20?{t:'Función motora moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Función motora severamente comprometida.',bg:'#FFF5F5',c:'#C53030'},
+},
+'dash':{
+secciones:[
+{n:'Cuestionario DASH (30 ítems, escala 1-5 cada uno)',items:[
+{t:'Ítem 1',ops:[1,2,3,4,5]},{t:'Ítem 2',ops:[1,2,3,4,5]},{t:'Ítem 3',ops:[1,2,3,4,5]},
+{t:'Ítem 4',ops:[1,2,3,4,5]},{t:'Ítem 5',ops:[1,2,3,4,5]},{t:'Ítem 6',ops:[1,2,3,4,5]},
+{t:'Ítem 7',ops:[1,2,3,4,5]},{t:'Ítem 8',ops:[1,2,3,4,5]},{t:'Ítem 9',ops:[1,2,3,4,5]},
+{t:'Ítem 10',ops:[1,2,3,4,5]},{t:'Ítem 11',ops:[1,2,3,4,5]},{t:'Ítem 12',ops:[1,2,3,4,5]},
+{t:'Ítem 13',ops:[1,2,3,4,5]},{t:'Ítem 14',ops:[1,2,3,4,5]},{t:'Ítem 15',ops:[1,2,3,4,5]},
+{t:'Ítem 16',ops:[1,2,3,4,5]},{t:'Ítem 17',ops:[1,2,3,4,5]},{t:'Ítem 18',ops:[1,2,3,4,5]},
+{t:'Ítem 19',ops:[1,2,3,4,5]},{t:'Ítem 20',ops:[1,2,3,4,5]},{t:'Ítem 21',ops:[1,2,3,4,5]},
+{t:'Ítem 22',ops:[1,2,3,4,5]},{t:'Ítem 23',ops:[1,2,3,4,5]},{t:'Ítem 24',ops:[1,2,3,4,5]},
+{t:'Ítem 25',ops:[1,2,3,4,5]},{t:'Ítem 26',ops:[1,2,3,4,5]},{t:'Ítem 27',ops:[1,2,3,4,5]},
+{t:'Ítem 28',ops:[1,2,3,4,5]},{t:'Ítem 29',ops:[1,2,3,4,5]},{t:'Ítem 30',ops:[1,2,3,4,5]},
+]},
+],
+calc:function(respuestas){
+var n=0,suma=0;
+for(var i=0;i<30;i++){var v=respuestas['0-'+i];if(typeof v==='number'){suma+=v;n++;}}
+if(n===0)return 0;
+return Math.round(((suma/n)-1)*25*10)/10;
+},
+interp:function(p){
+if(p<=20)return{t:'DASH: '+p+' — Discapacidad mínima.',bg:'#E8F5F0',c:'#1A7A5E'};
+if(p<=50)return{t:'DASH: '+p+' — Discapacidad moderada.',bg:'#FFF3EB',c:'#C05621'};
+return{t:'DASH: '+p+' — Discapacidad severa del miembro superior.',bg:'#FFF5F5',c:'#C53030'};
+},
+},
+'rivermead':{
+secciones:[
+{n:'Función Gruesa (13 ítems)',items:[
+{t:'Ítem G1',ops:[0,1]},{t:'Ítem G2',ops:[0,1]},{t:'Ítem G3',ops:[0,1]},{t:'Ítem G4',ops:[0,1]},
+{t:'Ítem G5',ops:[0,1]},{t:'Ítem G6',ops:[0,1]},{t:'Ítem G7',ops:[0,1]},{t:'Ítem G8',ops:[0,1]},
+{t:'Ítem G9',ops:[0,1]},{t:'Ítem G10',ops:[0,1]},{t:'Ítem G11',ops:[0,1]},{t:'Ítem G12',ops:[0,1]},{t:'Ítem G13',ops:[0,1]},
+]},
+{n:'Pierna y Tronco (10 ítems)',items:[
+{t:'Ítem PT1',ops:[0,1]},{t:'Ítem PT2',ops:[0,1]},{t:'Ítem PT3',ops:[0,1]},{t:'Ítem PT4',ops:[0,1]},{t:'Ítem PT5',ops:[0,1]},
+{t:'Ítem PT6',ops:[0,1]},{t:'Ítem PT7',ops:[0,1]},{t:'Ítem PT8',ops:[0,1]},{t:'Ítem PT9',ops:[0,1]},{t:'Ítem PT10',ops:[0,1]},
+]},
+{n:'Brazo (15 ítems)',items:[
+{t:'Ítem B1',ops:[0,1]},{t:'Ítem B2',ops:[0,1]},{t:'Ítem B3',ops:[0,1]},{t:'Ítem B4',ops:[0,1]},{t:'Ítem B5',ops:[0,1]},
+{t:'Ítem B6',ops:[0,1]},{t:'Ítem B7',ops:[0,1]},{t:'Ítem B8',ops:[0,1]},{t:'Ítem B9',ops:[0,1]},{t:'Ítem B10',ops:[0,1]},
+{t:'Ítem B11',ops:[0,1]},{t:'Ítem B12',ops:[0,1]},{t:'Ítem B13',ops:[0,1]},{t:'Ítem B14',ops:[0,1]},{t:'Ítem B15',ops:[0,1]},
+]},
+],
+interp:(p)=>p>=30?{t:'Recuperación motora global alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=15?{t:'Recuperación motora moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Recuperación motora severamente limitada.',bg:'#FFF5F5',c:'#C53030'},
+},
+'sppb':{
+secciones:[
+{n:'Batería Corta de Desempeño Físico',items:[
+{t:'Equilibrio en tándem (4 pts)',ops:[0,1,2,3,4]},
+{t:'Velocidad de marcha 4m (4 pts)',ops:[0,1,2,3,4]},
+{t:'5 levantadas de silla (4 pts)',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<=6?{t:'Alto riesgo de discapacidad.',bg:'#FFF5F5',c:'#C53030'}:p<=9?{t:'Riesgo moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Función física preservada.',bg:'#E8F5F0',c:'#1A7A5E'},
+},
+'odi':{
+secciones:[
+{n:'Oswestry Disability Index (cada ítem convertido a %, 0-10 por ítem)',items:[
+{t:'Intensidad del dolor',ops:[0,2,4,6,8,10]},
+{t:'Cuidado personal',ops:[0,2,4,6,8,10]},
+{t:'Levantar peso',ops:[0,2,4,6,8,10]},
+{t:'Caminar',ops:[0,2,4,6,8,10]},
+{t:'Sentarse',ops:[0,2,4,6,8,10]},
+{t:'Estar de pie',ops:[0,2,4,6,8,10]},
+{t:'Dormir',ops:[0,2,4,6,8,10]},
+{t:'Vida sexual',ops:[0,2,4,6,8,10]},
+{t:'Vida social',ops:[0,2,4,6,8,10]},
+{t:'Viajar',ops:[0,2,4,6,8,10]},
+]},
+],
+interp:(p)=>p<=20?{t:'Discapacidad mínima.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=40?{t:'Discapacidad moderada.',bg:'#FFF3EB',c:'#C05621'}:p<=60?{t:'Discapacidad severa.',bg:'#FFF3EB',c:'#C05621'}:p<=80?{t:'Discapacidad muy severa.',bg:'#FFF5F5',c:'#C53030'}:{t:'Postración / Exageración de síntomas a valorar.',bg:'#FFF5F5',c:'#C53030'},
+},
+'rmdq':{
+secciones:[
+{n:'Roland-Morris (marcar si la afirmación aplica hoy)',items:[
+{t:'Ítem 1',ops:[0,1]},{t:'Ítem 2',ops:[0,1]},{t:'Ítem 3',ops:[0,1]},{t:'Ítem 4',ops:[0,1]},
+{t:'Ítem 5',ops:[0,1]},{t:'Ítem 6',ops:[0,1]},{t:'Ítem 7',ops:[0,1]},{t:'Ítem 8',ops:[0,1]},
+{t:'Ítem 9',ops:[0,1]},{t:'Ítem 10',ops:[0,1]},{t:'Ítem 11',ops:[0,1]},{t:'Ítem 12',ops:[0,1]},
+{t:'Ítem 13',ops:[0,1]},{t:'Ítem 14',ops:[0,1]},{t:'Ítem 15',ops:[0,1]},{t:'Ítem 16',ops:[0,1]},
+{t:'Ítem 17',ops:[0,1]},{t:'Ítem 18',ops:[0,1]},{t:'Ítem 19',ops:[0,1]},{t:'Ítem 20',ops:[0,1]},
+{t:'Ítem 21',ops:[0,1]},{t:'Ítem 22',ops:[0,1]},{t:'Ítem 23',ops:[0,1]},{t:'Ítem 24',ops:[0,1]},
+]},
+],
+interp:(p)=>p<=8?{t:'Discapacidad leve por dolor lumbar.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=16?{t:'Discapacidad moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Discapacidad severa por dolor lumbar.',bg:'#FFF5F5',c:'#C53030'},
+},
+'womac':{
+secciones:[
+{n:'Dolor (5 ítems, 0-4 c/u)',items:[
+{t:'Al caminar',ops:[0,1,2,3,4]},{t:'Al subir/bajar escaleras',ops:[0,1,2,3,4]},
+{t:'Nocturno en cama',ops:[0,1,2,3,4]},{t:'Sentado o acostado',ops:[0,1,2,3,4]},{t:'De pie',ops:[0,1,2,3,4]},
+]},
+{n:'Rigidez (2 ítems, 0-4 c/u)',items:[
+{t:'Rigidez matutina',ops:[0,1,2,3,4]},{t:'Rigidez tras estar sentado/reposo',ops:[0,1,2,3,4]},
+]},
+{n:'Función Física (17 ítems, 0-4 c/u)',items:[
+{t:'Bajar escaleras',ops:[0,1,2,3,4]},{t:'Subir escaleras',ops:[0,1,2,3,4]},
+{t:'Levantarse sentado',ops:[0,1,2,3,4]},{t:'Estar de pie',ops:[0,1,2,3,4]},
+{t:'Agacharse al suelo',ops:[0,1,2,3,4]},{t:'Caminar en llano',ops:[0,1,2,3,4]},
+{t:'Entrar/salir del carro',ops:[0,1,2,3,4]},{t:'Ir de compras',ops:[0,1,2,3,4]},
+{t:'Ponerse medias',ops:[0,1,2,3,4]},{t:'Levantarse de la cama',ops:[0,1,2,3,4]},
+{t:'Quitarse medias',ops:[0,1,2,3,4]},{t:'Acostarse en la cama',ops:[0,1,2,3,4]},
+{t:'Entrar/salir de la ducha',ops:[0,1,2,3,4]},{t:'Sentarse',ops:[0,1,2,3,4]},
+{t:'Sentarse/levantarse del inodoro',ops:[0,1,2,3,4]},{t:'Tareas domésticas pesadas',ops:[0,1,2,3,4]},
+{t:'Tareas domésticas ligeras',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<=24?{t:'Afectación articular leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=60?{t:'Afectación moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Afectación articular severa.',bg:'#FFF5F5',c:'#C53030'},
+},
+'rmi':{
+secciones:[
+{n:'Rivermead Mobility Index (15 ítems, Sí=1/No=0)',items:[
+{t:'Girarse en la cama',ops:[0,1]},{t:'De tumbado a sentado',ops:[0,1]},
+{t:'Equilibrio en sedestación',ops:[0,1]},{t:'De sentado a de pie',ops:[0,1]},
+{t:'De pie sin apoyo',ops:[0,1]},{t:'Transferencias',ops:[0,1]},
+{t:'Caminar en interiores con ayuda',ops:[0,1]},{t:'Subir escaleras',ops:[0,1]},
+{t:'Caminar en exteriores (terreno plano)',ops:[0,1]},{t:'Caminar en interiores sin ayuda',ops:[0,1]},
+{t:'Recoger un objeto del suelo',ops:[0,1]},{t:'Caminar en exteriores (terreno irregular)',ops:[0,1]},
+{t:'Bañarse solo',ops:[0,1]},{t:'Subir y bajar 4 escalones',ops:[0,1]},{t:'Correr',ops:[0,1]},
+]},
+],
+interp:(p)=>p>=12?{t:'Movilidad funcional alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=6?{t:'Movilidad funcional moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Movilidad funcional severamente limitada.',bg:'#FFF5F5',c:'#C53030'},
+},
+'constant-murley':{
+secciones:[
+{n:'Dolor',items:[
+{t:'Nivel de dolor',ops:[0,5,10,15]},
+]},
+{n:'Actividades de la Vida Diaria',items:[
+{t:'Trabajo',ops:[0,1,2,3,4]},
+{t:'Ocio/Recreación',ops:[0,1,2,3,4]},
+{t:'Sueño',ops:[0,1,2]},
+{t:'Posicionamiento de la mano en actividades',ops:[0,2,4,6,8,10]},
+]},
+{n:'Rango de Movimiento',items:[
+{t:'Elevación anterior',ops:[0,2,4,6,8,10]},
+{t:'Abducción',ops:[0,2,4,6,8,10]},
+{t:'Rotación externa',ops:[0,2,4,6,8,10]},
+{t:'Rotación interna',ops:[0,2,4,6,8,10]},
+]},
+{n:'Fuerza',items:[
+{t:'Fuerza muscular (0-25)',ops:[0,5,10,15,20,25]},
+]},
+],
+interp:(p)=>p>=80?{t:'Función de hombro excelente.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=60?{t:'Función de hombro buena/aceptable.',bg:'#FFF3EB',c:'#C05621'}:{t:'Función de hombro pobre.',bg:'#FFF5F5',c:'#C53030'},
+},
+
+// ---------------------------------------------------------------
+// Extra: Borg CR-10, AIM, RBMT, BADS
+// ---------------------------------------------------------------
+'borg-cr10':{
+secciones:[
+{n:'Escala de Borg Modificada CR-10 (Disnea/Dolor/Esfuerzo)',items:[
+{t:'Nivel percibido',ops:[0,0.5,1,2,3,4,5,6,7,8,9,10]},
+]},
+],
+interp:(p)=>p===0?{t:'Nada en absoluto.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=2?{t:'Leve/Débil.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=4?{t:'Moderado.',bg:'#FFF3EB',c:'#C05621'}:p<=6?{t:'Algo fuerte a fuerte.',bg:'#FFF3EB',c:'#C05621'}:{t:'Muy fuerte a máximo absoluto.',bg:'#FFF5F5',c:'#C53030'},
+},
+'aim':{
+secciones:[
+{n:'Control Vertical y Horizontal (0-3 c/u)',items:[
+{t:'Control vertical del tronco',ops:[0,1,2,3]},
+{t:'Control horizontal (flotación)',ops:[0,1,2,3]},
+{t:'Transiciones verticales-horizontales',ops:[0,1,2,3]},
+{t:'Estabilidad de cadera y rodilla en el agua',ops:[0,1,2,3]},
+]},
+{n:'Control Respiratorio y Propulsión (0-3 c/u)',items:[
+{t:'Control respiratorio (inmersión facial)',ops:[0,1,2,3]},
+{t:'Espiración controlada en el agua',ops:[0,1,2,3]},
+{t:'Propulsión con extremidades inferiores',ops:[0,1,2,3]},
+{t:'Propulsión con extremidades superiores',ops:[0,1,2,3]},
+]},
+{n:'Independencia Funcional en el Agua (0-3 c/u)',items:[
+{t:'Entrada al agua',ops:[0,1,2,3]},
+{t:'Salida del agua',ops:[0,1,2,3]},
+{t:'Desplazamiento independiente 5m',ops:[0,1,2,3]},
+{t:'Recuperación de posición segura tras desequilibrio',ops:[0,1,2,3]},
+{t:'Uso de ayudas técnicas acuáticas si aplica',ops:[0,1,2,3]},
+{t:'Seguridad general percibida por el terapeuta',ops:[0,1,2,3]},
+{t:'Tolerancia a la inmersión prolongada',ops:[0,1,2,3]},
+{t:'Comunicación y seguimiento de instrucciones en el agua',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p>=36?{t:'Independencia acuática alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=18?{t:'Independencia acuática moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia acuática alta. Requiere asistencia constante.',bg:'#FFF5F5',c:'#C53030'},
+},
+'rbmt':{
+secciones:[
+{n:'Memoria Cotidiana (12 subtests, 0-2 c/u: 0=fallo, 1=parcial, 2=correcto)',items:[
+{t:'Recordar un nombre',ops:[0,1,2]},
+{t:'Recordar una cara',ops:[0,1,2]},
+{t:'Recordar dónde escondió un objeto personal',ops:[0,1,2]},
+{t:'Recordar una cita a una hora determinada',ops:[0,1,2]},
+{t:'Reconocer una fotografía vista antes',ops:[0,1,2]},
+{t:'Recordar un mensaje breve tras una demora',ops:[0,1,2]},
+{t:'Reconocer una ruta corta recorrida antes',ops:[0,1,2]},
+{t:'Recordar dónde entregó un objeto durante la ruta',ops:[0,1,2]},
+{t:'Recordar información de una historia breve leída',ops:[0,1,2]},
+{t:'Orientación (fecha, lugar, situación actual)',ops:[0,1,2]},
+{t:'Reconocer la fecha correcta',ops:[0,1,2]},
+{t:'Reconocer su propia cara en una foto reciente',ops:[0,1,2]},
+]},
+],
+interp:(p)=>p>=22?{t:'Memoria funcional cotidiana normal.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=15?{t:'Deterioro leve de memoria funcional.',bg:'#FFF3EB',c:'#C05621'}:p>=10?{t:'Deterioro moderado de memoria funcional.',bg:'#FFF3EB',c:'#C05621'}:{t:'Deterioro severo de memoria funcional. Alto impacto en autonomía diaria.',bg:'#FFF5F5',c:'#C53030'},
+},
+'bads':{
+secciones:[
+{n:'Pruebas Ecológicas de Función Ejecutiva (6 subtests, 0-4 c/u)',items:[
+{t:'Prueba de Cambio de Regla (Card Sorting simplificado)',ops:[0,1,2,3,4]},
+{t:'Prueba del Programa de Acción (resolución de problema práctico)',ops:[0,1,2,3,4]},
+{t:'Prueba de Búsqueda de Llaves (planificación espacial)',ops:[0,1,2,3,4]},
+{t:'Prueba de Juicio Temporal (estimación de tiempos cotidianos)',ops:[0,1,2,3,4]},
+{t:'Prueba del Mapa del Zoológico (planificación de ruta con reglas)',ops:[0,1,2,3,4]},
+{t:'Prueba de las Seis Elementos Modificada (organización multitarea)',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p>=18?{t:'Función ejecutiva conservada en tareas ecológicas.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=10?{t:'Disfunción ejecutiva leve a moderada. Afecta planificación de tareas complejas.',bg:'#FFF3EB',c:'#C05621'}:{t:'Síndrome disejecutivo severo. Alto impacto en autonomía e independencia funcional.',bg:'#FFF5F5',c:'#C53030'},
+},
 };
 let currentUser=null,currentUserData=null,espActual=null,escalaSeleccionada=null,sesion=[];
 onAuthStateChanged(auth,async(user)=>{
@@ -1925,10 +2202,15 @@ actualizarComparador();
 };
 function recalcular(si){
 const s=sesion[si];
-const total=Object.values(s.respuestas).reduce((a,b)=>a+b,0);
+const det=ITEMS_DETALLE[s.escalaId];
+let total;
+if(det&&typeof det.calc==='function'){
+total=det.calc(s.respuestas);
+}else{
+total=Object.values(s.respuestas).reduce((a,b)=>a+b,0);
+}
 s.puntaje=total;
 document.getElementById(`pt-${si}`).textContent=total;
-const det=ITEMS_DETALLE[s.escalaId];
 if(det) det.secciones.forEach((sec,seci)=>{
 const st=Object.entries(s.respuestas).filter(([k])=>k.startsWith(`${seci}-`)).reduce((a,[,v])=>a+v,0);
 const el=document.getElementById(`ss-${si}-${seci}`);
