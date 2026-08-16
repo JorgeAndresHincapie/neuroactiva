@@ -1,0 +1,30 @@
+CAMBIOS EN TU BANCO (sección lenguaje, líneas 292-315 aprox.)
+==================================================================
+
+ANTES:
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:200,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución. Puntaje ≤177 riesgo aspiración, ≤168 aspiración probable.'},
+
+DESPUÉS:
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:240,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución (puntuación ponderada por ítem). Nota: fuente original citaba máximo 200, pero la suma real de los 24 ítems documentados da 240 — verificar contra manual oficial de Mann si se requiere exactitud absoluta.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:8,area:'Deglución radiológica',desc:'8 parámetros videofluoroscópicos: residuo vallécula, seno piriforme, penetración, aspiración, etc.'},
+
+DESPUÉS:
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:10,area:'Deglución radiológica',desc:'4 parámetros con ponderación biomecánica distinta: sello labial(1), residuo valecular(2), penetración laríngea(2), aspiración traqueal(5).'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'token',nombre:'Token Test',max:36,area:'Comprensión auditiva',desc:'36 órdenes con fichas de colores/formas/tamaños de complejidad creciente. Sensible a afasia leve.'},
+
+DESPUÉS (mismo max, se aclara la limitación del ajuste por escolaridad):
+{id:'token',nombre:'Token Test',max:36,area:'Comprensión auditiva',desc:'36 órdenes con fichas de colores/formas/tamaños de complejidad creciente. Nota: el ajuste por escolaridad (+1 si <6 años, +2 si 6-11 años) debe aplicarse manualmente sobre el puntaje bruto.'},
+
+------------------------------------------------------------------
+
+guss: sin cambios — ya coincide exacto (5+5+5+5=20).
+doss: sin cambios — ya coincide exacto, se integra como ítem único (mismo patrón que fois).
+fois: ya tiene ITEMS_DETALLE funcionando, no se toca.
