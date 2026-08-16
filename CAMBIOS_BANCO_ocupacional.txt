@@ -1,0 +1,47 @@
+CAMBIOS EN TU BANCO (sección ocupacional, líneas 269-289 aprox.)
+==================================================================
+
+ANTES:
+{id:'fim',nombre:'FIM (Medida de Independencia Funcional)',max:126,area:'Independencia funcional',desc:'18 ítems: motor(13) y cognitivo(5). Puntaje 1=asistencia total a 7=independencia completa.'},
+
+DESPUÉS (versión expandida FIM-FAM investigada, más completa):
+{id:'fim',nombre:'FIM-FAM (Medida de Independencia Funcional Avanzada)',max:210,area:'Independencia funcional',desc:'30 ítems: motor(16) y cognitivo(14, incluye ítems FAM ampliados). Escala 1-7, 1=asistencia total a 7=independencia completa.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'lawton',nombre:'Escala de Lawton-Brody (AIVD)',max:8,area:'AVD instrumentales',desc:'8 AIVD: teléfono, compras, cocina, limpieza, lavandería, transporte, medicación, finanzas.'},
+
+Sin cambios — ya coincide exacto, solo se agrega ITEMS_DETALLE.
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:0,area:'Perfil ocupacional global',desc:'Basado en MOHO. 6 secciones: motivación, patrones, comunicación, habilidades procesamiento, motor, ambiente.'},
+
+DESPUÉS:
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:96,area:'Perfil ocupacional global',desc:'24 ítems en 6 dimensiones (4 c/u): volición, habituación, comunicación/interacción, procesamiento, motoras, entorno. Escala 1-4.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:0,area:'Interacción social',desc:'20 habilidades de comunicación e interacción social observadas en contexto grupal o con terapeuta.'},
+
+DESPUÉS:
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:80,area:'Interacción social',desc:'20 ítems en 3 dominios (Corporalidad, Intercambio de Información, Relaciones), escala 1-4.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:0,area:'Funciones ejecutivas en AVD',desc:'Evalúa funciones ejecutivas aplicadas a tareas cotidianas: preparar desayuno, manejo de medicamentos, llamada telefónica, pagar facturas. Gold estándar ecológico.'},
+
+DESPUÉS:
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:100,area:'Funciones ejecutivas en AVD',desc:'Matriz de 4 tareas x 5 funciones ejecutivas, escala 0-5 por celda. IMPORTANTE: en esta escala 0=mejor desempeño y 100=peor (dirección inversa a la mayoría de las demás).'},
+
+------------------------------------------------------------------
+
+NOTA: katz ya tiene ITEMS_DETALLE funcionando en tu archivo actual,
+no se toca.
+
+NOTA: weefim (max:126) ya coincide exacto con nuestra investigación,
+no requiere cambio en BANCO — solo se agrega ITEMS_DETALLE.

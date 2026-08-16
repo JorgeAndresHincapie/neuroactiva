@@ -1,0 +1,195 @@
+/* ============================================================
+   BLOQUE PARA PEGAR DENTRO DE ITEMS_DETALLE
+   ============================================================
+   Aplicar PRIMERO los cambios de CAMBIOS_BANCO_ocupacional.txt
+   en tu BANCO, luego pegar este bloque.
+   ============================================================ */
+
+'lawton':{
+secciones:[
+{n:'Actividades Instrumentales de la Vida Diaria (1=Independiente, 0=Dependiente)',items:[
+{t:'Capacidad para usar el teléfono',ops:[0,1]},
+{t:'Hacer compras',ops:[0,1]},
+{t:'Preparación de la comida',ops:[0,1]},
+{t:'Cuidado de la casa / Tareas domésticas',ops:[0,1]},
+{t:'Lavado de la ropa',ops:[0,1]},
+{t:'Uso de medios de transporte',ops:[0,1]},
+{t:'Responsabilidad respecto a su medicación',ops:[0,1]},
+{t:'Capacidad para manejar asuntos económicos',ops:[0,1]},
+]},
+],
+interp:(p)=>p===8?{t:'Independencia total en AIVD.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=6?{t:'Dependencia leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=4?{t:'Dependencia moderada.',bg:'#FFF3EB',c:'#C05621'}:p>=2?{t:'Dependencia severa.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia total.',bg:'#FFF5F5',c:'#C53030'},
+},
+'mohost':{
+secciones:[
+{n:'Volición (Motivación por la Ocupación)',items:[
+{t:'Elección de la Ocupación',ops:[1,2,3,4]},
+{t:'Intereses',ops:[1,2,3,4]},
+{t:'Valoración de la Ocupación',ops:[1,2,3,4]},
+{t:'Sentido de Capacidad (Autoeficacia)',ops:[1,2,3,4]},
+]},
+{n:'Habituación (Organización de la Vida Cotidiana)',items:[
+{t:'Roles Ocupacionales',ops:[1,2,3,4]},
+{t:'Rutinas',ops:[1,2,3,4]},
+{t:'Adaptabilidad de las Rutinas',ops:[1,2,3,4]},
+{t:'Estilo de Vida',ops:[1,2,3,4]},
+]},
+{n:'Habilidades de Comunicación e Interacción',items:[
+{t:'Contacto Físico y Gestual',ops:[1,2,3,4]},
+{t:'Expresión Oral / Intercambio de Información',ops:[1,2,3,4]},
+{t:'Relaciones Sociales',ops:[1,2,3,4]},
+{t:'Comportamiento en Grupo',ops:[1,2,3,4]},
+]},
+{n:'Habilidades de Procesamiento',items:[
+{t:'Conocimiento y Elección de Objetos',ops:[1,2,3,4]},
+{t:'Organización del Espacio',ops:[1,2,3,4]},
+{t:'Resolución de Problemas',ops:[1,2,3,4]},
+{t:'Atención y Persistencia',ops:[1,2,3,4]},
+]},
+{n:'Habilidades Motoras',items:[
+{t:'Postura y Flexibilidad',ops:[1,2,3,4]},
+{t:'Movilidad y Desplazamiento',ops:[1,2,3,4]},
+{t:'Coordinación y Manipulación',ops:[1,2,3,4]},
+{t:'Fuerza y Resistencia',ops:[1,2,3,4]},
+]},
+{n:'Entorno',items:[
+{t:'Espacio Físico',ops:[1,2,3,4]},
+{t:'Objetos y Recursos',ops:[1,2,3,4]},
+{t:'Grupos Sociales (Personas)',ops:[1,2,3,4]},
+{t:'Demandas Ocupacionales',ops:[1,2,3,4]},
+]},
+],
+interp:(p)=>p>=80?{t:'Participación Ocupacional Óptima.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=56?{t:'Participación Limitada / Riesgo Ocupacional.',bg:'#FFF3EB',c:'#C05621'}:p>=32?{t:'Disfunción Ocupacional Moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Disfunción Ocupacional Severa.',bg:'#FFF5F5',c:'#C53030'},
+},
+'acis':{
+secciones:[
+{n:'Dominio 1: Corporalidad',items:[
+{t:'Contacto (hace contacto físico con otros de forma adecuada)',ops:[1,2,3,4]},
+{t:'Mirada (establece contacto visual)',ops:[1,2,3,4]},
+{t:'Gestos (usa movimientos para dar significado al mensaje)',ops:[1,2,3,4]},
+{t:'Postura (posiciones físicas adecuadas)',ops:[1,2,3,4]},
+{t:'Reorientación (orienta el cuerpo hacia el interlocutor)',ops:[1,2,3,4]},
+{t:'Locación (se ubica a distancia correcta)',ops:[1,2,3,4]},
+]},
+{n:'Dominio 2: Intercambio de Información',items:[
+{t:'Articulación (volumen, tono, velocidad de voz claros)',ops:[1,2,3,4]},
+{t:'Expresión (entrega información relevante)',ops:[1,2,3,4]},
+{t:'Petición (solicita información o ayuda oportunamente)',ops:[1,2,3,4]},
+{t:'Respuestas (contesta de forma lógica)',ops:[1,2,3,4]},
+{t:'Flujo (discurso fluido y continuo)',ops:[1,2,3,4]},
+{t:'Sintonía (lenguaje apropiado al oyente)',ops:[1,2,3,4]},
+]},
+{n:'Dominio 3: Relaciones',items:[
+{t:'Colaboración (trabaja en equipo hacia un objetivo común)',ops:[1,2,3,4]},
+{t:'Respeto (sigue normas del grupo)',ops:[1,2,3,4]},
+{t:'Enfoque (dirige la conversación al tema principal)',ops:[1,2,3,4]},
+{t:'Relación (establece conexión social adecuada)',ops:[1,2,3,4]},
+{t:'Respeto de Turnos (espera su momento sin interrumpir)',ops:[1,2,3,4]},
+{t:'Modificación (ajusta comportamiento ante imprevistos)',ops:[1,2,3,4]},
+{t:'Manejo del Conflicto (estrategias pacíficas de resolución)',ops:[1,2,3,4]},
+{t:'Transición (inicia y finaliza interacciones adecuadamente)',ops:[1,2,3,4]},
+]},
+],
+interp:(p)=>p>=68?{t:'Interacción Social Funcional.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=48?{t:'Riesgo de Interacción Ocupacional. Fallas intermitentes.',bg:'#FFF3EB',c:'#C05621'}:{t:'Restricción Severa de la Comunicación. Intervención prioritaria.',bg:'#FFF5F5',c:'#C53030'},
+},
+'efpt':{
+secciones:[
+{n:'T1. Preparación de avena (Cooking)',items:[
+{t:'F1. Iniciación',ops:[0,1,2,3,4,5]},
+{t:'F2. Organización',ops:[0,1,2,3,4,5]},
+{t:'F3. Secuenciación',ops:[0,1,2,3,4,5]},
+{t:'F4. Juicio y Seguridad',ops:[0,1,2,3,4,5]},
+{t:'F5. Finalización',ops:[0,1,2,3,4,5]},
+]},
+{n:'T2. Uso del teléfono (Telephone)',items:[
+{t:'F1. Iniciación',ops:[0,1,2,3,4,5]},
+{t:'F2. Organización',ops:[0,1,2,3,4,5]},
+{t:'F3. Secuenciación',ops:[0,1,2,3,4,5]},
+{t:'F4. Juicio y Seguridad',ops:[0,1,2,3,4,5]},
+{t:'F5. Finalización',ops:[0,1,2,3,4,5]},
+]},
+{n:'T3. Gestión de la medicación (Medication)',items:[
+{t:'F1. Iniciación',ops:[0,1,2,3,4,5]},
+{t:'F2. Organización',ops:[0,1,2,3,4,5]},
+{t:'F3. Secuenciación',ops:[0,1,2,3,4,5]},
+{t:'F4. Juicio y Seguridad',ops:[0,1,2,3,4,5]},
+{t:'F5. Finalización',ops:[0,1,2,3,4,5]},
+]},
+{n:'T4. Pago de cuentas (Bill Paying)',items:[
+{t:'F1. Iniciación',ops:[0,1,2,3,4,5]},
+{t:'F2. Organización',ops:[0,1,2,3,4,5]},
+{t:'F3. Secuenciación',ops:[0,1,2,3,4,5]},
+{t:'F4. Juicio y Seguridad',ops:[0,1,2,3,4,5]},
+{t:'F5. Finalización',ops:[0,1,2,3,4,5]},
+]},
+],
+interp:(p)=>p===0?{t:'Independencia ejecutiva absoluta.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=20?{t:'Déficit Ejecutivo Leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=50?{t:'Déficit Ejecutivo Moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Déficit Ejecutivo Severo / Dependencia.',bg:'#FFF5F5',c:'#C53030'},
+},
+'weefim':{
+secciones:[
+{n:'Autocuidado',items:[
+{t:'Alimentación',ops:[1,2,3,4,5,6,7]},
+{t:'Aseo Personal',ops:[1,2,3,4,5,6,7]},
+{t:'Baño',ops:[1,2,3,4,5,6,7]},
+{t:'Vestido Superior',ops:[1,2,3,4,5,6,7]},
+{t:'Vestido Inferior',ops:[1,2,3,4,5,6,7]},
+{t:'Higiene Perineal',ops:[1,2,3,4,5,6,7]},
+]},
+{n:'Movilidad',items:[
+{t:'Control de Vejiga',ops:[1,2,3,4,5,6,7]},
+{t:'Control de Intestino',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia Cama/Silla/Silla de Ruedas',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia Inodoro',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia Ducha/Bañera',ops:[1,2,3,4,5,6,7]},
+{t:'Locomoción (Marcha o Silla de Ruedas)',ops:[1,2,3,4,5,6,7]},
+{t:'Escaleras',ops:[1,2,3,4,5,6,7]},
+]},
+{n:'Cognitivo',items:[
+{t:'Comprensión',ops:[1,2,3,4,5,6,7]},
+{t:'Expresión',ops:[1,2,3,4,5,6,7]},
+{t:'Interacción Social',ops:[1,2,3,4,5,6,7]},
+{t:'Resolución de Problemas',ops:[1,2,3,4,5,6,7]},
+{t:'Memoria',ops:[1,2,3,4,5,6,7]},
+]},
+],
+interp:(p)=>p>=113?{t:'Desempeño Funcional Normal para su grupo de edad.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=88?{t:'Retraso Funcional Leve/Moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Retraso Funcional Severo / Alta Carga de Cuidados.',bg:'#FFF5F5',c:'#C53030'},
+},
+'fim':{
+secciones:[
+{n:'Dominio Motor (16 ítems, escala 1-7)',items:[
+{t:'Alimentación',ops:[1,2,3,4,5,6,7]},
+{t:'Aseo personal',ops:[1,2,3,4,5,6,7]},
+{t:'Baño',ops:[1,2,3,4,5,6,7]},
+{t:'Vestido superior',ops:[1,2,3,4,5,6,7]},
+{t:'Vestido inferior',ops:[1,2,3,4,5,6,7]},
+{t:'Aseo íntimo',ops:[1,2,3,4,5,6,7]},
+{t:'Control de vejiga',ops:[1,2,3,4,5,6,7]},
+{t:'Control de intestino',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia cama/silla',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia inodoro',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia ducha',ops:[1,2,3,4,5,6,7]},
+{t:'Marcha o Silla de ruedas',ops:[1,2,3,4,5,6,7]},
+{t:'Escaleras',ops:[1,2,3,4,5,6,7]},
+{t:'Deglución (Tragar)',ops:[1,2,3,4,5,6,7]},
+{t:'Transferencia carro',ops:[1,2,3,4,5,6,7]},
+{t:'Seguridad en la comunidad',ops:[1,2,3,4,5,6,7]},
+]},
+{n:'Dominio Cognitivo (14 ítems, escala 1-7)',items:[
+{t:'Comprensión',ops:[1,2,3,4,5,6,7]},
+{t:'Expresión',ops:[1,2,3,4,5,6,7]},
+{t:'Interacción social',ops:[1,2,3,4,5,6,7]},
+{t:'Resolución de problemas',ops:[1,2,3,4,5,6,7]},
+{t:'Memoria',ops:[1,2,3,4,5,6,7]},
+{t:'Lectura',ops:[1,2,3,4,5,6,7]},
+{t:'Escritura',ops:[1,2,3,4,5,6,7]},
+{t:'Habla',ops:[1,2,3,4,5,6,7]},
+{t:'Orientación',ops:[1,2,3,4,5,6,7]},
+{t:'Atención',ops:[1,2,3,4,5,6,7]},
+{t:'Estabilidad emocional',ops:[1,2,3,4,5,6,7]},
+{t:'Adaptabilidad al cambio',ops:[1,2,3,4,5,6,7]},
+{t:'Habilidades laborales / Uso del tiempo',ops:[1,2,3,4,5,6,7]},
+{t:'Integración comunitaria',ops:[1,2,3,4,5,6,7]},
+]},
+],
+interp:(p)=>p>=180?{t:'Independencia funcional alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=120?{t:'Dependencia moderada. Requiere apoyo parcial.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia severa. Requiere asistencia extensa.',bg:'#FFF5F5',c:'#C53030'},
+},
