@@ -298,7 +298,7 @@ lenguaje:[
 {id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:240,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución (puntuación ponderada por ítem). Nota: fuente original citaba máximo 200, la suma real de los ítems documentados da 240.'},
 {id:'guss',nombre:'GUSS (Gugging Swallowing Screen)',max:20,area:'Cribado de deglución',desc:'Evaluación 2 partes: evaluación indirecta(5) + directa: semisólido(5), líquido(5), sólido(5).'},
 {id:'doss',nombre:'Protocolo DOSS (Deglución)',max:7,area:'Función deglutoria',desc:'7 niveles: 1=dependencia total NE hasta 7=dieta normal independiente. Orientado a alta funcional.'},
-{id:'mbgr',nombre:'Protocolo MBGR (Motricidad Orofacial)',max:126,area:'Motricidad orofacial',desc:'Facies, postura, respiración, voz, movilidad orofacial, masticación, deglución. Referencia brasileña-LATAM.'},
+{id:'mbgr',nombre:'Protocolo MBGR (Motricidad Orofacial)',max:360,area:'Motricidad orofacial',desc:'Postura, examen extra/intraoral, movilidad, tono, sensibilidad y funciones (respiración, masticación, deglución, habla). Escala invertida: 0=normal, mayor puntaje=mayor alteración. Sin puntos de corte normativos por edad publicados aún.'},
 {id:'ssq',nombre:'Sydney Swallow Questionnaire (SSQ)',max:1700,area:'Disfagia VAS',desc:'17 ítems tipo VAS (0-100). Síntomas de disfagia autoreportados. Sensible a cambios longitudinales.'},
 {id:'frenchay',nombre:'Escala de Disartria de Frenchay',max:28,area:'Disartria',desc:'28 ítems en 8 secciones: reflejos, respiración, labios, paladar, laringe, lengua, habla inteligibilidad.'},
 {id:'abfw',nombre:'ABFW (Fonología Pediátrica)',max:0,area:'Fonología infantil',desc:'Evalúa sistema fonológico infantil: vocabulario, pragmática, articulación, fonología. 0-12 años.'},
@@ -1199,6 +1199,94 @@ secciones:[
 ]},
 ],
 interp:(p)=>p<=2?{t:'Disfagia leve / Seguridad conservada.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=5?{t:'Seguridad comprometida. Texturas modificadas.',bg:'#FFF3EB',c:'#C05621'}:{t:'Aspiración Crítica. Vía oral no segura.',bg:'#FFF5F5',c:'#C53030'},
+},
+'ssq':{
+secciones:[
+{n:'Dificultad para tragar según consistencia (0=sin dificultad, 100=extremadamente difícil)',items:[
+{t:'1. Dificultad actual para tragar, en general',ops:[0,20,40,60,80,100]},
+{t:'2. Dificultad para tragar líquidos claros (agua, té, bebidas frías)',ops:[0,20,40,60,80,100]},
+{t:'3. Dificultad para tragar líquidos espesos (sopas, batidos, natillas)',ops:[0,20,40,60,80,100]},
+{t:'4. Dificultad para tragar alimentos blandos (puré, tortilla)',ops:[0,20,40,60,80,100]},
+{t:'5. Dificultad para tragar alimentos duros (carne, fruta o verdura cruda)',ops:[0,20,40,60,80,100]},
+{t:'6. Dificultad para tragar alimentos secos (pan, galletas, frutos secos)',ops:[0,20,40,60,80,100]},
+]},
+{n:'Saliva e inicio de la deglución',items:[
+{t:'7. Dificultad para tragar su propia saliva',ops:[0,20,40,60,80,100]},
+{t:'8. Dificultad para iniciar la deglución',ops:[0,20,40,60,80,100]},
+]},
+{n:'Síntomas asociados a la deglución (0=nunca, 100=siempre)',items:[
+{t:'9. Sensación de que el alimento se queda atascado en la garganta',ops:[0,20,40,60,80,100]},
+{t:'10. Dificultad al tragar alimentos sólidos (pan, carne, fruta)',ops:[0,20,40,60,80,100]},
+{t:'11. Tos o atragantamiento al tragar líquidos',ops:[0,20,40,60,80,100]},
+{t:'13. Ascenso o salida de comida/líquido hacia la nariz al tragar',ops:[0,20,40,60,80,100]},
+{t:'14. Necesidad de tragar más de una vez para pasar el bolo',ops:[0,20,40,60,80,100]},
+{t:'15. Tos durante las comidas',ops:[0,20,40,60,80,100]},
+]},
+{n:'Tiempo invertido en cada comida (ítem 12 — categorías: <15min, 15-30, 30-45, 45-60, >60 min, incapaz de terminar)',items:[
+{t:'12. Tiempo promedio que le toma comer',ops:[0,20,40,60,80,100]},
+]},
+{n:'Valoración global',items:[
+{t:'16. Gravedad percibida del problema de deglución hoy (0=sin problema, 100=peor que nunca)',ops:[0,20,40,60,80,100]},
+{t:'17. Interferencia en su calidad de vida (0=no interfiere, 100=interferencia extraordinaria)',ops:[0,20,40,60,80,100]},
+]},
+],
+interp:(p)=>p<=234?{t:'Dentro del rango de referencia sin disfagia (límite superior normativo ≈234/1700).',bg:'#E8F5F0',c:'#1A7A5E'}:p<=500?{t:'Síntomas leves de disfagia orofaríngea autorreportados.',bg:'#FFF3EB',c:'#C05621'}:p<=800?{t:'Síntomas moderados de disfagia orofaríngea. Rango promedio reportado en pacientes con disfagia establecida.',bg:'#FFF3EB',c:'#C05621'}:{t:'Síntomas severos de disfagia orofaríngea autorreportados. Se recomienda valoración instrumental (VFSS/FEES).',bg:'#FFF5F5',c:'#C53030'},
+},
+'mbgr':{
+invertido:true,
+secciones:[
+{n:'1. Postura Corporal (máx. 7 — 0=normal, mayor puntaje=mayor alteración)',items:[
+{t:'Cabeza (posición frontal y lateral)',ops:[0,1,2,3,4]},
+{t:'Hombros (posición frontal y lateral)',ops:[0,1,2,3]},
+]},
+{n:'2. Examen Extraoral (máx. 39)',items:[
+{t:'Análisis facial numérico — norma frontal',ops:[0,1,2,3]},
+{t:'Análisis facial subjetivo — norma frontal',ops:[0,2,4,6,8,10,12]},
+{t:'Músculo masetero (palpación)',ops:[0,1]},
+{t:'Mandíbula — postura',ops:[0,1,2]},
+{t:'Labios — postura habitual, saliva, mucosa y forma',ops:[0,2,4,6,8,10,12,14,16,18,19]},
+{t:'Norma lateral (tipo facial y ángulo nasolabial)',ops:[0,1,2]},
+]},
+{n:'3. Examen Intraoral (máx. 71)',items:[
+{t:'Labios — mucosa y frenillo superior',ops:[0,1,2,3]},
+{t:'Mejillas — mucosa',ops:[0,1,2,3,4,5,6,7,8,9,10]},
+{t:'Lengua — surco, posición, simetría, tamaño, temblor, mucosa, frenillo',ops:[0,3,6,9,12,15,18,21,24,27,29]},
+{t:'Paladar — profundidad, anchura, simetría, úvula',ops:[0,1,2,3,4,5,6,7,8]},
+{t:'Amígdalas palatinas — tamaño, color, posición',ops:[0,1,2,3,4]},
+{t:'Dientes y oclusión — línea media, clase de Angle, mordida',ops:[0,2,4,6,8,10,12,14,16,17]},
+]},
+{n:'4. Movilidad Orofacial (máx. 118)',items:[
+{t:'Movilidad de labios (protrusión, retracción, lateralización)',ops:[0,4,8,12,16,20,24,28,32,36,37]},
+{t:'Movilidad de lengua (protrusión, elevación, lateralización, chasquido)',ops:[0,5,10,15,20,25,30,35,40,45,50,52]},
+{t:'Movilidad de mejillas (inflar D/I y alternado)',ops:[0,2,4,6,8,10,12]},
+{t:'Movilidad del velo del paladar (fonación [a] y reflejo nauseoso, D/I)',ops:[0,1,2,3,4,5,6,7,8]},
+{t:'Movilidad mandibular (apertura, cierre, lateralidad, desvío, dolor)',ops:[0,1,2,3,4,5,6,7,8,9]},
+]},
+{n:'5. Tono Muscular (máx. 8 — labios, mentón, surco, lengua, piso de boca, mejillas)',items:[
+{t:'Tono muscular orofacial general',ops:[0,1,2,3,4,5,6,7,8]},
+]},
+{n:'6. Sensibilidad — Dolor a la Palpación (máx. 10 — temporal, masetero, trapecio, ECM, ATM, D/I)',items:[
+{t:'Dolor a la palpación de músculos y ATM',ops:[0,1,2,3,4,5,6,7,8,9,10]},
+]},
+{n:'7. Función: Respiración (máx. 9)',items:[
+{t:'Tipo, modo y flujo nasal respiratorio',ops:[0,1,2,3,4,5,6,7,8,9]},
+]},
+{n:'8. Función: Masticación (máx. 10)',items:[
+{t:'Incisión, trituración, patrón, cierre labial, velocidad, ruidos',ops:[0,1,2,3,4,5,6,7,8,9,10]},
+]},
+{n:'9. Función: Deglución (máx. 50)',items:[
+{t:'1ª prueba — deglución habitual de sólidos',ops:[0,2,4,6,8,10,12,14,16,18]},
+{t:'2ª prueba — deglución habitual de líquido (agua)',ops:[0,2,4,6,8,10,12,14,16]},
+{t:'3ª prueba — deglución de líquido dirigida (orden del evaluador)',ops:[0,2,4,6,8,10,12,14,16]},
+]},
+{n:'10. Función: Habla (máx. 38)',items:[
+{t:'1ª prueba — conteo/días/meses (aspecto fonético-fonológico)',ops:[0,1,2,3,4,5,6]},
+{t:'2ª prueba — denominación de láminas (aspecto fonético-fonológico)',ops:[0,1,2,3,4,5,6]},
+{t:'3ª prueba — coordinación motora (velocidad y ritmo en diadococinesias)',ops:[0,1,2,3,4,5,6,7,8]},
+{t:'4ª prueba — habla espontánea (aspecto general)',ops:[0,2,4,6,8,10,12,14,16,18]},
+]},
+],
+interp:(p)=>{var pct=Math.round(p/360*100);var nota=' (Protocolo MBGR sin puntos de corte normativos por edad publicados aún — interpretación orientativa según % del puntaje máximo posible, no del puntaje absoluto).';return pct<=10?{t:'Puntaje bajo ('+pct+'% del máximo). Compatible con motricidad orofacial dentro de parámetros esperados.'+nota,bg:'#E8F5F0',c:'#1A7A5E'}:pct<=25?{t:'Alteraciones leves ('+pct+'% del máximo) en uno o más componentes evaluados.'+nota,bg:'#E8F5F0',c:'#1A7A5E'}:pct<=45?{t:'Alteraciones moderadas ('+pct+'% del máximo). Se sugiere intervención fonoaudiológica dirigida.'+nota,bg:'#FFF3EB',c:'#C05621'}:{t:'Alteraciones severas ('+pct+'% del máximo) en la motricidad orofacial.'+nota,bg:'#FFF5F5',c:'#C53030'};},
 },
 
 // ---------------------------------------------------------------
@@ -2358,8 +2446,9 @@ if(el)el.textContent=`${st} pts`;
 });
 if(s.info.max>0){
 const pct=Math.round((total/s.info.max)*100);
+const pctColor=det?.invertido?(100-pct):pct;
 const rf=document.getElementById(`rf-${si}`);
-if(rf){rf.style.width=pct+'%';rf.style.background=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';}
+if(rf){rf.style.width=pct+'%';rf.style.background=pctColor>=70?'#1A7A5E':pctColor>=40?'#C05621':'#C53030';}
 }
 const iF=ITEMS_DETALLE[s.escalaId]?.interp;
 if(iF){
@@ -2374,18 +2463,24 @@ const comp=document.getElementById('comparador'),bars=document.getElementById('c
 const activas=sesion.filter(s=>s.info.max>0);
 if(activas.length<2){comp.classList.remove('visible');return;}
 comp.classList.add('visible');
+function sevOf(s){
+const pct=Math.round((s.puntaje/s.info.max)*100);
+const inv=ITEMS_DETALLE[s.escalaId]?.invertido;
+return inv?pct:(100-pct);
+}
 bars.innerHTML=activas.map(s=>{
 const pct=Math.round((s.puntaje/s.info.max)*100);
-const color=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+const sev=sevOf(s);
+const color=sev<30?'#1A7A5E':sev<60?'#C05621':'#C53030';
 return `<div class="comp-bar-row">
 <span class="comp-bar-label">${s.info.area}</span>
 <div class="comp-bar-track"><div class="comp-bar-fill" style="width:${pct}%;background:${color}"></div></div>
 <span class="comp-bar-val" style="color:${color}">${s.puntaje}/${s.info.max} (${pct}%)</span>
 </div>`;
 }).join('');
-const sorted=[...activas].sort((a,b)=>(a.puntaje/a.info.max)-(b.puntaje/b.info.max));
-const min=sorted[0];const minPct=Math.round((min.puntaje/min.info.max)*100);
-const colorA=minPct<40?'#FFF5F5':'#FFF3EB';const colorT=minPct<40?'#C53030':'#C05621';
+const sorted=[...activas].sort((a,b)=>sevOf(b)-sevOf(a));
+const min=sorted[0];const minPct=Math.round((min.puntaje/min.info.max)*100);const minSev=sevOf(min);
+const colorA=minSev>=60?'#FFF5F5':'#FFF3EB';const colorT=minSev>=60?'#C53030':'#C05621';
 alerta.style.background=colorA;alerta.style.color=colorT;
 alerta.innerHTML=`⚠ <strong>Área más comprometida:</strong> ${min.info.area} — ${min.info.nombre.split('(')[0]} (${minPct}%). Se recomienda priorizar esta área en el plan terapéutico con IA.`;
 }
