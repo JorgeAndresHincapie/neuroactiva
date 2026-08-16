@@ -1,0 +1,122 @@
+CAMBIOS DE BANCO PENDIENTES — LISTA CONSOLIDADA FINAL
+==================================================================
+Ninguno de estos cambios se ha aplicado todavía. Solo se pegó el
+contenido de ITEMS_DETALLE. Sin estos cambios, varias escalas no
+van a funcionar bien (algunas mostrarán "pts de 0", otras como
+fear-w-nino/fear-w-adulto ni siquiera van a aparecer en la lista
+porque no tienen entrada en BANCO con ese id exacto).
+
+==================================================================
+FISIOTERAPIA
+==================================================================
+Buscar y reemplazar esta línea completa:
+{id:'tinetti',nombre:'Escala de Tinetti',max:28,area:'Marcha y equilibrio',desc:'Equilibrio (16 pts) y marcha (12 pts). ≤18: alto riesgo caída, 19-23: moderado, ≥24: bajo.'},
+
+Por:
+{id:'tinetti',nombre:'Escala de Tinetti',max:26,area:'Marcha y equilibrio',desc:'Equilibrio (16 pts) y marcha (10 pts). ≤18: alto riesgo caída, 19-23: moderado, ≥24: bajo.'},
+
+==================================================================
+HIDROTERAPIA
+==================================================================
+Reemplazar:
+{id:'borg-cr10',nombre:'Escala de Borg CR-10',max:10,area:'Disnea y dolor en agua',desc:'Versión 0-10 para disnea, dolor o esfuerzo. 0=nada, 5=fuerte, 10=máximo absoluto.'},
+Sin cambios — ya coincide, solo faltaba ITEMS_DETALLE (ya se agregó).
+
+Reemplazar:
+{id:'aim',nombre:'Aquatic Independence Measure (AIM)',max:48,area:'Independencia acuática',desc:'Mide independencia en el medio acuático: control vertical, horizontal, respiratorio y propulsión.'},
+Sin cambios — ya coincide, solo faltaba ITEMS_DETALLE (ya se agregó).
+
+Reemplazar:
+{id:'fear-w',nombre:'Fear of Water Scale (FWS)',max:10,area:'Ansiedad acuática',desc:'Nivel de miedo/ansiedad al agua (0=ninguno, 10=pánico). Guía la progresión del programa.'},
+Por (AGREGA una línea nueva, no reemplaza — quedan las DOS):
+{id:'fear-w-nino',nombre:'Fear of Water Scale — Niños (FWS-Child)',max:30,area:'Ansiedad acuática infantil',desc:'10 ítems (escala 1-3) para niños de 4-12 años. Nivel Verde/Amarillo/Rojo de miedo al agua.'},
+{id:'fear-w-adulto',nombre:'Fear of Water Scale — Adultos (FWS-Adult)',max:40,area:'Ansiedad acuática adultos',desc:'10 ítems (escala 0-4) de autopercepción y respuestas somáticas de ansiedad acuática en adultos.'},
+(Puedes dejar también el 'fear-w' original si quieres conservar la versión VAS simple de un solo ítem, o borrarlo — tu decisión.)
+
+Reemplazar:
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:100,area:'Resultado hidroterapia',desc:'Medida de resultado de fisioterapia acuática basada en criterios APTA. Funcionalidad global.'},
+Por:
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:81,area:'Resultado hidroterapia',desc:'27 ítems (escala 0-3) en 3 secciones: adaptación mental/entrada, control postural/rotaciones, desplazamiento/propulsión.'},
+
+Reemplazar:
+{id:'wota1',nombre:'Halliwick WOTA1',max:20,area:'Habilidades acuáticas básicas',desc:'10 ítems del Aquatic Observational Tool para ajuste mental, equilibrio y movimiento básico en agua.'},
+Por:
+{id:'wota1',nombre:'Halliwick WOTA1',max:81,area:'Habilidades acuáticas básicas',desc:'27 ítems del Water Orientation Test Alyn 1: adaptación mental, control respiratorio, equilibrio/progresión y estilos de natación.'},
+
+Reemplazar:
+{id:'wota2',nombre:'Halliwick WOTA2',max:40,area:'Habilidades acuáticas avanzadas',desc:'20 ítems para habilidades avanzadas del concepto Halliwick: control rotacional, nado, propulsión.'},
+Por:
+{id:'wota2',nombre:'Halliwick WOTA2',max:81,area:'Habilidades acuáticas avanzadas',desc:'27 ítems del Water Orientation Test Alyn 2: continuación del WOTA1, mismo formato y puntaje máximo (81).'},
+
+Reemplazar:
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:52,area:'Natación funcional',desc:'Evalúa capacidad de natación funcional como herramienta terapéutica neurológica.'},
+Por:
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:77,area:'Natación funcional',desc:'11 ítems con escala tipo FIM (1-7) adaptada al medio acuático.'},
+
+Reemplazar:
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:50,area:'Progresión hidroterapia',desc:'Escala de progresión clínica específica para hidroterapia neurológica. 10 dominios de 5 pts.'},
+Por:
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:0,area:'Progresión hidroterapia',desc:'Registro de sesión en cinta subacuática: nivel de inmersión, desempeño funcional (0-4), dolor y comparación evolutiva entre sesiones. No es un puntaje de suma simple.'},
+
+==================================================================
+TERAPIA OCUPACIONAL
+==================================================================
+Reemplazar:
+{id:'fim',nombre:'FIM (Medida de Independencia Funcional)',max:126,area:'Independencia funcional',desc:'18 ítems: motor(13) y cognitivo(5). Puntaje 1=asistencia total a 7=independencia completa.'},
+Por:
+{id:'fim',nombre:'FIM-FAM (Medida de Independencia Funcional Avanzada)',max:210,area:'Independencia funcional',desc:'30 ítems: motor(16) y cognitivo(14, incluye ítems FAM ampliados). Escala 1-7.'},
+
+Reemplazar:
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:0,area:'Perfil ocupacional global',desc:'Basado en MOHO. 6 secciones: motivación, patrones, comunicación, habilidades procesamiento, motor, ambiente.'},
+Por:
+{id:'mohost',nombre:'MOHOST (Perfil Ocupacional Humano)',max:96,area:'Perfil ocupacional global',desc:'24 ítems en 6 dimensiones (4 c/u), escala 1-4.'},
+
+Reemplazar:
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:0,area:'Interacción social',desc:'20 habilidades de comunicación e interacción social observadas en contexto grupal o con terapeuta.'},
+Por:
+{id:'acis',nombre:'ACIS (Habilidades de Interacción)',max:80,area:'Interacción social',desc:'20 ítems en 3 dominios (Corporalidad, Intercambio de Información, Relaciones), escala 1-4.'},
+
+Reemplazar:
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:0,area:'Funciones ejecutivas en AVD',desc:'Evalúa funciones ejecutivas aplicadas a tareas cotidianas...'},
+Por:
+{id:'efpt',nombre:'Executive Function Performance Test (EFPT)',max:100,area:'Funciones ejecutivas en AVD',desc:'Matriz de 4 tareas x 5 funciones ejecutivas, escala 0-5 por celda. IMPORTANTE: 0=mejor desempeño y 100=peor (dirección inversa a la mayoría de las demás).'},
+
+Sin cambios (ya coinciden): lawton (max:8), katz (max:6), weefim (max:126).
+
+==================================================================
+TERAPIA DEL LENGUAJE
+==================================================================
+Reemplazar:
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:200,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución. Puntaje ≤177 riesgo aspiración, ≤168 aspiración probable.'},
+Por:
+{id:'masa',nombre:'MASA (Mann Assessment of Swallowing)',max:240,area:'Deglución clínica',desc:'24 ítems de evaluación clínica de deglución (puntuación ponderada por ítem). Nota: fuente original citaba máximo 200, la suma real de los ítems documentados da 240.'},
+
+Reemplazar:
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:8,area:'Deglución radiológica',desc:'8 parámetros videofluoroscópicos...'},
+Por:
+{id:'vfss',nombre:'VFSS Score (Videofluoroscopia)',max:10,area:'Deglución radiológica',desc:'4 parámetros con ponderación biomecánica distinta: sello labial(1), residuo valecular(2), penetración laríngea(2), aspiración traqueal(5).'},
+
+Sin cambios (ya coinciden): token (max:36), guss (max:20), doss (max:7).
+
+==================================================================
+PSICOLOGÍA Y NEUROPSICOLOGÍA
+==================================================================
+Estas escalas necesitan AGREGARSE (no existían antes en BANCO):
+
+En psicologia, agregar:
+{id:'zarit',nombre:'Escala de Zarit (Carga del Cuidador)',max:88,area:'Sobrecarga del cuidador',desc:'22 ítems (0-4 c/u). ≤46 sin sobrecarga, 47-55 leve, ≥56 intensa.'},
+
+En neuropsicologia, agregar:
+{id:'reloj',nombre:'Test del Reloj (Clock Drawing Test)',max:10,area:'Función ejecutiva y visoconstrucción',desc:'10 ítems binarios. ≥7 normal, ≤6 positivo para deterioro cognitivo/apraxia.'},
+{id:'ace3',nombre:'ACE-III (Addenbrooke\\'s Cognitive Examination)',max:100,area:'Cribado cognitivo avanzado',desc:'100 puntos en 5 dominios. ≥88 normal, 83-87 sospecha, <83 predictivo de demencia.'},
+
+Sin cambios (ya coinciden): mmse (max:30), rbmt (max:24), bads (max:24).
+
+==================================================================
+RESUMEN: ¿cómo aplicar todo esto?
+==================================================================
+Busca cada línea "ANTES/Reemplazar" en tu archivo real (Ctrl+F en
+GitHub) y sustitúyela por la versión "DESPUÉS/Por". Para las que
+dicen "agregar", solo pega la línea nueva dentro del arreglo de la
+especialidad correspondiente (junto a las demás, respetando la
+coma al final).
