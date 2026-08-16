@@ -1,0 +1,88 @@
+/* ============================================================
+   REEMPLAZO DE 'rmdq' Y 'rivermead' EN ITEMS_DETALLE
+   ============================================================
+   Busca cada uno por su id ("'rmdq':{" y "'rivermead':{"), bórralos
+   completos (hasta el "}," que cierra cada uno) y pega estos en su
+   lugar. La lógica de puntaje (interp) es la misma de siempre.
+   ============================================================ */
+
+'rmdq':{
+secciones:[
+{n:'Roland-Morris — marcar si la afirmación describe su estado HOY (1=Sí, 0=No)',items:[
+{t:'1. Me quedo en casa la mayor parte del día debido a mi dolor de espalda',ops:[0,1]},
+{t:'2. Cambio de posición con frecuencia para tratar de estar cómodo con mi espalda',ops:[0,1]},
+{t:'3. Camino más despacio de lo normal debido a mi dolor de espalda',ops:[0,1]},
+{t:'4. Debido a mi espalda, no hago ninguna de las tareas que suelo hacer en casa',ops:[0,1]},
+{t:'5. Debido a mi espalda, uso el pasamanos para subir escaleras',ops:[0,1]},
+{t:'6. Debido a mi espalda, me acuesto a descansar con más frecuencia de lo normal',ops:[0,1]},
+{t:'7. Debido a mi espalda, tengo que sostenerme de algo para levantarme de una silla',ops:[0,1]},
+{t:'8. Debido a mi espalda, trato de que otras personas hagan las cosas por mí',ops:[0,1]},
+{t:'9. Me visto más despacio de lo normal debido a mi dolor de espalda',ops:[0,1]},
+{t:'10. Debido a mi espalda, estoy de pie sólo por períodos cortos de tiempo',ops:[0,1]},
+{t:'11. Debido a mi espalda, trato de no agacharme o arrodillarme',ops:[0,1]},
+{t:'12. Me resulta difícil levantarme de una silla debido a mi espalda',ops:[0,1]},
+{t:'13. Me duele la espalda casi todo el tiempo',ops:[0,1]},
+{t:'14. Me cuesta darme vuelta en la cama debido a mi dolor de espalda',ops:[0,1]},
+{t:'15. No tengo muy buen apetito debido a mi dolor de espalda',ops:[0,1]},
+{t:'16. Tengo dificultad para ponerme las medias/calcetines debido a mi dolor de espalda',ops:[0,1]},
+{t:'17. Sólo camino distancias cortas debido a mi dolor de espalda',ops:[0,1]},
+{t:'18. Duermo peor de lo normal debido a mi dolor de espalda',ops:[0,1]},
+{t:'19. Debido a mi dolor de espalda, me visto con la ayuda de otra persona',ops:[0,1]},
+{t:'20. Estoy sentado la mayor parte del día debido a mi dolor de espalda',ops:[0,1]},
+{t:'21. Debido a mi dolor de espalda, evito las tareas pesadas de la casa',ops:[0,1]},
+{t:'22. Debido a mi dolor de espalda, estoy más irritable y de mal humor que lo habitual',ops:[0,1]},
+{t:'23. Debido a mi dolor de espalda, subo las escaleras más despacio de lo normal',ops:[0,1]},
+{t:'24. Me quedo en la cama la mayor parte del día debido a mi dolor de espalda',ops:[0,1]},
+]},
+],
+interp:(p)=>p<4?{t:'Incapacidad muy leve por dolor lumbar.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=8?{t:'Incapacidad leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=16?{t:'Incapacidad moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Incapacidad severa por dolor lumbar. Evaluar factores psicosociales asociados.',bg:'#FFF5F5',c:'#C53030'},
+},
+'rivermead':{
+secciones:[
+{n:'Función Gruesa (13 ítems, Sí=1/No=0, detener tras 3 fallos consecutivos)',items:[
+{t:'1. Sentarse sin apoyo, en el borde de la cama, pies sin soporte',ops:[0,1]},
+{t:'2. De tumbado a sentado en el borde de la cama',ops:[0,1]},
+{t:'3. De sentado a de pie (15 seg para levantarse y mantenerse 15 seg)',ops:[0,1]},
+{t:'4. Transferencia de silla de ruedas a silla, hacia el lado no afectado',ops:[0,1]},
+{t:'5. Transferencia de silla de ruedas a silla, hacia el lado afectado',ops:[0,1]},
+{t:'6. Caminar 10m en interiores con ayuda técnica',ops:[0,1]},
+{t:'7. Subir escaleras de forma independiente',ops:[0,1]},
+{t:'8. Caminar 10m en interiores sin ayuda técnica',ops:[0,1]},
+{t:'9. Caminar 10m, recoger una bolsa del suelo, girar y volver',ops:[0,1]},
+{t:'10. Caminar 40m en exteriores',ops:[0,1]},
+{t:'11. Subir y bajar 4 escalones',ops:[0,1]},
+{t:'12. Correr 10m de forma simétrica',ops:[0,1]},
+{t:'13. Saltar en un pie (pierna afectada) 5 veces en el mismo sitio',ops:[0,1]},
+]},
+{n:'Pierna y Tronco (10 ítems, evaluar todos aunque haya 3 fallos seguidos)',items:[
+{t:'1. Rodar hacia el lado afectado',ops:[0,1]},
+{t:'2. Rodar hacia el lado no afectado',ops:[0,1]},
+{t:'3. Media puente (elevar cadera con apoyo en pierna afectada)',ops:[0,1]},
+{t:'4. De sentado a de pie sin usar los brazos',ops:[0,1]},
+{t:'5. En semi-flexión, levantar la pierna afectada y devolverla a la posición',ops:[0,1]},
+{t:'6. De pie, subir y bajar la pierna no afectada de un bloque',ops:[0,1]},
+{t:'7. De pie, golpear el suelo levemente con el pie no afectado 5 veces',ops:[0,1]},
+{t:'8. Acostado, dorsiflexión del tobillo afectado con la pierna flexionada',ops:[0,1]},
+{t:'9. Acostado, dorsiflexión del tobillo afectado con la pierna extendida',ops:[0,1]},
+{t:'10. De pie con cadera afectada en neutro, flexionar la rodilla afectada',ops:[0,1]},
+]},
+{n:'Brazo (15 ítems, detener tras 3 fallos consecutivos)',items:[
+{t:'1. Acostado, protraer la cintura escapular con el brazo en elevación',ops:[0,1]},
+{t:'2. Acostado, mantener el brazo extendido en elevación al menos 2 seg',ops:[0,1]},
+{t:'3. Flexión y extensión del codo, en la misma posición del ítem anterior',ops:[0,1]},
+{t:'4. Sentado, codo al costado, pronación y supinación del antebrazo',ops:[0,1]},
+{t:'5. Alcanzar hacia adelante, tomar una pelota grande con ambas manos y soltarla',ops:[0,1]},
+{t:'6. Estirar el brazo, tomar una pelota de tenis, soltarla al lado afectado y repetir 5 veces',ops:[0,1]},
+{t:'7. Mismo ejercicio anterior con un lápiz',ops:[0,1]},
+{t:'8. Recoger un papel de la mesa y soltarlo, 5 veces',ops:[0,1]},
+{t:'9. Cortar plastilina con cuchillo y tenedor y ponerla en un recipiente',ops:[0,1]},
+{t:'10. De pie, hacer rebotar una pelota grande contra el suelo 5 veces seguidas',ops:[0,1]},
+{t:'11. Oponer el pulgar con cada dedo más de 14 veces en 10 segundos',ops:[0,1]},
+{t:'12. Supinación y pronación sobre la palma de la mano sana, 20 veces en 10 seg',ops:[0,1]},
+{t:'13. De pie, brazo afectado abducido a 90° contra la pared, girar el cuerpo hacia la pared',ops:[0,1]},
+{t:'14. Colocar una cuerda alrededor de la cabeza y atar un lazo detrás',ops:[0,1]},
+{t:'15. Palmas juntas tipo "pastelito" 7 veces en 15 segundos',ops:[0,1]},
+]},
+],
+interp:(p)=>p>=30?{t:'Recuperación motora global alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=15?{t:'Recuperación motora moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Recuperación motora severamente limitada.',bg:'#FFF5F5',c:'#C53030'},
+},
