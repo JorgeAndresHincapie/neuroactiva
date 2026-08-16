@@ -1,0 +1,77 @@
+CAMBIO EN TU pruebas.html — función recalcular() (línea 742 aprox.)
+==================================================================
+Este es el ÚNICO cambio necesario al motor para soportar el Grupo B.
+Es seguro: si una prueba NO tiene "calc", sigue funcionando exacto
+igual que ahora (suma plana). Solo cambia el comportamiento para
+las pruebas que SÍ tengan una función "calc" personalizada.
+
+ANTES:
+function recalcular(si){
+const s=sesion[si];
+const total=Object.values(s.respuestas).reduce((a,b)=>a+b,0);
+s.puntaje=total;
+document.getElementById(`pt-${si}`).textContent=total;
+const det=ITEMS_DETALLE[s.escalaId];
+if(det) det.secciones.forEach((sec,seci)=>{
+const st=Object.entries(s.respuestas).filter(([k])=>k.startsWith(`${seci}-`)).reduce((a,[,v])=>a+v,0);
+const el=document.getElementById(`ss-${si}-${seci}`);
+if(el)el.textContent=`${st} pts`;
+});
+if(s.info.max>0){
+const pct=Math.round((total/s.info.max)*100);
+const rf=document.getElementById(`rf-${si}`);
+if(rf){rf.style.width=pct+'%';rf.style.background=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';}
+}
+const iF=ITEMS_DETALLE[s.escalaId]?.interp;
+if(iF){
+const r=iF(total);
+const ib=document.getElementById(`ib-${si}`);
+if(ib){ib.style.background=r.bg;ib.style.color=r.c;ib.textContent=r.t;}
+}
+actualizarComparador();
+}
+
+DESPUÉS:
+function recalcular(si){
+const s=sesion[si];
+const det=ITEMS_DETALLE[s.escalaId];
+let total;
+if(det&&typeof det.calc==='function'){
+total=det.calc(s.respuestas);
+}else{
+total=Object.values(s.respuestas).reduce((a,b)=>a+b,0);
+}
+s.puntaje=total;
+document.getElementById(`pt-${si}`).textContent=total;
+if(det) det.secciones.forEach((sec,seci)=>{
+const st=Object.entries(s.respuestas).filter(([k])=>k.startsWith(`${seci}-`)).reduce((a,[,v])=>a+v,0);
+const el=document.getElementById(`ss-${si}-${seci}`);
+if(el)el.textContent=`${st} pts`;
+});
+if(s.info.max>0){
+const pct=Math.round((total/s.info.max)*100);
+const rf=document.getElementById(`rf-${si}`);
+if(rf){rf.style.width=pct+'%';rf.style.background=pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';}
+}
+const iF=ITEMS_DETALLE[s.escalaId]?.interp;
+if(iF){
+const r=iF(total);
+const ib=document.getElementById(`ib-${si}`);
+if(ib){ib.style.background=r.bg;ib.style.color=r.c;ib.textContent=r.t;}
+}
+actualizarComparador();
+}
+
+==================================================================
+QUÉ CAMBIÓ EXACTAMENTE: se agregaron 5 líneas al principio (el "if
+det&&typeof det.calc==='function'") y se movió la declaración de
+"det" antes de calcular "total" en vez de después. El resto de la
+función queda IDÉNTICO.
+
+CÓMO SE USA: en cualquier prueba de ITEMS_DETALLE, además de
+"secciones" e "interp", se puede agregar una propiedad "calc" que
+sea una función. Esa función recibe el objeto "respuestas" completo
+(las mismas claves "seccionIndex-itemIndex" de siempre) y devuelve
+el número que se debe usar como puntaje total, con la lógica que
+sea necesaria (fórmulas ponderadas, subtotales, etc.) en vez de la
+simple suma de todos los valores.
