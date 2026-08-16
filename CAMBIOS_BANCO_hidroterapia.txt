@@ -1,0 +1,61 @@
+CAMBIOS EN TU BANCO (sección hidroterapia, líneas 252-261 aprox.)
+==================================================================
+Reemplaza estas líneas exactas por las nuevas (max y desc actualizados
+para reflejar el protocolo oficial completo que investigamos):
+
+ANTES:
+{id:'wota1',nombre:'Halliwick WOTA1',max:20,area:'Habilidades acuáticas básicas',desc:'10 ítems del Aquatic Observational Tool para ajuste mental, equilibrio y movimiento básico en agua.'},
+
+DESPUÉS:
+{id:'wota1',nombre:'Halliwick WOTA1',max:81,area:'Habilidades acuáticas básicas',desc:'27 ítems del Water Orientation Test Alyn 1: adaptación mental, control respiratorio, equilibrio/progresión y estilos de natación.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'wota2',nombre:'Halliwick WOTA2',max:40,area:'Habilidades acuáticas avanzadas',desc:'20 ítems para habilidades avanzadas del concepto Halliwick: control rotacional, nado, propulsión.'},
+
+DESPUÉS:
+{id:'wota2',nombre:'Halliwick WOTA2',max:81,area:'Habilidades acuáticas avanzadas',desc:'27 ítems del Water Orientation Test Alyn 2: continuación del WOTA1, mismo formato y puntaje máximo (81).'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:52,area:'Natación funcional',desc:'Evalúa capacidad de natación funcional como herramienta terapéutica neurológica.'},
+
+DESPUÉS:
+{id:'swis',nombre:'Swim Water Independence Scale (SWIS)',max:77,area:'Natación funcional',desc:'11 ítems con escala tipo FIM (1-7) adaptada al medio acuático: adaptación, entrada/salida, respiración, flotación, propulsión, control postural.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'fear-w',nombre:'Fear of Water Scale (FWS)',max:10,area:'Ansiedad acuática',desc:'Nivel de miedo/ansiedad al agua (0=ninguno, 10=pánico). Guía la progresión del programa.'},
+
+DESPUÉS (nota: se dividió en 2 registros separados, niño y adulto,
+ya que son cuestionarios distintos con rangos distintos):
+
+{id:'fear-w-nino',nombre:'Fear of Water Scale — Niños (FWS-Child)',max:30,area:'Ansiedad acuática infantil',desc:'10 ítems (escala 1-3) para niños de 4-12 años. Nivel Verde/Amarillo/Rojo de miedo al agua.'},
+{id:'fear-w-adulto',nombre:'Fear of Water Scale — Adultos (FWS-Adult)',max:40,area:'Ansiedad acuática adultos',desc:'10 ítems (escala 0-4) de autopercepción y respuestas somáticas de ansiedad acuática en adultos.'},
+
+IMPORTANTE: como esto agrega un id nuevo (fear-w-adulto) en vez de
+reemplazar uno solo, debes agregar la línea del segundo registro
+también, no solo reemplazar 'fear-w'.
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:100,area:'Resultado hidroterapia',desc:'Medida de resultado de fisioterapia acuática basada en criterios APTA. Funcionalidad global.'},
+
+DESPUÉS:
+{id:'apta-h',nombre:'APTA Aquatic Outcome Measure',max:81,area:'Resultado hidroterapia',desc:'27 ítems (escala 0-3) en 3 secciones: adaptación mental/entrada, control postural/rotaciones, desplazamiento/propulsión.'},
+
+------------------------------------------------------------------
+
+ANTES:
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:50,area:'Progresión hidroterapia',desc:'Escala de progresión clínica específica para hidroterapia neurológica. 10 dominios de 5 pts.'},
+
+DESPUÉS:
+{id:'hydrophy',nombre:'HydroPhysio Outcome Scale',max:0,area:'Progresión hidroterapia',desc:'Registro de sesión en cinta subacuática: nivel de inmersión, desempeño funcional (0-4), dolor y comparación evolutiva entre sesiones. No es un puntaje de suma simple.'},
+
+NOTA: hydrophy pasa a max:0 (como TUG o 6MWT) porque es un registro de
+sesión, no una escala sumable — no lleva ITEMS_DETALLE, se queda con
+el campo de entrada libre o requiere una vista personalizada (Grupo B).

@@ -1,0 +1,202 @@
+/* ============================================================
+   BLOQUE PARA PEGAR DENTRO DE ITEMS_DETALLE
+   ============================================================
+   Aplicar PRIMERO los cambios de CAMBIOS_BANCO_hidroterapia.txt
+   en tu BANCO, luego pegar este bloque.
+   ============================================================ */
+
+'borg-rpe':{
+secciones:[
+{n:'Percepción Subjetiva del Esfuerzo (Escala de Borg 6-20)',items:[
+{t:'Nivel de esfuerzo percibido',ops:[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]},
+]},
+],
+interp:(p)=>p<=8?{t:'Esfuerzo extremadamente ligero. Calentamiento o actividad muy suave.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=12?{t:'Esfuerzo ligero. Actividad cómoda y sostenible.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=14?{t:'Esfuerzo moderado. Rango ideal para rehabilitación aeróbica.',bg:'#FFF3EB',c:'#C05621'}:p<=17?{t:'Esfuerzo intenso. Vigilar tolerancia del paciente.',bg:'#FFF3EB',c:'#C05621'}:{t:'Esfuerzo muy intenso a máximo. Solo sostenible brevemente.',bg:'#FFF5F5',c:'#C53030'},
+},
+'barthel-a':{
+secciones:[
+{n:'Actividades Básicas Acuáticas',items:[
+{t:'Comer y beber',ops:[0,5,10]},
+{t:'Lavarse / Bañarse',ops:[0,5]},
+{t:'Arreglo personal',ops:[0,5]},
+{t:'Vestirse',ops:[0,5,10]},
+{t:'Deposición',ops:[0,5,10]},
+{t:'Micción',ops:[0,5,10]},
+{t:'Uso del retrete',ops:[0,5,10]},
+{t:'Traslado al agua',ops:[0,5,10,15]},
+{t:'Deambulación',ops:[0,5,10,15]},
+{t:'Escaleras de acceso',ops:[0,5,10]},
+]},
+],
+interp:(p)=>p===100?{t:'Independencia acuática total.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=91?{t:'Dependencia acuática leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=61?{t:'Dependencia acuática moderada.',bg:'#FFF3EB',c:'#C05621'}:p>=21?{t:'Dependencia acuática severa.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia acuática total.',bg:'#FFF5F5',c:'#C53030'},
+},
+'wota1':{
+secciones:[
+{n:'A. Adaptación Mental General al Agua',items:[
+{t:'Adaptación Mental General al Agua (meter ojos en el agua sin gafas)',ops:[0,1,2,3]},
+]},
+{n:'B. Control de la Respiración',items:[
+{t:'Soplar burbujas por la boca (5s)',ops:[0,1,2,3]},
+{t:'Soplar burbujas por la nariz (5s)',ops:[0,1,2,3]},
+{t:'Soplar burbujas con la cara/cabeza dentro del agua (5s)',ops:[0,1,2,3]},
+{t:'Exhalación en el agua acompasada con movimiento (10 veces)',ops:[0,1,2,3]},
+{t:'Exhalación alternando nariz y boca (3 ciclos)',ops:[0,1,2,3]},
+]},
+{n:'C. Control del Equilibrio y Progresión',items:[
+{t:'Entrada en el agua',ops:[0,1,2,3]},
+{t:'Salida del agua',ops:[0,1,2,3]},
+{t:'Posición de silla (sentado en el agua, 20s)',ops:[0,1,2,3]},
+{t:'Progresión por el borde de la piscina, usando las manos',ops:[0,1,2,3]},
+{t:'Andar a través de la piscina',ops:[0,1,2,3]},
+{t:'Saltar a través de la piscina',ops:[0,1,2,3]},
+{t:'Saltar y zambullirse dentro y fuera del agua',ops:[0,1,2,3]},
+{t:'Cambio de posición: bipedestación → silla → flotación bocarriba',ops:[0,1,2,3]},
+{t:'Flotación bocarriba estática (5s)',ops:[0,1,2,3]},
+{t:'Cambio de posición: flotación bocarriba a bipedestación',ops:[0,1,2,3]},
+{t:'Deslizarse en prono desde la pared o bipedestación (5s)',ops:[0,1,2,3]},
+{t:'Cambio de posición: flotación prono a bipedestación',ops:[0,1,2,3]},
+{t:'Rotación longitudinal — bocarriba a prono a bocarriba (lado 1)',ops:[0,1,2,3]},
+{t:'Rotación longitudinal — repetición hacia el otro lado (lado 2)',ops:[0,1,2,3]},
+{t:'Rotación combinada — bocabajo a bocarriba',ops:[0,1,2,3]},
+{t:'Rotación combinada — bocarriba a bocabajo con cabeza sumergida, luego de pie',ops:[0,1,2,3]},
+{t:'Inmersión, tocando el fondo de la piscina con ambas manos',ops:[0,1,2,3]},
+]},
+{n:'D. Progresión / Estilos de Natación',items:[
+{t:'Progresión sencilla bocarriba',ops:[0,1,2,3]},
+{t:'Estilo libre (Crol)',ops:[0,1,2,3]},
+{t:'Estilo espalda',ops:[0,1,2,3]},
+{t:'Estilo braza',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p>=66?{t:'Independencia acuática alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=29?{t:'Independencia acuática intermedia. Priorizar rotaciones y control de tronco.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia acuática alta. Enfocar en adaptación mental y respiración.',bg:'#FFF5F5',c:'#C53030'},
+},
+'wota2':{
+secciones:[
+{n:'A. Adaptación Mental',items:[
+{t:'Adaptación mental general al agua',ops:[0,1,2,3]},
+]},
+{n:'B. Control de la Respiración',items:[
+{t:'Soplar burbujas por la boca (>5s)',ops:[0,1,2,3]},
+{t:'Soplar burbujas por la nariz (>5s)',ops:[0,1,2,3]},
+{t:'Soplar burbujas con la cabeza/cara dentro del agua (>5s)',ops:[0,1,2,3]},
+{t:'Exhalación en el agua acompasada con movimiento (10 veces)',ops:[0,1,2,3]},
+{t:'Exhalación alternando nariz y boca (3 ciclos)',ops:[0,1,2,3]},
+]},
+{n:'C. Competencias — Control del Equilibrio y Movimiento',items:[
+{t:'Entrada en el agua',ops:[0,1,2,3]},
+{t:'Salida del agua',ops:[0,1,2,3]},
+{t:'Posición de silla (20s)',ops:[0,1,2,3]},
+{t:'Progresión por el borde de la piscina usando las manos (3m)',ops:[0,1,2,3]},
+{t:'Andar a través de la piscina (6m)',ops:[0,1,2,3]},
+{t:'Saltar a través de la piscina (6m)',ops:[0,1,2,3]},
+{t:'Saltar y zambullirse dentro y fuera del agua (5 veces)',ops:[0,1,2,3]},
+{t:'Cambio de posición de bipedestación a flotación bocarriba',ops:[0,1,2,3]},
+{t:'Flotación bocarriba estática (5s)',ops:[0,1,2,3]},
+{t:'Cambio de posición de flotación bocarriba a bipedestación',ops:[0,1,2,3]},
+{t:'Deslizamiento bocabajo (5s, cabeza sumergida)',ops:[0,1,2,3]},
+{t:'Cambio de posición de flotación prono a bipedestación',ops:[0,1,2,3]},
+{t:'Rotación longitudinal derecha',ops:[0,1,2,3]},
+{t:'Rotación longitudinal izquierda',ops:[0,1,2,3]},
+{t:'Rotación combinada: bipedestación → prono → rotación longitudinal',ops:[0,1,2,3]},
+{t:'Rotación combinada: bocarriba → bocabajo → bipedestación',ops:[0,1,2,3]},
+{t:'Inmersión — tocar el fondo con ambas manos',ops:[0,1,2,3]},
+]},
+{n:'D. Progresión / Estilos de Natación',items:[
+{t:'Progresión sencilla bocarriba',ops:[0,1,2,3]},
+{t:'Estilo libre',ops:[0,1,2,3]},
+{t:'Estilo espalda',ops:[0,1,2,3]},
+{t:'Estilo braza',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p>=66?{t:'Independencia acuática alta.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=29?{t:'Independencia acuática intermedia.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia acuática alta.',bg:'#FFF5F5',c:'#C53030'},
+},
+'swis':{
+secciones:[
+{n:'Habilidades en el Medio Acuático (escala FIM 1-7)',items:[
+{t:'Adaptación General',ops:[1,2,3,4,5,6,7]},
+{t:'Entrada y Salida',ops:[1,2,3,4,5,6,7]},
+{t:'Control Respiratorio',ops:[1,2,3,4,5,6,7]},
+{t:'Flotación Supina',ops:[1,2,3,4,5,6,7]},
+{t:'Flotación Prona',ops:[1,2,3,4,5,6,7]},
+{t:'Propulsión / Chapoteo',ops:[1,2,3,4,5,6,7]},
+{t:'Inmersión Total',ops:[1,2,3,4,5,6,7]},
+{t:'Control Postural / Rotación',ops:[1,2,3,4,5,6,7]},
+{t:'Progreso en la Pared',ops:[1,2,3,4,5,6,7]},
+{t:'Bipedestación',ops:[1,2,3,4,5,6,7]},
+{t:'Control de Material Adaptado',ops:[1,2,3,4,5,6,7]},
+]},
+],
+interp:(p)=>p>=66?{t:'Independencia (Completa o Modificada).',bg:'#E8F5F0',c:'#1A7A5E'}:p>=44?{t:'Dependencia Moderada / Leve.',bg:'#FFF3EB',c:'#C05621'}:p>=22?{t:'Dependencia Severa.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia Total.',bg:'#FFF5F5',c:'#C53030'},
+},
+'fear-w-nino':{
+secciones:[
+{n:'Escala de Miedo al Agua para Niños (1=No nada, 2=Un poco, 3=Sí mucho)',items:[
+{t:'¿Te da miedo cambiarte de ropa y pensar que vas a entrar a la piscina?',ops:[1,2,3]},
+{t:'¿Sientes que el agua está "muy fría" o te da miedo cuando te salpica la cara?',ops:[1,2,3]},
+{t:'¿Te asusta meter la boca o la nariz debajo del agua para hacer burbujas?',ops:[1,2,3]},
+{t:'¿Te da miedo abrir los ojos cuando estás sumergido?',ops:[1,2,3]},
+{t:'¿Sientes que te vas a ir al fondo si el profesor te suelta en el agua?',ops:[1,2,3]},
+{t:'¿Te asusta alejarte de la pared de la piscina o del borde?',ops:[1,2,3]},
+{t:'¿Te pones tenso, duro o te dan ganas de llorar si el agua te llega al cuello?',ops:[1,2,3]},
+{t:'¿Te da miedo levantar los pies del suelo para intentar flotar como una estrella?',ops:[1,2,3]},
+{t:'¿Te asusta ver el fondo de la piscina donde el agua se ve más oscura/profunda?',ops:[1,2,3]},
+{t:'¿Prefieres quedarte sentado afuera mirando en lugar de jugar dentro del agua?',ops:[1,2,3]},
+]},
+],
+interp:(p)=>p<=15?{t:'Nivel Verde — Miedo bajo / Buena adaptabilidad.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=22?{t:'Nivel Amarillo — Miedo moderado. Requiere juego y acompañamiento táctil.',bg:'#FFF3EB',c:'#C05621'}:{t:'Nivel Rojo — Miedo severo/Bloqueo. Priorizar familiarización afectiva.',bg:'#FFF5F5',c:'#C53030'},
+},
+'fear-w-adulto':{
+secciones:[
+{n:'Escala de Miedo al Agua para Adultos (0=Nunca, 1=Rara vez, 2=A veces, 3=Frecuentemente, 4=Siempre)',items:[
+{t:'Experimento ansiedad anticipatoria antes de ir a la sesión',ops:[0,1,2,3,4]},
+{t:'Siento taquicardia o respiración acelerada apenas entro al vaso de la piscina',ops:[0,1,2,3,4]},
+{t:'Mis músculos se tensan involuntariamente',ops:[0,1,2,3,4]},
+{t:'Evito de forma activa que el agua toque mis orejas, ojos o vías respiratorias',ops:[0,1,2,3,4]},
+{t:'Siento necesidad de mantener contacto visual con un punto de apoyo fijo',ops:[0,1,2,3,4]},
+{t:'Me invade sensación de pérdida de control si no toco el fondo con firmeza',ops:[0,1,2,3,4]},
+{t:'Asocio el agua profunda con ideas catastróficas (ahogamiento, falta de aire)',ops:[0,1,2,3,4]},
+{t:'Dependo críticamente de un elemento auxiliar para poder relajar el cuerpo',ops:[0,1,2,3,4]},
+{t:'Me cuesta ejecutar giros o cambios de posición por temor a desorientarme',ops:[0,1,2,3,4]},
+{t:'Siento mareo o inestabilidad psicológica si el agua se mueve bruscamente',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<=10?{t:'Ansiedad Controlable / Adaptación básica lograda.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=25?{t:'Ansiedad Moderada. Requiere técnicas de control respiratorio.',bg:'#FFF3EB',c:'#C05621'}:{t:'Ansiedad Fóbica Alta / Bloqueo psicomotor. Priorizar desensibilización sistemática.',bg:'#FFF5F5',c:'#C53030'},
+},
+'apta-h':{
+secciones:[
+{n:'I. Adaptación Mental y Entrada',items:[
+{t:'Entrada independiente a la piscina',ops:[0,1,2,3]},
+{t:'Caminar o desplazarse en el agua manteniendo el equilibrio vertical',ops:[0,1,2,3]},
+{t:'Mojarse la cara voluntariamente con las manos',ops:[0,1,2,3]},
+{t:'Soplar burbujas metiendo la boca en el agua',ops:[0,1,2,3]},
+{t:'Soplar burbujas metiendo la boca y la nariz simultáneamente',ops:[0,1,2,3]},
+{t:'Inmersión total de la cabeza durante al menos 3 segundos',ops:[0,1,2,3]},
+{t:'Abrir los ojos debajo del agua para mirar un objeto',ops:[0,1,2,3]},
+]},
+{n:'II. Control Postural y Rotaciones',items:[
+{t:'Transición de pie a flotación prona',ops:[0,1,2,3]},
+{t:'Mantener flotación prona durante 5 segundos',ops:[0,1,2,3]},
+{t:'Rotación longitudinal en prono',ops:[0,1,2,3]},
+{t:'Transición de flotación prona a la posición de pie de forma autónoma',ops:[0,1,2,3]},
+{t:'Transición de pie a flotación supina',ops:[0,1,2,3]},
+{t:'Mantener flotación supina durante 5 segundos',ops:[0,1,2,3]},
+{t:'Rotación longitudinal en supino',ops:[0,1,2,3]},
+{t:'Transición de flotación supina a la posición de pie de forma autónoma',ops:[0,1,2,3]},
+{t:'Rotación transversal: supina a prona',ops:[0,1,2,3]},
+{t:'Rotación transversal: prona a supina',ops:[0,1,2,3]},
+{t:'Enderezamiento sagital',ops:[0,1,2,3]},
+]},
+{n:'III. Desplazamiento y Propulsión',items:[
+{t:'Flotación pasiva',ops:[0,1,2,3]},
+{t:'Desplazamiento lateral sujeto del borde de la piscina',ops:[0,1,2,3]},
+{t:'Propulsión en posición prona usando solo las piernas',ops:[0,1,2,3]},
+{t:'Propulsión en posición prona usando solo los brazos',ops:[0,1,2,3]},
+{t:'Propulsión en posición supina usando solo las piernas',ops:[0,1,2,3]},
+{t:'Propulsión en posición supina usando solo los brazos',ops:[0,1,2,3]},
+{t:'Combinación de brazos y piernas en posición prona',ops:[0,1,2,3]},
+{t:'Combinación de brazos y piernas en posición supina',ops:[0,1,2,3]},
+{t:'Salida independiente de la piscina hacia la superficie seca',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p>=62?{t:'Independencia Alta. Listo para estilos de natación adaptada.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=29?{t:'Independencia Intermedia. Priorizar trabajo de rotaciones.',bg:'#FFF3EB',c:'#C05621'}:{t:'Dependencia Alta. Centrar en adaptación mental y respiración.',bg:'#FFF5F5',c:'#C53030'},
+},
