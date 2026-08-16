@@ -553,7 +553,6 @@ secciones:[
 ],
 interp:(p)=>p>=15?{t:'Función frontal normal.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=12?{t:'Disfunción frontal leve.',bg:'#FFF3EB',c:'#C05621'}:{t:'Disfunción frontal moderada-severa. Evaluación neuropsicológica completa indicada.',bg:'#FFF5F5',c:'#C53030'},
 },
-};
   /* ============================================================
    BLOQUE COMBINADO — 34 escalas nuevas (Grupo A + Grupo B)
    ============================================================
@@ -1733,6 +1732,7 @@ var nota=' (Cada sección se promedia, no se suma.)';
 return{t:'Promedio general: '+p+'%'+detalle+sugTxt+nota,bg:p>=70?'#E8F5F0':p>=40?'#FFF3EB':'#FFF5F5',c:p>=70?'#1A7A5E':p>=40?'#C05621':'#C53030'};
 },
 },
+};
 let currentUser=null,currentUserData=null,espActual=null,escalaSeleccionada=null,sesion=[];
 onAuthStateChanged(auth,async(user)=>{
 if(!user){window.location.href='index.html';return;}
