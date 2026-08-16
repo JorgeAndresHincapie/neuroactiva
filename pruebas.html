@@ -338,6 +338,7 @@ psicologia:[
 {id:'16pf',nombre:'16PF (Sixteen Personality Factors)',max:0,area:'Rasgos de personalidad',desc:'16 factores primarios de personalidad de Cattell. Ampliamente usado en contextos clínicos, laborales y educativos. Incluye 5 factores globales.'},
 {id:'scid5',nombre:'SCID-5 (Structured Clinical Interview DSM-5)',max:0,area:'Diagnóstico clínico estructurado',desc:'Gold estándar diagnóstico para trastornos mentales DSM-5. Entrevista estructurada para diagnósticos principales: depresión, ansiedad, TEPT, trastornos psicóticos, adictivos.'},
 {id:'mini',nombre:'MINI (Mini International Neuropsychiatric Interview)',max:0,area:'Cribado psiquiátrico rápido',desc:'Entrevista diagnóstica breve (15-30 min) para 17 trastornos psiquiátricos del DSM-5/CIE-10. Muy usada en APS y cuando no se dispone de tiempo para SCID-5.'},
+{id:'wais4',nombre:'WAIS-IV (Escala de Inteligencia de Wechsler para Adultos)',max:0,area:'Coeficiente intelectual',desc:'Gold estándar en evaluación de CI en adultos (16-90 años). 10 subtests centrales en 4 índices (Comprensión Verbal, Razonamiento Perceptivo, Memoria de Trabajo, Velocidad de Procesamiento) + CIT global. Requiere baremos normativos por edad y kit estandarizado; no se resume en checklist de puntos.'},
 ],
 neuropsicologia:[
 {id:'reloj',nombre:'Test del Reloj (Clock Drawing Test)',max:10,area:'Función ejecutiva y visoconstrucción',desc:'10 ítems binarios. ≥7 normal, ≤6 positivo para deterioro cognitivo/apraxia.'},
@@ -1287,6 +1288,284 @@ secciones:[
 ]},
 ],
 interp:(p)=>{var pct=Math.round(p/360*100);var nota=' (Protocolo MBGR sin puntos de corte normativos por edad publicados aún — interpretación orientativa según % del puntaje máximo posible, no del puntaje absoluto).';return pct<=10?{t:'Puntaje bajo ('+pct+'% del máximo). Compatible con motricidad orofacial dentro de parámetros esperados.'+nota,bg:'#E8F5F0',c:'#1A7A5E'}:pct<=25?{t:'Alteraciones leves ('+pct+'% del máximo) en uno o más componentes evaluados.'+nota,bg:'#E8F5F0',c:'#1A7A5E'}:pct<=45?{t:'Alteraciones moderadas ('+pct+'% del máximo). Se sugiere intervención fonoaudiológica dirigida.'+nota,bg:'#FFF3EB',c:'#C05621'}:{t:'Alteraciones severas ('+pct+'% del máximo) en la motricidad orofacial.'+nota,bg:'#FFF5F5',c:'#C53030'};},
+},
+
+// ---------------------------------------------------------------
+// De: ITEMS_DETALLE_psicologia_grupoB.js
+// ---------------------------------------------------------------
+'hamilton':{
+secciones:[
+{n:'Ítems calificados 0-4 (ausente a muy severo)',items:[
+{t:'1. Estado de ánimo depresivo (tristeza, desesperanza, desamparo)',ops:[0,1,2,3,4]},
+{t:'2. Sentimientos de culpa',ops:[0,1,2,3,4]},
+{t:'3. Ideación o conducta suicida',ops:[0,1,2,3,4]},
+{t:'7. Trabajo y actividades',ops:[0,1,2,3,4]},
+{t:'8. Enlentecimiento psicomotor (retardo)',ops:[0,1,2,3,4]},
+{t:'9. Agitación psicomotora',ops:[0,1,2,3,4]},
+{t:'10. Ansiedad psíquica',ops:[0,1,2,3,4]},
+{t:'11. Ansiedad somática',ops:[0,1,2,3,4]},
+{t:'15. Hipocondría',ops:[0,1,2,3,4]},
+]},
+{n:'Ítems calificados 0-2 (ausente a claramente presente)',items:[
+{t:'4. Insomnio precoz (conciliación)',ops:[0,1,2]},
+{t:'5. Insomnio intermedio',ops:[0,1,2]},
+{t:'6. Insomnio tardío (despertar precoz)',ops:[0,1,2]},
+{t:'12. Síntomas somáticos gastrointestinales',ops:[0,1,2]},
+{t:'13. Síntomas somáticos generales',ops:[0,1,2]},
+{t:'14. Síntomas genitales',ops:[0,1,2]},
+{t:'16. Pérdida de peso',ops:[0,1,2]},
+{t:'17. Insight (conciencia de enfermedad)',ops:[0,1,2]},
+]},
+],
+interp:(p)=>p<=7?{t:'Sin depresión clínicamente significativa.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=13?{t:'Depresión leve.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=18?{t:'Depresión moderada.',bg:'#FFF3EB',c:'#C05621'}:p<=22?{t:'Depresión severa.',bg:'#FFF5F5',c:'#C53030'}:{t:'Depresión muy severa.',bg:'#FFF5F5',c:'#C53030'},
+},
+'hars':{
+secciones:[
+{n:'Ítems calificados 0-4 (ausente a muy severo)',items:[
+{t:'1. Estado de ánimo ansioso (preocupación, irritabilidad)',ops:[0,1,2,3,4]},
+{t:'2. Tensión (sobresaltos, llanto fácil, temblor)',ops:[0,1,2,3,4]},
+{t:'3. Temores (a la oscuridad, extraños, multitudes, etc.)',ops:[0,1,2,3,4]},
+{t:'4. Insomnio',ops:[0,1,2,3,4]},
+{t:'5. Funciones intelectuales/cognitivas (dificultad de concentración, memoria)',ops:[0,1,2,3,4]},
+{t:'6. Estado de ánimo deprimido',ops:[0,1,2,3,4]},
+{t:'7. Síntomas somáticos musculares (dolores, rigidez)',ops:[0,1,2,3,4]},
+{t:'8. Síntomas somáticos sensoriales (zumbidos, visión borrosa)',ops:[0,1,2,3,4]},
+{t:'9. Síntomas cardiovasculares (palpitaciones, dolor precordial)',ops:[0,1,2,3,4]},
+{t:'10. Síntomas respiratorios (opresión torácica, sensación de ahogo)',ops:[0,1,2,3,4]},
+{t:'11. Síntomas gastrointestinales',ops:[0,1,2,3,4]},
+{t:'12. Síntomas genitourinarios',ops:[0,1,2,3,4]},
+{t:'13. Síntomas autonómicos (boca seca, sudoración, palidez)',ops:[0,1,2,3,4]},
+{t:'14. Comportamiento durante la entrevista (inquietud, tensión facial)',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<=17?{t:'Ansiedad leve o ausente.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=24?{t:'Ansiedad moderada.',bg:'#FFF3EB',c:'#C05621'}:p<=30?{t:'Ansiedad moderada-severa.',bg:'#FFF3EB',c:'#C05621'}:{t:'Ansiedad severa.',bg:'#FFF5F5',c:'#C53030'},
+},
+'dass21':{
+secciones:[
+{n:'Depresión (0=No me aplicó, 3=Me aplicó mucho)',items:[
+{t:'D1. Dificultad para sentir entusiasmo por algo',ops:[0,1,2,3]},
+{t:'D2. Dificultad para iniciar o motivarme a hacer cosas',ops:[0,1,2,3]},
+{t:'D3. Sensación de que no había nada que esperar con ilusión',ops:[0,1,2,3]},
+{t:'D4. Sentirme triste y decaído/a',ops:[0,1,2,3]},
+{t:'D5. Pérdida de interés en casi todo',ops:[0,1,2,3]},
+{t:'D6. Sentirme sin valor como persona',ops:[0,1,2,3]},
+{t:'D7. Sentir que la vida no tenía sentido',ops:[0,1,2,3]},
+]},
+{n:'Ansiedad',items:[
+{t:'A1. Sequedad de boca',ops:[0,1,2,3]},
+{t:'A2. Dificultad para respirar sin haber hecho esfuerzo físico',ops:[0,1,2,3]},
+{t:'A3. Temblor en las manos',ops:[0,1,2,3]},
+{t:'A4. Preocupación por situaciones que pudieran generar pánico o hacer el ridículo',ops:[0,1,2,3]},
+{t:'A5. Sensación de estar a punto de entrar en pánico',ops:[0,1,2,3]},
+{t:'A6. Percepción de los latidos del corazón sin haber hecho esfuerzo físico',ops:[0,1,2,3]},
+{t:'A7. Miedo sin motivo aparente',ops:[0,1,2,3]},
+]},
+{n:'Estrés',items:[
+{t:'E1. Dificultad para relajarme',ops:[0,1,2,3]},
+{t:'E2. Tendencia a reaccionar exageradamente ante las situaciones',ops:[0,1,2,3]},
+{t:'E3. Uso excesivo de energía nerviosa',ops:[0,1,2,3]},
+{t:'E4. Sentirme agitado/a',ops:[0,1,2,3]},
+{t:'E5. Dificultad para tolerar interrupciones en lo que estaba haciendo',ops:[0,1,2,3]},
+{t:'E6. Sentirme muy irritable',ops:[0,1,2,3]},
+{t:'E7. Dificultad para calmarme después de algo que me alteró',ops:[0,1,2,3]},
+]},
+],
+calc:function(respuestas){
+function s(seci,n){var t=0;for(var i=0;i<n;i++){t+=respuestas[seci+'-'+i]||0;}return t;}
+var dep=s(0,7),anx=s(1,7),str=s(2,7);
+window._dass21_ultimo={dep:dep*2,anx:anx*2,str:str*2};
+return dep+anx+str;
+},
+interp:function(p){
+var d=window._dass21_ultimo||{dep:0,anx:0,str:0};
+function band(v,c){return v<=c[0]?'Normal':v<=c[1]?'Leve':v<=c[2]?'Moderado':v<=c[3]?'Severo':'Extremadamente severo';}
+var depB=band(d.dep,[9,13,20,27]);
+var anxB=band(d.anx,[7,9,14,19]);
+var strB=band(d.str,[14,18,25,33]);
+var graves=[depB,anxB,strB].filter(function(b){return b==='Severo'||b==='Extremadamente severo';}).length;
+var texto='Depresión: '+depB+' ('+d.dep+') — Ansiedad: '+anxB+' ('+d.anx+') — Estrés: '+strB+' ('+d.str+'). Puntajes de subescala ya doblados (x2) para comparar con baremos DASS-42.';
+if(graves>0)return{t:texto,bg:'#FFF5F5',c:'#C53030'};
+if(depB!=='Normal'||anxB!=='Normal'||strB!=='Normal')return{t:texto,bg:'#FFF3EB',c:'#C05621'};
+return{t:texto,bg:'#E8F5F0',c:'#1A7A5E'};
+},
+},
+'pcl5':{
+secciones:[
+{n:'Intrusión',items:[
+{t:'1. Recuerdos repetidos y angustiantes del evento',ops:[0,1,2,3,4]},
+{t:'2. Sueños angustiantes repetidos relacionados con el evento',ops:[0,1,2,3,4]},
+{t:'3. Sentir/actuar como si el evento estuviera ocurriendo de nuevo (flashback)',ops:[0,1,2,3,4]},
+{t:'4. Malestar emocional intenso al recordar el evento',ops:[0,1,2,3,4]},
+{t:'5. Reacciones físicas fuertes al recordar el evento',ops:[0,1,2,3,4]},
+]},
+{n:'Evitación',items:[
+{t:'6. Evitar recuerdos, pensamientos o sentimientos relacionados con el evento',ops:[0,1,2,3,4]},
+{t:'7. Evitar recordatorios externos del evento (personas, lugares, conversaciones)',ops:[0,1,2,3,4]},
+]},
+{n:'Alteraciones negativas en cognición y estado de ánimo',items:[
+{t:'8. Dificultad para recordar partes importantes del evento',ops:[0,1,2,3,4]},
+{t:'9. Creencias negativas exageradas sobre sí mismo, otros o el mundo',ops:[0,1,2,3,4]},
+{t:'10. Culparse a sí mismo o a otros por el evento',ops:[0,1,2,3,4]},
+{t:'11. Estado emocional negativo persistente (miedo, horror, culpa, vergüenza)',ops:[0,1,2,3,4]},
+{t:'12. Pérdida de interés en actividades que antes disfrutaba',ops:[0,1,2,3,4]},
+{t:'13. Sentirse distante o alejado/a de otras personas',ops:[0,1,2,3,4]},
+{t:'14. Dificultad para experimentar emociones positivas',ops:[0,1,2,3,4]},
+]},
+{n:'Alteraciones en la activación y reactividad',items:[
+{t:'15. Comportamiento irritable, arranques de enojo o agresividad',ops:[0,1,2,3,4]},
+{t:'16. Comportamiento imprudente o autodestructivo',ops:[0,1,2,3,4]},
+{t:'17. Hipervigilancia',ops:[0,1,2,3,4]},
+{t:'18. Reacción de sobresalto exagerada',ops:[0,1,2,3,4]},
+{t:'19. Dificultad para concentrarse',ops:[0,1,2,3,4]},
+{t:'20. Problemas de sueño',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<20?{t:'Síntomas mínimos, poco probable TEPT.',bg:'#E8F5F0',c:'#1A7A5E'}:p<31?{t:'Síntomas leves-moderados, por debajo del punto de corte habitual.',bg:'#FFF3EB',c:'#C05621'}:p<50?{t:'Puntaje compatible con probable TEPT (PC≥31). Se recomienda evaluación clínica estructurada.',bg:'#FFF5F5',c:'#C53030'}:{t:'Síntomas severos de TEPT.',bg:'#FFF5F5',c:'#C53030'},
+},
+'audit':{
+secciones:[
+{n:'Frecuencia y cantidad de consumo',items:[
+{t:'1. Frecuencia de consumo de bebidas alcohólicas',ops:[0,1,2,3,4]},
+{t:'2. Cantidad de bebidas alcohólicas en un día típico de consumo',ops:[0,1,2,3,4]},
+{t:'3. Frecuencia de consumo de 6 o más bebidas en una sola ocasión',ops:[0,1,2,3,4]},
+]},
+{n:'Síntomas de dependencia',items:[
+{t:'4. Frecuencia de no poder parar de beber una vez que empezó',ops:[0,1,2,3,4]},
+{t:'5. Frecuencia de no poder cumplir lo que se esperaba de usted por beber',ops:[0,1,2,3,4]},
+{t:'6. Frecuencia de necesitar beber en la mañana para recuperarse',ops:[0,1,2,3,4]},
+]},
+{n:'Consumo problemático',items:[
+{t:'7. Frecuencia de sentimiento de culpa o remordimiento tras beber',ops:[0,1,2,3,4]},
+{t:'8. Frecuencia de no recordar lo sucedido la noche anterior por haber bebido',ops:[0,1,2,3,4]},
+{t:'9. Lesiones propias o de otra persona a causa de su consumo de alcohol',ops:[0,2,4]},
+{t:'10. Preocupación de un familiar, amigo o profesional de salud por su forma de beber',ops:[0,2,4]},
+]},
+],
+interp:(p)=>p<=7?{t:'Bajo riesgo. Consumo dentro de límites de bajo riesgo.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=15?{t:'Consumo de riesgo. Se recomienda intervención breve.',bg:'#FFF3EB',c:'#C05621'}:p<=19?{t:'Consumo perjudicial. Se recomienda intervención breve y seguimiento.',bg:'#FFF3EB',c:'#C05621'}:{t:'Probable dependencia alcohólica. Se recomienda evaluación diagnóstica y derivación especializada.',bg:'#FFF5F5',c:'#C53030'},
+},
+'pss':{
+secciones:[
+{n:'Percepción de estrés en el último mes (0=Nunca, 4=Muy a menudo)',items:[
+{t:'1. Molestia por algo que ocurrió inesperadamente',ops:[0,1,2,3,4]},
+{t:'2. Sensación de no poder controlar las cosas importantes de su vida',ops:[0,1,2,3,4]},
+{t:'3. Sentirse nervioso/a o estresado/a',ops:[0,1,2,3,4]},
+{t:'4. Falta de confianza en su capacidad para manejar sus problemas personales',ops:[0,1,2,3,4]},
+{t:'5. Sensación de que las cosas no salían como usted quería',ops:[0,1,2,3,4]},
+{t:'6. Sensación de no poder afrontar todo lo que tenía que hacer',ops:[0,1,2,3,4]},
+{t:'7. Incapacidad de controlar las dificultades o contratiempos de su vida',ops:[0,1,2,3,4]},
+{t:'8. Sensación de no tener el control sobre las cosas que le pasaban',ops:[0,1,2,3,4]},
+{t:'9. Enfado por cosas que estaban fuera de su control',ops:[0,1,2,3,4]},
+{t:'10. Sensación de acumulación de dificultades al punto de no poder superarlas',ops:[0,1,2,3,4]},
+]},
+],
+interp:(p)=>p<=13?{t:'Estrés percibido bajo.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=26?{t:'Estrés percibido moderado.',bg:'#FFF3EB',c:'#C05621'}:{t:'Estrés percibido alto.',bg:'#FFF5F5',c:'#C53030'},
+},
+'ghq28':{
+secciones:[
+{n:'A. Síntomas somáticos (0=No, en absoluto / 1=Sí, en cierta medida o más)',items:[
+{t:'1. Sentirse bien de salud últimamente',ops:[0,1]},
+{t:'2. Necesidad de algún reconstituyente o tónico',ops:[0,1]},
+{t:'3. Sentirse enfermo/a últimamente',ops:[0,1]},
+{t:'4. Dolores de cabeza',ops:[0,1]},
+{t:'5. Sensación de opresión o presión en la cabeza',ops:[0,1]},
+{t:'6. Oleadas de calor o escalofríos',ops:[0,1]},
+{t:'7. Pérdida de sueño por preocupaciones',ops:[0,1]},
+]},
+{n:'B. Ansiedad e insomnio',items:[
+{t:'8. Dificultad para mantenerse dormido/a toda la noche',ops:[0,1]},
+{t:'9. Sensación de estar constantemente bajo presión',ops:[0,1]},
+{t:'10. Sentirse irritable o malhumorado/a',ops:[0,1]},
+{t:'11. Sentirse asustado/a sin razón aparente',ops:[0,1]},
+{t:'12. Sensación de que todo se le viene encima',ops:[0,1]},
+{t:'13. Sentirse nervioso/a y tenso/a',ops:[0,1]},
+{t:'14. Dificultad para relajarse',ops:[0,1]},
+]},
+{n:'C. Disfunción social',items:[
+{t:'15. Mantenerse ocupado/a en sus actividades habituales',ops:[0,1]},
+{t:'16. Tardar más en hacer las cosas',ops:[0,1]},
+{t:'17. Sentir que está haciendo las cosas bien',ops:[0,1]},
+{t:'18. Sentirse satisfecho/a con su forma de hacer las cosas',ops:[0,1]},
+{t:'19. Sentir que juega un papel útil en la vida',ops:[0,1]},
+{t:'20. Capacidad de tomar decisiones sobre las cosas',ops:[0,1]},
+{t:'21. Capacidad de disfrutar las actividades normales de cada día',ops:[0,1]},
+]},
+{n:'D. Depresión grave',items:[
+{t:'22. Idea de que la vida no vale la pena',ops:[0,1]},
+{t:'23. Idea de que la vida es completamente desesperanzada',ops:[0,1]},
+{t:'24. Idea de acabar con su propia vida',ops:[0,1]},
+{t:'25. Sensación de no poder hacer nada porque los nervios están mal',ops:[0,1]},
+{t:'26. Deseo de estar muerto/a',ops:[0,1]},
+{t:'27. Idea recurrente de quitarse la vida',ops:[0,1]},
+{t:'28. Sensación de que la idea de hacerse daño le viene a la mente',ops:[0,1]},
+]},
+],
+interp:(p)=>p<=4?{t:'Sin evidencia de malestar psicológico significativo.',bg:'#E8F5F0',c:'#1A7A5E'}:{t:'Puntaje ≥5: sugiere posible malestar psicológico significativo (probable caso). Se recomienda evaluación clínica más detallada; revisar especialmente la subescala D (depresión grave).',bg:'#FFF3EB',c:'#C05621'},
+},
+'cage':{
+secciones:[
+{n:'Cribado de dependencia alcohólica',items:[
+{t:'C. ¿Ha sentido alguna vez que debería reducir su consumo de alcohol?',ops:[0,1]},
+{t:'A. ¿Se ha sentido molesto/a porque otras personas critican su forma de beber?',ops:[0,1]},
+{t:'G. ¿Se ha sentido culpable por su forma de beber?',ops:[0,1]},
+{t:'E. ¿Ha necesitado beber alcohol a primera hora de la mañana para calmar los nervios o aliviar una resaca?',ops:[0,1]},
+]},
+],
+interp:(p)=>p<=1?{t:'Bajo riesgo de dependencia alcohólica.',bg:'#E8F5F0',c:'#1A7A5E'}:{t:'2 o más respuestas positivas: probable dependencia alcohólica. Se recomienda evaluación diagnóstica más completa (ej. AUDIT).',bg:'#FFF5F5',c:'#C53030'},
+},
+'bai':{
+secciones:[
+{n:'Síntomas de ansiedad en la última semana (0=Nada, 3=Severamente)',items:[
+{t:'1. Entumecimiento u hormigueo',ops:[0,1,2,3]},
+{t:'2. Sensación de calor',ops:[0,1,2,3]},
+{t:'3. Temblor en las piernas',ops:[0,1,2,3]},
+{t:'4. Incapacidad de relajarse',ops:[0,1,2,3]},
+{t:'5. Miedo a que pase lo peor',ops:[0,1,2,3]},
+{t:'6. Mareo o aturdimiento',ops:[0,1,2,3]},
+{t:'7. Palpitaciones o taquicardia',ops:[0,1,2,3]},
+{t:'8. Sensación de inestabilidad',ops:[0,1,2,3]},
+{t:'9. Terror',ops:[0,1,2,3]},
+{t:'10. Nerviosismo',ops:[0,1,2,3]},
+{t:'11. Sensación de ahogo',ops:[0,1,2,3]},
+{t:'12. Temblor en las manos',ops:[0,1,2,3]},
+{t:'13. Temblor generalizado del cuerpo',ops:[0,1,2,3]},
+{t:'14. Miedo a perder el control',ops:[0,1,2,3]},
+{t:'15. Dificultad para respirar',ops:[0,1,2,3]},
+{t:'16. Miedo a morir',ops:[0,1,2,3]},
+{t:'17. Sensación de susto',ops:[0,1,2,3]},
+{t:'18. Molestias digestivas o abdominales',ops:[0,1,2,3]},
+{t:'19. Desvanecimiento',ops:[0,1,2,3]},
+{t:'20. Rubor facial',ops:[0,1,2,3]},
+{t:'21. Sudoración no relacionada con el calor',ops:[0,1,2,3]},
+]},
+],
+interp:(p)=>p<=21?{t:'Ansiedad baja/mínima.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=35?{t:'Ansiedad moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'Ansiedad severa.',bg:'#FFF5F5',c:'#C53030'},
+},
+'zung':{
+secciones:[
+{n:'Frecuencia de síntomas en la última semana (1=Rara vez, 4=La mayor parte del tiempo)',items:[
+{t:'1. Me siento triste y decaído/a',ops:[1,2,3,4]},
+{t:'2. Se me han quitado las ganas de hacer las cosas que antes disfrutaba',ops:[1,2,3,4]},
+{t:'3. Tengo llanto fácil o ganas de llorar',ops:[1,2,3,4]},
+{t:'4. Tengo problemas para dormir por las noches',ops:[1,2,3,4]},
+{t:'5. Como menos de lo habitual',ops:[1,2,3,4]},
+{t:'6. He perdido interés en el sexo',ops:[1,2,3,4]},
+{t:'7. Noto que estoy perdiendo peso',ops:[1,2,3,4]},
+{t:'8. Tengo problemas de estreñimiento',ops:[1,2,3,4]},
+{t:'9. Mi corazón late más rápido de lo normal',ops:[1,2,3,4]},
+{t:'10. Me canso sin razón aparente',ops:[1,2,3,4]},
+{t:'11. Se me dificulta pensar con la claridad de siempre',ops:[1,2,3,4]},
+{t:'12. Se me hace difícil hacer las cosas que solía hacer',ops:[1,2,3,4]},
+{t:'13. Me siento inquieto/a y no puedo estar tranquilo/a',ops:[1,2,3,4]},
+{t:'14. He perdido la esperanza en el futuro',ops:[1,2,3,4]},
+{t:'15. Estoy más irritable de lo habitual',ops:[1,2,3,4]},
+{t:'16. Se me hace difícil tomar decisiones',ops:[1,2,3,4]},
+{t:'17. Siento que ya no soy útil ni necesario/a',ops:[1,2,3,4]},
+{t:'18. Siento que mi vida está vacía',ops:[1,2,3,4]},
+{t:'19. Pienso que los demás estarían mejor si yo muriera',ops:[1,2,3,4]},
+{t:'20. He dejado de disfrutar las cosas que antes disfrutaba',ops:[1,2,3,4]},
+]},
+],
+interp:(p)=>{var idx=Math.round(p/80*100);return idx<50?{t:'SDS index: '+idx+'. Dentro de rango normal.',bg:'#E8F5F0',c:'#1A7A5E'}:idx<=59?{t:'SDS index: '+idx+'. Depresión leve.',bg:'#FFF3EB',c:'#C05621'}:idx<=69?{t:'SDS index: '+idx+'. Depresión moderada.',bg:'#FFF3EB',c:'#C05621'}:{t:'SDS index: '+idx+'. Depresión severa.',bg:'#FFF5F5',c:'#C53030'};},
 },
 
 // ---------------------------------------------------------------
