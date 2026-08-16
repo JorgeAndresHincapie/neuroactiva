@@ -1,0 +1,21 @@
+CAMBIOS EN TU BANCO
+==================================================================
+
+SECCIÓN psicologia (agregar esta línea nueva, por ejemplo después
+de la línea de 'bdi2'):
+
+{id:'zarit',nombre:'Escala de Zarit (Carga del Cuidador)',max:88,area:'Sobrecarga del cuidador',desc:'22 ítems (0-4 c/u). Evalúa la sobrecarga física, emocional y económica del cuidador principal. ≤46 sin sobrecarga, 47-55 leve, ≥56 intensa.'},
+
+------------------------------------------------------------------
+
+SECCIÓN neuropsicologia (agregar estas dos líneas nuevas, por
+ejemplo después de la línea de 'mmse'):
+
+{id:'reloj',nombre:'Test del Reloj (Clock Drawing Test)',max:10,area:'Función ejecutiva y visoconstrucción',desc:'10 ítems binarios sobre la ejecución del dibujo de un reloj. ≥7 normal, ≤6 positivo para deterioro cognitivo/apraxia.'},
+{id:'ace3',nombre:'ACE-III (Addenbrooke\'s Cognitive Examination)',max:100,area:'Cribado cognitivo avanzado',desc:'100 puntos en 5 dominios: atención(18), memoria(26), fluidez verbal(14), lenguaje(26), visoespacial(16). ≥88 normal, 83-87 sospecha, <83 predictivo de demencia.'},
+
+------------------------------------------------------------------
+
+NOTA: mmse NO necesita cambio de max (ya está en 30, correcto) —
+solo se le agrega ITEMS_DETALLE, que aún no tenía a pesar de que
+moca y fab (también de neuropsicología) sí lo tenían.
