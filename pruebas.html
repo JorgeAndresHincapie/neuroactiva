@@ -180,6 +180,15 @@ Panel
 <button class="esp-tab" onclick="selEsp('gastroenterologia',this)">Gastroenterología</button>
 <button class="esp-tab" onclick="selEsp('urologia',this)">Urología</button>
 <button class="esp-tab" onclick="selEsp('enfermeria',this)">Enfermería</button>
+<button class="esp-tab" onclick="selEsp('urgencias',this)">Urgencias</button>
+<button class="esp-tab" onclick="selEsp('geriatria',this)">Geriatría</button>
+<button class="esp-tab" onclick="selEsp('pediatria',this)">Pediatría</button>
+<button class="esp-tab" onclick="selEsp('cardiologia',this)">Cardiología</button>
+<button class="esp-tab" onclick="selEsp('ginecologia',this)">Ginecología</button>
+<button class="esp-tab" onclick="selEsp('medicina_familiar',this)">Medicina Familiar</button>
+<button class="esp-tab" onclick="selEsp('oftalmologia',this)">Oftalmología</button>
+<button class="esp-tab" onclick="selEsp('nefrologia',this)">Nefrología</button>
+<button class="esp-tab" onclick="selEsp('oncologia',this)">Oncología</button>
 </div>
 <div class="escalas-lista" id="escalasList"></div>
 <button class="btn-primary" id="btnAgregar" onclick="agregarEscala()" disabled>
@@ -372,7 +381,7 @@ neuropsicologia:[
 ],
 neurologia:[
 {id:'glasgow',nombre:'Escala de Coma de Glasgow (GCS)',max:15,area:'Nivel de conciencia',desc:'3 componentes: apertura ocular(4), respuesta verbal(5), respuesta motora(6). 13-15 leve, 9-12 moderado, ≤8 grave (indica intubación).'},
-{id:'nihss',nombre:'NIHSS (National Institutes of Health Stroke Scale)',max:0,area:'Severidad de ACV',desc:'15 ítems: nivel de conciencia, mirada, campos visuales, paresia facial, fuerza en 4 extremidades, ataxia, sensibilidad, lenguaje, disartria, extinción/inatención. Requiere entrenamiento certificado para aplicación. Pendiente de construir checklist.'},
+{id:'nihss',nombre:'NIHSS (National Institutes of Health Stroke Scale)',max:0,area:'Severidad de ACV',desc:'15 ítems: nivel de conciencia, mirada, campos visuales, paresia facial, fuerza en 4 extremidades, ataxia, sensibilidad, lenguaje, disartria, extinción/inatención. Requiere entrenamiento certificado para aplicación.'},
 {id:'rankin',nombre:'Escala de Rankin Modificada (mRS)',max:0,area:'Discapacidad funcional post-ACV',desc:'Ítem único categórico 0-6: 0=sin síntomas, 5=discapacidad severa, 6=fallecido. No es una suma, es una selección directa de categoría.'},
 {id:'aspects',nombre:'ASPECTS (Alberta Stroke Program Early CT Score)',max:10,area:'Neuroimagen ACV isquémico',desc:'10 regiones del territorio de la ACM en TC simple; se resta 1 punto por cada región con signos tempranos de isquemia. Requiere lectura de imagen por radiología/neurología.'},
 ],
@@ -387,11 +396,563 @@ urologia:[
 ],
 enfermeria:[
 {id:'braden',nombre:'Escala de Braden (Riesgo de Úlceras por Presión)',max:23,area:'Riesgo de úlceras por presión',desc:'6 subescalas: percepción sensorial, humedad, actividad, movilidad, nutrición, fricción/cizallamiento. A MENOR puntaje, MAYOR riesgo (escala no invertida en la app: 23=mejor estado).'},
-{id:'downton',nombre:'Escala de Downton (Riesgo de Caídas)',max:0,area:'Riesgo de caídas',desc:'5 factores de riesgo: caídas previas, medicamentos, déficits sensoriales, estado mental, deambulación. ≥3 puntos = alto riesgo. Pendiente de construir checklist.'},
+{id:'downton',nombre:'Escala de Downton (Riesgo de Caídas)',max:0,area:'Riesgo de caídas',desc:'5 factores de riesgo: caídas previas, medicamentos, déficits sensoriales, estado mental, deambulación. ≥3 puntos = alto riesgo.'},
 {id:'apgar-neo',nombre:'APGAR Neonatal',max:10,area:'Valoración del recién nacido',desc:'5 parámetros (frecuencia cardíaca, esfuerzo respiratorio, tono muscular, irritabilidad refleja, color) puntuados 0-2 c/u, evaluados al minuto 1 y 5 de vida. ≥7 normal, 4-6 depresión moderada, ≤3 depresión severa.'},
+{id:'morse',nombre:'Escala de Caídas de Morse',max:125,area:'Riesgo de caídas',desc:'Herramienta rápida y simple para evaluar la probabilidad de que un paciente sufra una caída intrahospitalaria, permitiendo diseñar intervenciones preventivas.'},
+],urgencias:[
+{id:'rass',nombre:'Escala de Sedación y Agitación de Richmond',max:4,area:'Sedación/Agitación',desc:'Escala utilizada en pacientes críticos para evaluar el nivel de agitación o la profundidad de la sedación. Es fundamental para guiar protocolos de sedoanalgesia.'},
+{id:'qsofa',nombre:'qSOFA (Sepsis)',max:3,area:'Sepsis (cribado)',desc:'Herramienta de cribado rápida para identificar pacientes con sospecha de infección que tienen un alto riesgo de presentar malos resultados clínicos o mortalidad hospitalaria.'},
+{id:'wells-tvp',nombre:'Criterios de Wells para Trombosis Venosa Profunda',max:9,area:'Riesgo trombosis venosa profunda',desc:'Modelo de puntuación clínica que combina factores de riesgo predponentes y hallazgos del examen físico para determinar la probabilidad preprueba de trombosis venosa profunda.'},
+{id:'centor-mcisaac',nombre:'Criterios de Centor Modificados por McIsaac',max:5,area:'Faringitis estreptocócica',desc:'Escala clínica y demográfica utilizada para estratificar la probabilidad de infección por Estreptococo betahemolítico del grupo A (EBHGA) en pacientes con faringoamigdalitis aguda, guiando el uso racional de antibióticos.'},
+{id:'alvarado',nombre:'Escala de Alvarado para Apendicitis Aguda',max:10,area:'Apendicitis aguda',desc:'Sistema de puntuación clínica y de laboratorio utilizado para estratificar el riesgo de apendicitis aguda en pacientes con dolor abdominal agudo.'},
+{id:'curb65',nombre:'Escala de Severidad para Neumonía CURB-65',max:5,area:'Severidad neumonía',desc:'Regla de predicción clínica diseñada para estratificar el riesgo de mortalidad a 30 días en pacientes con neumonía adquirida en la comunidad, guiando el sitio de atención médica ideal.'},
+{id:'crams',nombre:'Escala de Triage de Trauma CRAMS',max:10,area:'Triage de trauma',desc:'Sistema de puntuación fisiológica y anatómica utilizado en el triage prehospitalario para identificar rápidamente a los pacientes con trauma mayor que requieren traslado inmediato a un centro de trauma de alta complejidad.'},
+{id:'news2',nombre:'National Early Warning Score 2',max:20,area:'Alerta temprana hospitalaria',desc:'Sistema de puntuación agregada para identificar el deterioro clínico en adultos y estandarizar la respuesta médica ante emergencias agudas. (Suma de 7 parámetros fisiológicos 0-3 c/u; usar tabla de referencia clínica NEWS2 completa.)'},
 ],
+pediatria:[
+{id:'silverman-andersen',nombre:'Escala de Silverman-Andersen',max:10,area:'Dificultad respiratoria neonatal',desc:'Prueba clínica utilizada en salas de partos y cuidados intensivos neonatales para evaluar de forma rápida y estandarizada la presencia y gravedad de la dificultad respiratoria en recién nacidos.'},
+{id:'flacc',nombre:'Escala de Dolor FLACC',max:10,area:'Dolor pediátrico (no verbal)',desc:'Herramienta conductual utilizada para evaluar y cuantificar la intensidad del dolor en niños pequeños o pacientes con incapacidad para comunicarse verbalmente.'},
+],
+geriatria:[
+{id:'yesavage15',nombre:'Escala de Depresión Geriátrica de Yesavage (Versión Corta)',max:15,area:'Depresión geriátrica',desc:'Herramienta de cribado rápido utilizada en la valoración geriátrica integral para detectar de forma precoz trastornos del estado de ánimo en el adulto mayor.'},
+{id:'gijon',nombre:'Escala de Valoración Sociofamiliar de Gijón',max:25,area:'Valoración sociofamiliar',desc:'Herramienta de cribado social utilizada para evaluar la red de apoyo, entorno familiar y situación económica de los adultos mayores, identificando el riesgo de aislamiento o exclusión.'},
+{id:'karnofsky',nombre:'Índice de Estado Funcional de Karnofsky',max:100,area:'Estado funcional oncológico',desc:'Escala categórica de selección única ponderada porcentualmente para evaluar el grado de capacidad funcional, actividad y autonomía de los pacientes con patologías oncológicas o crónicas avanzadas.'},
+{id:'mna',nombre:'Mini Nutritional Assessment',max:30,area:'Estado nutricional',desc:'Herramienta de evaluación nutricional validada para la población anciana que combina un cribado rápido y una evaluación en profundidad si existe riesgo. (Batería de 18 ítems en 2 fases -cribado y evaluación-; usar formulario oficial impreso.)'},
+],
+cardiologia:[
+{id:'nyha',nombre:'Clasificación Funcional de la Insuficiencia Cardíaca de la NYHA',max:4,area:'Clase funcional cardíaca',desc:'Escala categórica utilizada para determinar el grado de limitación física y severidad de los síntomas en pacientes con insuficiencia cardíaca crónica.'},
+{id:'mmrc',nombre:'Escala de Disnea Modificada del Medical Research Council',max:4,area:'Disnea',desc:'Escala categórica utilizada para evaluar el impacto de la disnea (falta de aire) en las actividades de la vida diaria, especialmente en pacientes con patologías respiratorias crónicas como el EPOC.'},
+{id:'timi',nombre:'Puntuación de Riesgo TIMI para SCASEST',max:7,area:'Riesgo SCASEST',desc:'Herramienta de estratificación de riesgo utilizada para predecir la probabilidad de muerte, infarto de miocardio o isquemia grave recurrente a los 14 días en pacientes con angina inestable o infarto sin elevación del ST.'},
+],
+psicologia:[
+{id:'had',nombre:'Escala de Ansiedad y Depresión Hospitalaria',max:42,area:'Ansiedad y depresión hospitalaria',desc:'Herramienta de tamizaje que evalúa de forma independiente los niveles de ansiedad y depresión en pacientes con enfermedades físicas, omitiendo síntomas somáticos.'},
+],
+ginecologia:[
+{id:'bishop',nombre:'Puntuación o Escala de Bishop',max:13,area:'Maduración cervical',desc:'Sistema de puntuación utilizado para evaluar la madurez del cuello uterino y predecir la probabilidad de éxito de una inducción del trabajo de parto.'},
+{id:'bethesda',nombre:'Sistema Bethesda para Reporte de Citología Cervical',max:0,area:'Citología cervical',desc:'Modelo de datos categórico estructurado para la clasificación estandarizada de hallazgos celulares y epiteliales en muestras de Papanicolaou. (Sistema de reporte categórico citológico, no es una escala puntuable.)'},
+],
+medicina_familiar:[
+{id:'apgar-familiar',nombre:'Test de Funcionalidad Familiar APGAR Familiar',max:10,area:'Funcionalidad familiar',desc:'Herramienta que evalúa de forma rápida y sencilla la percepción del paciente sobre el estado de funcionamiento de su núcleo familiar, explorando cinco dimensiones biológicas de soporte.'},
+],
+oftalmologia:[
+{id:'snellen',nombre:'Prueba de Agudeza Visual de Snellen',max:0,area:'Agudeza visual',desc:'Escala categórica de selección única para registrar la agudeza visual de un paciente, evaluando por separado el Ojo Derecho (OD), Ojo Izquierdo (OI) y Ambos Ojos (AO).'},
+{id:'wagner',nombre:'Clasificación de Wagner para Lesiones del Pie Diabético',max:5,area:'Pie diabético',desc:'Escala categórica de selección única utilizada para clasificar la gravedad de las úlceras en el pie diabético según la profundidad de la lesión, la infección y el grado de destrucción tisular.'},
+],
+nefrologia:[
+{id:'gasometria',nombre:'Interpretación de Gasometría Arterial',max:0,area:'Equilibrio ácido-base',desc:'Herramienta analítica para procesar los valores de laboratorio de una muestra de sangre arterial, permitiendo diagnosticar trastornos del equilibrio ácido-base y el estado de oxigenación. (Herramienta de interpretación, no es una escala sumativa; requiere valores de laboratorio.)'},
+{id:'kdigo',nombre:'Clasificación KDIGO para Insuficiencia Renal Aguda',max:0,area:'Clasificación lesión renal aguda',desc:'Modelo de datos analítico utilizado para estadificar la gravedad de la lesión renal aguda basándose en el incremento de la creatinina sérica y el ritmo de diuresis. (Clasificación categórica por criterios de creatinina/diuresis, no suma puntos.)'},
+],
+oncologia:[
+{id:'histopatologia',nombre:'Reporte de Biopsia Histopatológica',max:0,area:'Reporte histopatológico',desc:'Modelo de datos estructurado para el registro, codificación y clasificación de hallazgos microscópicos celulares para la confirmación definitiva de malignidad. (Plantilla de reporte estructurado, no es una escala puntuable.)'},
+],
+gastroenterologia:[
+{id:'rockall',nombre:'Escala de Rockall para Hemorragia de Vías Digestivas Altas',max:11,area:'Riesgo hemorragia digestiva alta',desc:'Sistema de puntuación clínico y endoscópico utilizado para estratificar el riesgo de resangrado y mortalidad en pacientes con hemorragia digestiva alta. (Score clínico + endoscópico; requiere hallazgos de endoscopia.)'},
+],
+
 };
 const ITEMS_DETALLE = {
+'downton':{
+secciones:[
+{n:'1. Caídas previas',items:[
+{t:'1. Caídas previas (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'2. Medicamentos (Selección Múltiple)',items:[
+{t:'2. Medicamentos (Selección Múltiple) — marca el punto si aplica: Tranquilizantes / Sedantes / Benzodiacepinas / Diuréticos / Antihipertensores (No diuréticos) / Antidepresivos / Otros medicamentos (ej. neurolépticos, hipnóticos)',ops:[0,1]}
+]},
+{n:'3. Déficits sensoriales (Selección Múltiple)',items:[
+{t:'3. Déficits sensoriales (Selección Múltiple) — marca el punto si aplica: Alteraciones visuales importantes / Alteraciones auditivas importantes / Extremidades afectadas (Ictus, amputación, parálisis)',ops:[0,1]}
+]},
+{n:'4. Estado mental',items:[
+{t:'4. Estado mental (0=Orientado, 1=Confuso / Desorientado)',ops:[0,1]}
+]},
+{n:'5. Deambulación / Marcha',items:[
+{t:'5. Deambulación / Marcha — marca el punto si aplica: Segura con ayuda / Insegura con o sin ayuda / Imposible',ops:[0,1]}
+]}
+],
+interp:(p)=>p>=0&&p<=2?{t:'Riesgo Bajo de caídas. Mantener pautas básicas de seguridad en el adulto mayor.',bg:'#F5F5F5',c:'#2ECC71'}:p>=3?{t:'¡ALERTA CRÍTICA! Un puntaje igual o mayor a 3 define un Riesgo Alto de caídas en el adulto mayor. Activar protocolo geriátrico preventivo: iluminación nocturna adecuada, calzado antideslizante, asistencia en traslados, evitar suelos mojados y revisión estricta de la polifarmacia por el equipo médico.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'nihss':{
+secciones:[
+{n:'1a. Nivel de conciencia',items:[
+{t:'1a. Nivel de conciencia (0=0 - Alerta / Respuesta inmediata, 1=1 - Somnoliento / Despierta con estímulos mínimos, 2=2 - Estuporoso / Requiere estímulo vigoroso o doloroso, 3=3 - Coma / Reflejos motores puros o sin respuesta)',ops:[0,1,2,3]}
+]},
+{n:'1b. Preguntas sobre nivel de conciencia',items:[
+{t:'1b. Preguntas sobre nivel de conciencia (0=0 - Responde ambas preguntas correctamente, 1=1 - Responde solo una pregunta correctamente, 2=2 - No responde ninguna correctamente (o afasia/coma))',ops:[0,1,2]}
+]},
+{n:'1c. Órdenes sobre nivel de conciencia',items:[
+{t:'1c. Órdenes sobre nivel de conciencia (0=0 - Realiza ambas tareas correctamente, 1=1 - Realiza solo una tarea correctamente, 2=2 - No realiza ninguna tarea correctamente)',ops:[0,1,2]}
+]},
+{n:'2. Mirada conjugada horizontal',items:[
+{t:'2. Mirada conjugada horizontal (0=0 - Normal, 1=1 - Paresia parcial de la mirada (desviación asimétrica), 2=2 - Desviación forzada o parálisis total de la mirada)',ops:[0,1,2]}
+]},
+{n:'3. Campos visuales',items:[
+{t:'3. Campos visuales (0=0 - Sin pérdida visual, 1=1 - Cuadrantanopsia o hemianopsia parcial, 2=2 - Hemianopsia completa, 3=3 - Ceguera bilateral / Hemianopsia más ceguera)',ops:[0,1,2,3]}
+]},
+{n:'4. Parálisis facial',items:[
+{t:'4. Parálisis facial (0=0 - Movimientos normales y simétricos, 1=1 - Parálisis menor (asimetría del surco nasogeniano), 2=2 - Parálisis parcial (borramiento de la parte inferior de la cara), 3=3 - Parálisis completa unilateral o bilateral)',ops:[0,1,2,3]}
+]},
+{n:'5a. Función motora: Brazo Derecho',items:[
+{t:'5a. Función motora: Brazo Derecho (0=0 - Sin caída; mantiene la posición los 10 segundos, 1=1 - Caída leve; el brazo deriva antes de los 10 segundos sin tocar la cama, 2=2 - Esfuerzo contra gravedad; el brazo cae y toca la cama pero puede levantarlo, 3=3 - Sin esfuerzo contra gravedad; el brazo cae inmediatamente pero hay contracción muscular, 4=4 - Parálisis total; no se observa ningún movimiento muscular)',ops:[0,1,2,3,4]}
+]},
+{n:'5b. Función motora: Brazo Izquierdo',items:[
+{t:'5b. Función motora: Brazo Izquierdo (0=0 - Sin caída; mantiene la posición los 10 segundos, 1=1 - Caída leve; el brazo deriva antes de los 10 segundos sin tocar la cama, 2=2 - Esfuerzo contra gravedad; el brazo cae y toca la cama pero puede levantarlo, 3=3 - Sin esfuerzo contra gravedad; el brazo cae inmediatamente, 4=4 - Parálisis total)',ops:[0,1,2,3,4]}
+]},
+{n:'6a. Función motora: Pierna Derecha',items:[
+{t:'6a. Función motora: Pierna Derecha (0=0 - Sin caída; mantiene los 30° durante 5 segundos, 1=1 - Caída leve; la pierna deriva antes de los 5 segundos sin tocar la cama, 2=2 - Esfuerzo contra gravedad; la pierna cae a la cama antes de los 5 segundos, 3=3 - Sin esfuerzo contra gravedad; la pierna cae inmediatamente pero hay contracción, 4=4 - Parálisis total; no hay ningún movimiento muscular)',ops:[0,1,2,3,4]}
+]},
+{n:'6b. Función motora: Pierna Izquierda',items:[
+{t:'6b. Función motora: Pierna Izquierda (0=0 - Sin caída; mantiene los 30° durante 5 segundos, 1=1 - Caída leve; la pierna deriva antes de los 5 segundos sin tocar la cama, 2=2 - Esfuerzo contra gravedad; la pierna cae a la cama antes de los 5 segundos, 3=3 - Sin esfuerzo contra gravedad; la pierna cae inmediatamente, 4=4 - Parálisis total)',ops:[0,1,2,3,4]}
+]},
+{n:'7. Ataxia de miembros (Coordinación)',items:[
+{t:'7. Ataxia de miembros (Coordinación) (0=0 - Ausente / Movimientos coordinados normales, 1=1 - Presente en una extremidad (brazo o pierna), 2=2 - Presente en dos o más extremidades (bilateral o ipsilateral))',ops:[0,1,2]}
+]},
+{n:'8. Sensibilidad',items:[
+{t:'8. Sensibilidad (0=0 - Normal; no hay pérdida de sensibilidad, 1=1 - Pérdida leve o moderada; el paciente siente el pinchazo menos nítido de un lado, 2=2 - Pérdida severa o total; el paciente no es consciente de que está siendo tocado)',ops:[0,1,2]}
+]},
+{n:'9. Lenguaje (Afasia)',items:[
+{t:'9. Lenguaje (Afasia) (0=0 - Normal; sin afasia, 1=1 - Afasia leve a moderada; pérdida obvia de fluidez sin restricción severa, 2=2 - Afasia severa; comunicación fragmentada, el examinador debe adivinar el contenido, 3=3 - Global / Mutismo; ausencia total de lenguaje comprensivo o expresivo)',ops:[0,1,2,3]}
+]},
+{n:'10. Disartria (Articulación de la palabra)',items:[
+{t:'10. Disartria (Articulación de la palabra) (0=0 - Normal; articulación perfecta, 1=1 - Leve a moderada; el paciente arrastra algunas palabras pero se le entiende, 2=2 - Severa; el lenguaje es ininteligible o el paciente presenta anartria (sin coma))',ops:[0,1,2]}
+]},
+{n:'11. Extinción e inatención (Negligencia)',items:[
+{t:'11. Extinción e inatención (Negligencia) (0=0 - Sin anomalías / Atención normal, 1=1 - Inatención parcial en una modalidad (visual, táctil, auditiva o espacial), 2=2 - Hemi-inatención profunda o negligencia total (no reconoce su propia mano))',ops:[0,1,2]}
+]}
+],
+interp:(p)=>p==0?{t:'Exploración neurológica normal de acuerdo con la escala NIHSS.',bg:'#F5F5F5',c:'#2ECC71'}:p>=1&&p<=4?{t:'Déficit neurológico leve. Activar el protocolo de código ictus intrahospitalario. Evaluar criterios de reperfusión (trombolisis).',bg:'#F5F5F5',c:'#3498DB'}:p>=5&&p<=15?{t:'¡Alerta neurológica! Ictus moderado. Candidato ideal para intervenciones agudas de emergencia si se encuentra dentro de la ventana terapéutica.',bg:'#F5F5F5',c:'#F1C40F'}:p>=16&&p<=20?{t:'Déficit severo establecido. Alto riesgo de complicaciones agudas y transformación hemorrágica. Requiere monitorización neurológica continua.',bg:'#F5F5F5',c:'#E67E22'}:p>=21?{t:'¡ALERTA CRÍTICA REANIMACIÓN! Ictus grave de gran extensión. Priorizar protección de la vía aérea, control estricto de presión arterial y neurocirugía de enlace si aplica.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'rass':{
+secciones:[
+{n:'Nivel de sedación/agitación (RASS)',items:[
+{t:'Nivel de sedación/agitación (RASS) (4=+4 Combative (Combativo), 3=+3 Very Agitated (Muy agitado), 2=+2 Agitated (Agitado), 1=+1 Restless (Ansioso), 0=0 Alert and Calm (Alerta y tranquilo), -1=-1 Drowsy (Somnoliento), -2=-2 Light Sedation (Sedación leve), -3=-3 Moderate Sedation (Sedación moderada), -4=-4 Deep Sedation (Sedación profunda), -5=-5 Unarousable (Sedación muy profunda))',ops:[4,3,2,1,0,-1,-2,-3,-4,-5]}
+]}
+],
+interp:(p)=>p>=1&&p<=4?{t:'Paciente agitado. Riesgo de auto-extubación o retiro accidental de accesos invasivos. Evaluar niveles de dolor, delirium o necesidad de reajuste de sedantes.',bg:'#F5F5F5',c:'#E74C3C'}:p==0?{t:'Meta ideal en el paciente despierto. Sin signos de agitación ni sedación.',bg:'#F5F5F5',c:'#2ECC71'}:p>=-2&&p<=-1?{t:'Sedación ligera. Rango meta aceptable en la mayoría de protocolos modernos de UCI para permitir ventilación mecánica con confort.',bg:'#F5F5F5',c:'#3498DB'}:p>=-5&&p<=-3?{t:'Sedación profunda. Verificar si el paciente requiere este nivel por indicación médica estricta (ej. bloqueantes neuromusculares, SDRA grave, hipertensión endocraneal). Riesgo incrementado de prolongación de la ventilación.',bg:'#F5F5F5',c:'#9B59B6'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'qsofa':{
+secciones:[
+{n:'Alteración del estado mental',items:[
+{t:'Alteración del estado mental (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'Taquipnea (Frecuencia Respiratoria)',items:[
+{t:'Taquipnea (Frecuencia Respiratoria) (1=Sí (≥ 22 rpm), 0=No (< 22 rpm))',ops:[1,0]}
+]},
+{n:'Hipotensión (Presión Arterial Sistólica)',items:[
+{t:'Hipotensión (Presión Arterial Sistólica) (1=Sí (≤ 100 mmHg), 0=No (> 100 mmHg))',ops:[1,0]}
+]}
+],
+interp:(p)=>p>=0&&p<=1?{t:'Baja probabilidad de disfunción orgánica por sepsis. Continuar con el manejo estándar de la infección y monitoreo clínico habitual.',bg:'#F5F5F5',c:'#2ECC71'}:p>=2&&p<=3?{t:'¡ALERTA CRÍTICA! Un puntaje ≥ 2 indica un riesgo elevado de mortalidad o estancia prolongada en UCI. Sugiere disfunción orgánica orgánica grave. Iniciar protocolo institucional de sepsis, tomar cultivos, optimizar volumen y evaluar traslado a cuidados críticos.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'wells-tvp':{
+secciones:[
+{n:'1. Cáncer activo',items:[
+{t:'1. Cáncer activo (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'2. Parálisis, paresia o inmovilización reciente',items:[
+{t:'2. Parálisis, paresia o inmovilización reciente (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'3. Encamamiento reciente o cirugía mayor',items:[
+{t:'3. Encamamiento reciente o cirugía mayor (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'4. Dolor o hipersensibilidad localizada',items:[
+{t:'4. Dolor o hipersensibilidad localizada (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'5. Tumefacción en toda la extremidad',items:[
+{t:'5. Tumefacción en toda la extremidad (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'6. Aumento del perímetro de la pantorrilla',items:[
+{t:'6. Aumento del perímetro de la pantorrilla (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'7. Edema con fóvea',items:[
+{t:'7. Edema con fóvea (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'8. Venas colaterales superficiales',items:[
+{t:'8. Venas colaterales superficiales (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'9. Antecedente documentado de TVP',items:[
+{t:'9. Antecedente documentado de TVP (1=Sí (+1 punto), 0=No)',ops:[1,0]}
+]},
+{n:'10. Diagnóstico alternativo tan o más probable que la TVP',items:[
+{t:'10. Diagnóstico alternativo tan o más probable que la TVP (-1=Sí (-1 punto), 0=No)',ops:[-1,0]}
+]}
+],
+interp:(p)=>p<=0?{t:'Probabilidad baja de TVP (~5%). El protocolo médico estándar sugiere realizar la prueba de laboratorio Dímero D. Si el Dímero D resulta negativo, se puede descartar la TVP de forma segura sin necesidad de estudios de imagen.',bg:'#F5F5F5',c:'#2ECC71'}:p==1?{t:'¡Alerta de riesgo intermedio! Probabilidad moderada de TVP (~17%). Se recomienda solicitar la prueba de Dímero D. Si resulta positivo, es mandatorio realizar una ecografía Doppler venosa de la extremidad afectada.',bg:'#F5F5F5',c:'#F1C40F'}:p>=3?{t:'¡ALERTA VASCULAR CRÍTICA! Probabilidad alta de TVP (~53%). No dependa exclusivamente del Dímero D. El protocolo de urgencias exige la programación prioritaria e inmediata de una ecografía Doppler venosa de miembros inferiores y evaluar el inicio de anticoagulación empírica si no hay contraindicaciones.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'centor-mcisaac':{
+secciones:[
+{n:'1. Fiebre o antecedente de fiebre',items:[
+{t:'1. Fiebre o antecedente de fiebre (1=Sí (Fiebre presente), 0=No)',ops:[1,0]}
+]},
+{n:'2. Exudado o hipertrofia amigdalina',items:[
+{t:'2. Exudado o hipertrofia amigdalina (1=Sí (Exudado presente), 0=No)',ops:[1,0]}
+]},
+{n:'3. Adenopatías cervicales anteriores dolorosas',items:[
+{t:'3. Adenopatías cervicales anteriores dolorosas (1=Sí (Adenopatías presentes), 0=No)',ops:[1,0]}
+]},
+{n:'4. Ausencia de tos',items:[
+{t:'4. Ausencia de tos (1=Sí (Ausencia de tos / Paciente NO tose), 0=No (El paciente SÍ tiene tos))',ops:[1,0]}
+]},
+{n:'5. Factor de Edad del Paciente',items:[
+{t:'5. Factor de Edad del Paciente (1=De 3 a 14 años (+1 punto), 0=De 15 a 44 años (0 puntos), -1=45 años o más (-1 punto))',ops:[1,0,-1]}
+]}
+],
+interp:(p)=>p<=1?{t:'Etiología viral altamente probable. El protocolo exige NO realizar estudios microbiológicos y NO prescribir antibióticos. Manejo puramente sintomático con analgésicos/antiinflamatorios y reposo.',bg:'#F5F5F5',c:'#2ECC71'}:p==2?{t:'¡Alerta de sospecha moderada! Se recomienda realizar un test rápido de detección de antígeno estreptocócico (RST) o cultivo de frotis faríngeo. Iniciar antibiótico únicamente si la prueba microbiológica resulta positiva.',bg:'#F5F5F5',c:'#F1C40F'}:p>=4?{t:'¡ALERTA INFECCIOSA BACTERIANA! Cuadro altamente sugestivo de infección por EBHGA. El protocolo clínico faculta el inicio empírico inmediato de antibioticoterapia (ej. Penicilina V oral o Amoxicilina) para acelerar la resolución y prevenir la fiebre reumática.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'morse':{
+secciones:[
+{n:'1. Antecedentes de caídas recientes',items:[
+{t:'1. Antecedentes de caídas recientes (25=Sí, 0=No)',ops:[25,0]}
+]},
+{n:'2. Diagnóstico secundario',items:[
+{t:'2. Diagnóstico secundario (15=Sí, 0=No)',ops:[15,0]}
+]},
+{n:'3. Ayuda para deambular',items:[
+{t:'3. Ayuda para deambular (30=Apoyo en muebles, 15=Muletas / Bastón / Caminador, 0=Ninguno / Reposo en cama / Silla de ruedas)',ops:[30,15,0]}
+]},
+{n:'4. Vía intravenosa / Canalización',items:[
+{t:'4. Vía intravenosa / Canalización (20=Sí, 0=No)',ops:[20,0]}
+]},
+{n:'5. Marcha / Transferencia',items:[
+{t:'5. Marcha / Transferencia (20=Alterada / Débil, 10=Débil, 0=Normal / Reposo en cama / Inmóvil)',ops:[20,10,0]}
+]},
+{n:'6. Estado mental',items:[
+{t:'6. Estado mental (15=Olvida sus limitaciones, 0=Sabe y reconoce sus limitaciones)',ops:[15,0]}
+]}
+],
+interp:(p)=>p>=0&&p<=24?{t:'Riesgo Bajo. Aplicar cuidados básicos de enfermería: mantener cama en posición baja, frenos puestos y timbre de llamada al alcance.',bg:'#F5F5F5',c:'#2ECC71'}:p>=25&&p<=50?{t:'Riesgo Moderado. Implementar plan de prevención estándar: barandillas bilaterales elevadas, acompañamiento en traslados y señalización visual de riesgo en la cabecera.',bg:'#F5F5F5',c:'#F1C40F'}:p>=51?{t:'¡ALERTA CRÍTICA! Riesgo Alto de caídas. Activar protocolo estricto: supervisión continua, uso de alfombras antideslizantes, asistencia obligatoria para ir al baño, brazalete de identificación de riesgo y reevaluación en cada turno de enfermería.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'silverman-andersen':{
+secciones:[
+{n:'1. Movimientos toracoabdominales',items:[
+{t:'1. Movimientos toracoabdominales (0=0 - Regulares y sincrónicos (El tórax y el abdomen se elevan juntos), 1=1 - Tórax inmóvil y abdomen en movimiento (Asincronía leve), 2=2 - Respiración en balancín (El tórax baja cuando el abdomen sube, disociación total))',ops:[0,1,2]}
+]},
+{n:'2. Tiraje intercostal',items:[
+{t:'2. Tiraje intercostal (0=0 - Ausente (No hay hundimiento), 1=1 - Leve o discreto (Apenas visible al esfuerzo), 2=2 - Intenso, marcado y constante)',ops:[0,1,2]}
+]},
+{n:'3. Retracción xifoidea',items:[
+{t:'3. Retracción xifoidea (0=0 - Ausente, 1=1 - Leve o discreta, 2=2 - Intensa, marcada y muy hundida)',ops:[0,1,2]}
+]},
+{n:'4. Aleteo nasal',items:[
+{t:'4. Aleteo nasal (0=0 - Ausente, 1=1 - Leve o discreto, 2=2 - Intenso y muy marcado)',ops:[0,1,2]}
+]},
+{n:'5. Quejido espiratorio',items:[
+{t:'5. Quejido espiratorio (0=0 - Ausente, 1=1 - Leve, audible únicamente con el estetoscopio, 2=2 - Intenso, continuo y audible a simple vista sin estetoscopio)',ops:[0,1,2]}
+]}
+],
+interp:(p)=>p==0?{t:'Puntaje de 0. Estado respiratorio óptimo y fisiológico. Continuar con la adaptación neonatal habitual y monitorización de rutina.',bg:'#F5F5F5',c:'#2ECC71'}:p>=1&&p<=3?{t:'Sintomatología respiratoria leve. Activar vigilancia estrecha en incubadora, evaluar permeabilidad de vías aéreas, aspirar secreciones si es necesario y monitorizar la saturación de oxígeno de forma continua.',bg:'#F5F5F5',c:'#F1C40F'}:p>=4&&p<=6?{t:'¡Alerta neonatal moderada! El recién nacido requiere soporte ventilatorio no invasivo inmediato (como CPAP nasal), toma de gases de cordón o arteriales, y traslado a la Unidad de Cuidados Intermedios Neonatales.',bg:'#F5F5F5',c:'#E67E22'}:p>=7&&p<=10?{t:'¡ALERTA CRÍTICA NEONATAL! Puntuación de colapso respiratorio inminente. El protocolo de reanimación exige de forma prioritaria intubación endotraqueal, conexión a ventilación mecánica invasiva, administración de surfactante si aplica y manejo urgente en la UCIN (UCI Neonatal).',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'flacc':{
+secciones:[
+{n:'F - Cara (Expresión facial)',items:[
+{t:'F - Cara (Expresión facial) (0=0 - Expresión facial normal, 1=1 - Mueca o ceño fruncido, 2=2 - Muecas constantes o llanto facial)',ops:[0,1,2]}
+]},
+{n:'L - Piernas (Posición y movimiento)',items:[
+{t:'L - Piernas (Posición y movimiento) (0=0 - Posición normal o relajada, 1=1 - Inquietas, tensas o flexionadas, 2=2 - Pataleo, rigidez marcada o encogimiento)',ops:[0,1,2]}
+]},
+{n:'A - Actividad (Movimiento corporal general)',items:[
+{t:'A - Actividad (Movimiento corporal general) (0=0 - Actividad normal / Tranquilo, 1=1 - Inquieto, da vueltas o tenso, 2=2 - Arqueado, rígido o movimientos espasmódicos)',ops:[0,1,2]}
+]},
+{n:'C - Llanto (Vocalización)',items:[
+{t:'C - Llanto (Vocalización) (0=0 - Sin llanto / Silencioso, 1=1 - Gemidos, sollozos o quejas ocasionales, 2=2 - Llanto constante, gritos o quejas frecuentes)',ops:[0,1,2]}
+]},
+{n:'C - Capacidad de consuelo',items:[
+{t:'C - Capacidad de consuelo (0=0 - Consolable / Relajado, 1=1 - Se consuela de forma intermitente, 2=2 - Difícil de consolar o inconsolable)',ops:[0,1,2]}
+]}
+],
+interp:(p)=>p==0?{t:'El paciente no muestra manifestaciones conductuales de dolor. Continuar plan de monitoreo habitual.',bg:'#F5F5F5',c:'#2ECC71'}:p>=1&&p<=3?{t:'Dolor leve detectado. Implementar medidas no farmacológicas de confort (cambio de posición, caricias, estímulos visuales/auditivos) y reevaluar.',bg:'#F5F5F5',c:'#3498DB'}:p>=4&&p<=6?{t:'Dolor moderado. Informar al equipo de salud para evaluar la necesidad de analgesia farmacológica reglada o rescate de analgésico según indicación médica.',bg:'#F5F5F5',c:'#F1C40F'}:p>=7&&p<=10?{t:'¡ALERTA DE DOLOR AGUDO! El paciente presenta un cuadro conductual compatible con dolor severo. Requiere intervención farmacológica analgésica prioritaria inmediata y reevaluación estricta a los 30 minutos.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'yesavage15':{
+secciones:[
+{n:'1. ¿Está básicamente satisfecho con su vida?',items:[
+{t:'1. ¿Está básicamente satisfecho con su vida? (0=Sí, 1=No)',ops:[0,1]}
+]},
+{n:'2. ¿Ha dejado de lado muchas de sus actividades e intereses?',items:[
+{t:'2. ¿Ha dejado de lado muchas de sus actividades e intereses? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'3. ¿Siente que su vida está vacía?',items:[
+{t:'3. ¿Siente que su vida está vacía? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'4. ¿Se aburre a menudo?',items:[
+{t:'4. ¿Se aburre a menudo? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'5. ¿Está de buen ánimo la mayor parte del tiempo?',items:[
+{t:'5. ¿Está de buen ánimo la mayor parte del tiempo? (0=Sí, 1=No)',ops:[0,1]}
+]},
+{n:'6. ¿Teme que algo malo le va a pasar?',items:[
+{t:'6. ¿Teme que algo malo le va a pasar? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'7. ¿Se siente feliz la mayor parte del tiempo?',items:[
+{t:'7. ¿Se siente feliz la mayor parte del tiempo? (0=Sí, 1=No)',ops:[0,1]}
+]},
+{n:'8. ¿Se siente a menudo desamparado (indefenso / abandonado)?',items:[
+{t:'8. ¿Se siente a menudo desamparado (indefenso / abandonado)? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'9. ¿Prefiere quedarse en casa en lugar de salir y hacer cosas nuevas?',items:[
+{t:'9. ¿Prefiere quedarse en casa en lugar de salir y hacer cosas nuevas? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'10. ¿Siente que tiene más problemas de memoria que los demás?',items:[
+{t:'10. ¿Siente que tiene más problemas de memoria que los demás? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'11. ¿Piensa que es maravilloso estar vivo en este momento?',items:[
+{t:'11. ¿Piensa que es maravilloso estar vivo en este momento? (0=Sí, 1=No)',ops:[0,1]}
+]},
+{n:'12. ¿Se siente inútil o desvalido en el papel que ocupa actualmente?',items:[
+{t:'12. ¿Se siente inútil o desvalido en el papel que ocupa actualmente? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'13. ¿Se siente lleno de energía?',items:[
+{t:'13. ¿Se siente lleno de energía? (0=Sí, 1=No)',ops:[0,1]}
+]},
+{n:'14. ¿Siente que su situación es desesperada?',items:[
+{t:'14. ¿Siente que su situación es desesperada? (1=Sí, 0=No)',ops:[1,0]}
+]},
+{n:'15. ¿Piensa que la mayoría de la gente está en mejor situación que usted?',items:[
+{t:'15. ¿Piensa que la mayoría de la gente está en mejor situación que usted? (1=Sí, 0=No)',ops:[1,0]}
+]}
+],
+interp:(p)=>p>=0&&p<=5?{t:'Puntaje dentro de los límites de normalidad. No se evidencia sintomatología depresiva clínicamente significativa.',bg:'#F5F5F5',c:'#2ECC71'}:p>=6&&p<=9?{t:'Sintomatología depresiva leve. Se recomienda realizar un seguimiento clínico en la consulta de enfermería o medicina familiar y evaluar factores de soporte social.',bg:'#F5F5F5',c:'#F1C40F'}:p>=10&&p<=15?{t:'¡ALERTA CLÍNICA! Alta probabilidad de un cuadro depresivo moderado a severo. Es prioritaria la derivación al servicio de Psicología Clínica o Psiquiatría para confirmación diagnóstica y soporte terapéutico.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'nyha':{
+secciones:[
+{n:'Clasificación Funcional de la Insuficiencia Cardíaca de la NYHA',items:[
+{t:'Clasificación Funcional de la Insuficiencia Cardíaca de la NYHA (1=Clase I (Asintomático), 2=Clase II (Limitación Leve), 3=Clase III (Limitación Marcada), 4=Clase IV (Incapacidad Total))',ops:[1,2,3,4]}
+]}
+],
+interp:(p)=>p==1?{t:'Clase I: Actividad física normal sin restricciones. Continuar con el tratamiento farmacológico de mantenimiento y controles periódicos.',bg:'#F5F5F5',c:'#2ECC71'}:p==2?{t:'Clase II: Limitación leve con el esfuerzo físico habitual. Reforzar la educación sobre restricción de sodio, control diario de peso (vigilar edema) y adherencia médica.',bg:'#F5F5F5',c:'#3498DB'}:p==3?{t:'¡Alerta clínica! Clase III: Marcada limitación con esfuerzos mínimos. Evaluar con el cardiólogo el reajuste inmediato de dosis de diuréticos u optimización del tratamiento neurohormonal.',bg:'#F5F5F5',c:'#F1C40F'}:p==4?{t:'¡ALERTA DE EMERGENCIA! Clase IV: Síntomas presentes en reposo absoluto. Alto riesgo de edema agudo de pulmón o shock cardiogénico. Requiere manejo hospitalario prioritario, monitorización estricta de constantes y balance hídrico riguroso.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'mmrc':{
+secciones:[
+{n:'Escala de Disnea Modificada del Medical Research Council',items:[
+{t:'Escala de Disnea Modificada del Medical Research Council (0=Grado 0 (Ausencia de disnea), 1=Grado 1 (Disnea leve), 2=Grado 2 (Disnea moderada), 3=Grado 3 (Disnea severa), 4=Grado 4 (Disnea muy severa))',ops:[0,1,2,3,4]}
+]}
+],
+interp:(p)=>p==0?{t:'Grado 0-1: Impacto bajo de la enfermedad respiratoria en la vida cotidiana. Mantener tratamiento inhalado habitual y fomentar actividad física regular.',bg:'#F5F5F5',c:'#2ECC71'}:p==2?{t:'¡Alerta de progresión! Grado 2: El paciente ya presenta limitaciones al compararse con sus pares. Punto de corte crítico que suele requerir optimización de broncodilatadores de larga duración (LAMA/LABA).',bg:'#F5F5F5',c:'#F1C40F'}:p>=3?{t:'¡ALERTA CRÍTICA! Grado 3-4: Impacto severo en la autonomía del paciente. Alto riesgo de exacerbaciones agudas. Evaluar criterios para oxigenoterapia domiciliaria, rehabilitación pulmonar intensiva y protocolo de rescate respiratorio.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'had':{
+secciones:[
+{n:'1. Me siento tenso o nervioso:',items:[
+{t:'1. Me siento tenso o nervioso: (3=Todos los días / Casi siempre, 2=Muchas veces, 1=A veces, 0=Nunca / Jamás)',ops:[3,2,1,0]}
+]},
+{n:'2. Sigo disfrutando con las mismas cosas de antes:',items:[
+{t:'2. Sigo disfrutando con las mismas cosas de antes: (0=Como siempre / Exactamente igual, 1=No tanto como antes, 2=Sólo un poco, 3=Casi nada)',ops:[0,1,2,3]}
+]},
+{n:'3. Tengo una sensación de miedo, como si algo horrible fuera a suceder:',items:[
+{t:'3. Tengo una sensación de miedo, como si algo horrible fuera a suceder: (3=Casi siempre y muy fuerte, 2=Sí, pero no demasiado fuerte, 1=Un poco, pero no me preocupa, 0=No, en absoluto)',ops:[3,2,1,0]}
+]},
+{n:'4. Me río y soy capaz de ver el lado divertido de las cosas:',items:[
+{t:'4. Me río y soy capaz de ver el lado divertido de las cosas: (0=Igual que siempre, 1=No tanto ahora, 2=Claramente menos ahora, 3=No, en absoluto)',ops:[0,1,2,3]}
+]},
+{n:'5. Tengo mi mente llena de preocupaciones:',items:[
+{t:'5. Tengo mi mente llena de preocupaciones: (3=La mayor parte del tiempo, 2=Bastante a menudo, 1=A veces, pero no muy a menudo, 0=Sólo de forma excepcional)',ops:[3,2,1,0]}
+]},
+{n:'6. Me siento alegre:',items:[
+{t:'6. Me siento alegre: (3=Nunca / Jamás, 2=No muy a menudo, 1=A veces, 0=La mayor parte del tiempo)',ops:[3,2,1,0]}
+]},
+{n:'7. Puedo estar sentado cómodamente y sentirme relajado:',items:[
+{t:'7. Puedo estar sentado cómodamente y sentirme relajado: (0=Siempre / Por lo general, 1=A menudo, 2=Raras veces, 3=Nunca / Jamás)',ops:[0,1,2,3]}
+]},
+{n:'8. Me siento lento, como si todo me costara más esfuerzo:',items:[
+{t:'8. Me siento lento, como si todo me costara más esfuerzo: (3=Casi todo el tiempo, 2=Muy a menudo, 1=A veces, 0=No, en absoluto)',ops:[3,2,1,0]}
+]},
+{n:'9. Tengo una sensación de inquietud o mariposas en el estómago:',items:[
+{t:'9. Tengo una sensación de inquietud o mariposas en el estómago: (0=No, en absoluto, 1=A veces, 2=Bastante a menudo, 3=Muy a menudo / Casi siempre)',ops:[0,1,2,3]}
+]},
+{n:'10. He perdido el interés por mi aspecto personal:',items:[
+{t:'10. He perdido el interés por mi aspecto personal: (3=Totalmente, 2=No me cuido como debería, 1=Puede que no me cuide tanto como antes, 0=Me cuido exactamente igual que siempre)',ops:[3,2,1,0]}
+]},
+{n:'11. Me siento inquieto, como si no pudiera parar de moverme:',items:[
+{t:'11. Me siento inquieto, como si no pudiera parar de moverme: (3=Mucho / Bastante, 2=Bastante, 1=No mucho, 0=No, en absoluto)',ops:[3,2,1,0]}
+]},
+{n:'12. Espero ilusionado las cosas que van a venir:',items:[
+{t:'12. Espero ilusionado las cosas que van a venir: (0=Igual que siempre, 1=Un poco menos que antes, 2=Claramente menos que antes, 3=No, en absoluto)',ops:[0,1,2,3]}
+]},
+{n:'13. Tengo sensaciones repentinas de pánico:',items:[
+{t:'13. Tengo sensaciones repentinas de pánico: (3=Muy a menudo / Frecuentemente, 2=Bastante a menudo, 1=No muy a menudo, 0=No, en absoluto)',ops:[3,2,1,0]}
+]},
+{n:'14. Soy capaz de disfrutar con un buen libro o un programa de televisión:',items:[
+{t:'14. Soy capaz de disfrutar con un buen libro o un programa de televisión: (0=A menudo, 1=A veces, 2=Raras veces, 3=Casi nunca)',ops:[0,1,2,3]}
+]}
+],
+interp:(p)=>p<=7?{t:'Caso normal. El nivel emocional se encuentra dentro de los parámetros esperados.',bg:'#F5F5F5',c:'#2ECC71'}:p<=10?{t:'Caso limítrofe o dudoso. Indica la presencia de síntomas leves. Se sugiere realizar un seguimiento clínico a corto plazo.',bg:'#F5F5F5',c:'#F1C40F'}:p<=21?{t:'¡ALERTA CLÍNICA! Presencia significativa de síntomas compatibles con un trastorno moderado a severo. Requiere derivación y evaluación formal por Psicología o Psiquiatría.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'bishop':{
+secciones:[
+{n:'1. Dilatación Cervical',items:[
+{t:'1. Dilatación Cervical (0=0 cm (Cerrado), 1=1 - 2 cm, 2=3 - 4 cm, 3=≥ 5 cm)',ops:[0,1,2,3]}
+]},
+{n:'2. Borramiento Cervical (Acortamiento)',items:[
+{t:'2. Borramiento Cervical (Acortamiento) (0=0% - 30% (Largo), 1=40% - 50%, 2=60% - 70%, 3=≥ 80% (Totalmente borrado))',ops:[0,1,2,3]}
+]},
+{n:'3. Altura de la Presentación (Estación De Lee)',items:[
+{t:'3. Altura de la Presentación (Estación De Lee) (0=-3 (Cabeza alta y móvil), 1=-2, 2=-1 o 0 (Cabeza encajada), 3=+1 o +2 (Cabeza descendida))',ops:[0,1,2,3]}
+]},
+{n:'4. Consistencia Cervical',items:[
+{t:'4. Consistencia Cervical (0=Firme (Consistencia similar a la punta de la nariz), 1=Media (Consistencia similar a los labios de la boca), 2=Blanda (Consistencia muy maleable, similar a la oreja o el lóbulo))',ops:[0,1,2]}
+]},
+{n:'5. Posición Cervical',items:[
+{t:'5. Posición Cervical (0=Posterior (Inclinado hacia atrás), 1=Media, 2=Anterior (Centrado, alineado con el canal de parto))',ops:[0,1,2]}
+]}
+],
+interp:(p)=>p<=5?{t:'Cuello inmaduro. Las probabilidades de éxito de una inducción directa son bajas. El protocolo obstétrico sugiere realizar primero una maduración cervical previa (ej. mediante prostaglandinas o métodos mecánicos).',bg:'#F5F5F5',c:'#E74C3C'}:p>=6&&p<=8?{t:'Zona gris o intermedia. Se requiere una evaluación clínica exhaustiva de las condiciones materno-fetales para decidir el método de inducción idóneo.',bg:'#F5F5F5',c:'#F1C40F'}:p>=9&&p<=13?{t:'¡Cuello maduro y favorable! Alta probabilidad de éxito para el parto vaginal. Se puede proceder con la inducción estándar del trabajo de parto (ej. mediante infusión de oxitocina o amniotomía) de forma segura.',bg:'#F5F5F5',c:'#2ECC71'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'apgar-familiar':{
+secciones:[
+{n:'A - Adaptación (Adaptability)',items:[
+{t:'A - Adaptación (Adaptability) (2=Casi siempre, 1=Algunas veces, 0=Casi nunca)',ops:[2,1,0]}
+]},
+{n:'P - Participación (Partnership)',items:[
+{t:'P - Participación (Partnership) (2=Casi siempre, 1=Algunas veces, 0=Casi nunca)',ops:[2,1,0]}
+]},
+{n:'G - Gradiente de crecimiento (Growth)',items:[
+{t:'G - Gradiente de crecimiento (Growth) (2=Casi siempre, 1=Algunas veces, 0=Casi nunca)',ops:[2,1,0]}
+]},
+{n:'A - Afecto (Affection)',items:[
+{t:'A - Afecto (Affection) (2=Casi siempre, 1=Algunas veces, 0=Casi nunca)',ops:[2,1,0]}
+]},
+{n:'R - Recursos y Resolución (Resolve)',items:[
+{t:'R - Recursos y Resolución (Resolve) (2=Casi siempre, 1=Algunas veces, 0=Casi nunca)',ops:[2,1,0]}
+]}
+],
+interp:(p)=>p>=7&&p<=10?{t:'Soporte familiar adecuado. El núcleo del paciente muestra dinámicas sanas de resolución y acompañamiento afectivo.',bg:'#F5F5F5',c:'#2ECC71'}:p>=4&&p<=6?{t:'Indica presencia de conflictos intermitentes o falta de cohesión en ciertas áreas. Se recomienda consejería familiar básica o seguimiento en medicina familiar.',bg:'#F5F5F5',c:'#F1C40F'}:p>=0&&p<=3?{t:'¡ALERTA SOCIO-SANITARIA! Grave alteración en los lazos de apoyo y comunicación familiar. Alto riesgo de desamparo o maltrato. Requiere derivación obligatoria y prioritaria al servicio de Psicología de Enlace o Trabajo Social.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'snellen':{
+secciones:[
+{n:'Prueba de Agudeza Visual de Snellen',items:[
+{t:'Prueba de Agudeza Visual de Snellen (1=, 2=, 3=, 4=, 5=, 6=, 7=, 8=, 9=, 10=)',ops:[1,2,3,4,5,6,7,8,9,10]}
+]}
+],
+interp:(p)=>({t:'¡ALERTA CRÍTICA! Agudeza visual de 20/200 o inferior en el mejor ojo con la mejor corrección posible. Clasifica bajo los criterios institucionales de ceguera legal.',bg:'#F5F5F5',c:'#E74C3C'}),
+},
+'wagner':{
+secciones:[
+{n:'Clasificación de Wagner para Lesiones del Pie Diabético',items:[
+{t:'Clasificación de Wagner para Lesiones del Pie Diabético (0=Grado 0 - No hay lesión (Pie de riesgo), 1=Grado 1 - Úlcera superficial, 2=Grado 2 - Úlcera profunda, 3=Grado 3 - Úlcera profunda con infección, 4=Grado 4 - Gangrena localizada, 5=Grado 5 - Gangrena extensa)',ops:[0,1,2,3,4,5]}
+]}
+],
+interp:(p)=>p==0?{t:'Manejo preventivo estricto. Educación al paciente sobre el calzado adecuado, corte de uñas e inspección diaria del pie. Reevaluar de forma rutinaria.',bg:'#F5F5F5',c:'#2ECC71'}:p==1?{t:'Requiere curaciones tópicas periódicas, descarga de presión absoluta sobre la zona ulcerada mediante plantillas o botas especiales, y control glucémico estricto.',bg:'#F5F5F5',c:'#3498DB'}:p==2?{t:'¡Alerta de progresión! Úlcera profunda. Requiere desbridamiento quirúrgico de tejido hiperqueratósico (callo), toma de cultivos profundos e inicio de antibioticoterapia guiada.',bg:'#F5F5F5',c:'#F1C40F'}:p==3?{t:'¡ALERTA DE HOSPITALIZACIÓN! Absceso u osteomielitis confirmada. Requiere ingreso hospitalario prioritario, antibióticos intravenosos de amplio espectro, y valoración por Cirugía General o Vascular para limpieza quirúrgica.',bg:'#F5F5F5',c:'#E67E22'}:p>=4&&p<=5?{t:'¡EMERGENCIA CRÍTICA VASCULAR! Gangrena activa. Elevado riesgo de amputación (parcial para Grado 4, mayor infracondílea/supracondílea para Grado 5) y sepsis sistémica. Activar de inmediato al equipo de Cirugía Vascular para revascularización de urgencia o resolución quirúrgica radical.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'alvarado':{
+secciones:[
+{n:'1. Migración del dolor',items:[
+{t:'1. Migración del dolor (1=Sí (Presente), 0=No (Ausente))',ops:[1,0]}
+]},
+{n:'2. Anorexia (Pérdida de apetito)',items:[
+{t:'2. Anorexia (Pérdida de apetito) (1=Sí (Presente), 0=No (Ausente))',ops:[1,0]}
+]},
+{n:'3. Náuseas y/o vómitos',items:[
+{t:'3. Náuseas y/o vómitos (1=Sí (Presente), 0=No (Ausente))',ops:[1,0]}
+]},
+{n:'4. Dolor en fosa ilíaca derecha (FID)',items:[
+{t:'4. Dolor en fosa ilíaca derecha (FID) (2=Sí (Dolor marcado en FID - 2 puntos), 0=No (Ausente o localizado en otra zona))',ops:[2,0]}
+]},
+{n:'5. Dolor a la descompresión (Signo de Blumberg)',items:[
+{t:'5. Dolor a la descompresión (Signo de Blumberg) (1=Sí (Rebote positivo), 0=No (Rebote negativo))',ops:[1,0]}
+]},
+{n:'6. Elevación de la temperatura (Fiebre)',items:[
+{t:'6. Elevación de la temperatura (Fiebre) (1=Sí (Fiebre/Febrícula ≥ 37.3 °C), 0=No (Normotermia))',ops:[1,0]}
+]},
+{n:'7. Leucocitosis (Hemograma)',items:[
+{t:'7. Leucocitosis (Hemograma) (2=Sí (Leucocitos > 10,000 /mm³ - 2 puntos), 0=No / Pendiente)',ops:[2,0]}
+]},
+{n:'8. Desviación a la izquierda de la fórmula blanca',items:[
+{t:'8. Desviación a la izquierda de la fórmula blanca (1=Sí (Neutrofilia > 75%), 0=No / Pendiente)',ops:[1,0]}
+]}
+],
+interp:(p)=>p>=0&&p<=4?{t:'Riesgo bajo (0-4 puntos). El diagnóstico de apendicitis aguda es muy poco probable. Se sugiere buscar otras causas del dolor abdominal agudo, mantener en observación ambulatoria con signos de alarma o dar alta según criterio médico.',bg:'#F5F5F5',c:'#2ECC71'}:p>=5&&p<=6?{t:'¡Alerta de observación activa! Riesgo intermedio (5-6 puntos). Cuadro sospechoso pero no concluyente. El protocolo de urgencias exige dejar al paciente en ayuno, realizar monitorización clínica seriada cada 2 a 4 horas o solicitar una ecografía abdominal (o tomografía axial computarizada).',bg:'#F5F5F5',c:'#F1C40F'}:p>=7&&p<=8?{t:'Riesgo elevado (7-8 puntos). Cuadro clínico altamente sugestivo de apendicitis. Proceder de inmediato con la preparación preoperatoria del paciente, iniciar hidratación intravenosa, antibioticoterapia profiláctica y programar valoración prioritaria por Cirugía General.',bg:'#F5F5F5',c:'#E67E22'}:p>=9&&p<=10?{t:'¡ALERTA CRÍTICA DE CIRUGÍA DE URGENCIAS! Riesgo extremo (9-10 puntos). Prácticamente certeza diagnóstica de apendicitis aguda quirúrgica. Activar de inmediato el protocolo de quirófano para apendicetomía de urgencia (abierta o laparoscópica) para evitar perforación y peritonitis.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'curb65':{
+secciones:[
+{n:'C - Confusión',items:[
+{t:'C - Confusión (1=Sí (Confusión presente), 0=No (Lúcido / Orientado))',ops:[1,0]}
+]},
+{n:'U - Urea elevada (Nitrógeno Ureico en Sangre - BUN)',items:[
+{t:'U - Urea elevada (Nitrógeno Ureico en Sangre - BUN) (1=Sí (BUN > 19 mg/dL u Omisión de aclaramiento renal), 0=No / Pendiente)',ops:[1,0]}
+]},
+{n:'R - Respiración (Frecuencia respiratoria)',items:[
+{t:'R - Respiración (Frecuencia respiratoria) (1=Sí (Frecuencia respiratoria ≥ 30 respiraciones/minuto), 0=No (Menor a 30 respiraciones/minuto))',ops:[1,0]}
+]},
+{n:'B - Presión arterial (Blood Pressure)',items:[
+{t:'B - Presión arterial (Blood Pressure) (1=Sí (Sistólica < 90 mmHg y/o Diastólica ≤ 60 mmHg), 0=No (Valores de presión arterial estables))',ops:[1,0]}
+]},
+{n:'65 - Edad del Paciente',items:[
+{t:'65 - Edad del Paciente (1=Sí (Edad ≥ 65 años), 0=No (Edad menor a 65 años))',ops:[1,0]}
+]}
+],
+interp:(p)=>p==0?{t:'Mortalidad baja (1.5%). El paciente es apto para recibir tratamiento médico de forma ambulatoria en su domicilio (con antibióticos orales) siempre que cuente con soporte familiar y tolerancia a la vía oral.',bg:'#F5F5F5',c:'#2ECC71'}:p==2?{t:'¡Alerta de hospitalización corta! Mortalidad intermedia (9.2%). El protocolo de urgencias recomienda el ingreso hospitalario del paciente en piso de medicina interna/neumología para vigilancia estrecha o un tratamiento supervisado en una unidad de estancia corta.',bg:'#F5F5F5',c:'#F1C40F'}:p>=3&&p<=5?{t:'¡EMERGENCIA CRÍTICA INFECCIOSA! Mortalidad elevada (22%). Cuadro de neumonía grave. Requiere ingreso hospitalario urgente. Evaluar de forma prioritaria la necesidad de traslado inmediato a la Unidad de Cuidados Intensivos (UCI), especialmente si el puntaje es 4 o 5.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'timi':{
+secciones:[
+{n:'1. Edad ≥ 65 años',items:[
+{t:'1. Edad ≥ 65 años (1=Sí (Edad ≥ 65 años), 0=No)',ops:[1,0]}
+]},
+{n:'2. ≥ 3 Factores de riesgo tradicionales para EAC',items:[
+{t:'2. ≥ 3 Factores de riesgo tradicionales para EAC (1=Sí (Tiene 3 o más factores), 0=No (Menos de 3 factores))',ops:[1,0]}
+]},
+{n:'3. Estenosis coronaria conocida ≥ 50%',items:[
+{t:'3. Estenosis coronaria conocida ≥ 50% (1=Sí (Estenosis documentada ≥ 50%), 0=No / Desconocido)',ops:[1,0]}
+]},
+{n:'4. Desviación del segmento ST en el ECG',items:[
+{t:'4. Desviación del segmento ST en el ECG (1=Sí (Cambios en el ST presentes), 0=No)',ops:[1,0]}
+]},
+{n:'5. ≥ 2 Episodios de angina en las últimas 24 horas',items:[
+{t:'5. ≥ 2 Episodios de angina en las últimas 24 horas (1=Sí (Dos o más crisis de dolor), 0=No)',ops:[1,0]}
+]},
+{n:'6. Uso de ácido acetilsalicílico (Aspirina) en los últimos 7 días',items:[
+{t:'6. Uso de ácido acetilsalicílico (Aspirina) en los últimos 7 días (1=Sí (Tomó aspirina), 0=No)',ops:[1,0]}
+]},
+{n:'7. Marcadores cardiacos elevados',items:[
+{t:'7. Marcadores cardiacos elevados (1=Sí (Troponina o CK-MB positivas), 0=No / Pendiente)',ops:[1,0]}
+]}
+],
+interp:(p)=>p>=0&&p<=2?{t:'Riesgo bajo de eventos cardiovasculares adversos a 14 días (≤ 8.3%). El protocolo médico estándar sugiere una estrategia conservadora inicial, monitorización con electrocardiogramas seriados y biomarcadores.',bg:'#F5F5F5',c:'#2ECC71'}:p==3?{t:'¡Alerta cardiovascular de riesgo intermedio! Riesgo de eventos a 14 días entre el 13% y 20%. Evaluar el inicio de terapia antitrombótica dual combinada y programar una estrategia invasiva temprana (cateterismo) en las siguientes 24 a 72 horas.',bg:'#F5F5F5',c:'#F1C40F'}:p>=5&&p<=7?{t:'¡EMERGENCIA CARDIOLÓGICA CRÍTICA! Riesgo elevado de muerte o reinfarto a 14 días (hasta 41%). Activar de inmediato al equipo de hemodinámica para realizar una estrategia invasiva urgente o prioritaria (coronariografía en menos de 24 horas) e ingresar a la Unidad de Cuidados Coronarios (UCO).',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'crams':{
+secciones:[
+{n:'C - Circulación (Llenado capilar y Presión)',items:[
+{t:'C - Circulación (Llenado capilar y Presión) (2=2 - Normal (Llenado capilar < 2 segundos y PAS > 100 mmHg), 1=1 - Demorado (Llenado capilar ≥ 2 segundos o PAS entre 85 y 100 mmHg), 0=0 - Crítico (Sin llenado capilar o PAS < 85 mmHg))',ops:[2,1,0]}
+]},
+{n:'R - Respiración',items:[
+{t:'R - Respiración (2=2 - Normal (Frecuencia y profundidad adecuadas, sin dificultad), 1=1 - Anormal (Respiración superficial, taquipnea o respiración laboriosa), 0=0 - Ausente / Agónica (Apnea o respiración agónica superficial))',ops:[2,1,0]}
+]},
+{n:'A - Abdomen (y Tórax)',items:[
+{t:'A - Abdomen (y Tórax) (2=2 - Abdomen y tórax no dolorosos / Blandos a la palpación, 1=1 - Abdomen o tórax dolorosos a la palpación profunda, sin rigidez, 0=0 - Abdomen rígido (en tabla), tórax inestable o herida penetrante)',ops:[2,1,0]}
+]},
+{n:'M - Motor',items:[
+{t:'M - Motor (2=2 - Normal (Obedece órdenes verbales correctamente), 1=1 - Respuesta al dolor (Localiza o retira ante el estímulo doloroso), 0=0 - Postura patológica o sin respuesta (Descerebración, decorticación o flacidez))',ops:[2,1,0]}
+]},
+{n:'S - Palabra (Speech / Lenguaje)',items:[
+{t:'S - Palabra (Speech / Lenguaje) (2=2 - Orientado (Habla fluida, coherente y comprende el entorno), 1=1 - Confuso (Palabras inapropiadas, lenguaje desorganizado o confuso), 0=0 - Ininteligible / Ausente (Sonidos guturales, gemidos o mutismo total))',ops:[2,1,0]}
+]}
+],
+interp:(p)=>p>=9&&p<=10?{t:'Paciente hemodinámicamente estable con baja probabilidad de lesiones internas graves. Apto para traslado a hospitales locales o regionales estándar para observación rutinaria.',bg:'#F5F5F5',c:'#2ECC71'}:p>=7&&p<=8?{t:'¡Alerta de monitorización! El paciente presenta alteraciones fisiológicas leves o dolor anatómico moderado. Requiere traslado prioritario para evaluación radiológica y quirúrgica completa.',bg:'#F5F5F5',c:'#F1C40F'}:p>=0&&p<=6?{t:'¡EMERGENCIA CRÍTICA PREHOSPITALARIA! Alto riesgo de mortalidad. El protocolo exige la activación inmediata del código de trauma y el traslado urgente al centro de atención de traumatología de máxima complejidad más cercano. Preparar quirófano.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'gijon':{
+secciones:[
+{n:'1. Situación Familiar',items:[
+{t:'1. Situación Familiar (1=1 - Vive con pareja y/o familia sin conflictos, 2=2 - Vive con pareja de edad similar, de forma independiente, 3=3 - Vive con hijos o parientes, pero se observan dinámicas de conflicto o sobrecarga, 4=4 - Vive solo y tiene hijos o familiares cercanos, 5=5 - Vive completamente solo y carece de hijos o familiares con contacto directo)',ops:[1,2,3,4,5]}
+]},
+{n:'2. Situación Económica',items:[
+{t:'2. Situación Económica (1=1 - Ingresos superiores al salario mínimo u óptimos para cubrir todas las necesidades básicas, 2=2 - Ingresos equivalentes al salario mínimo (Cubre necesidades justas), 3=3 - Ingresos inferiores al salario mínimo (Presenta dificultades económicas intermitentes), 4=4 - Ingresos de beneficencia, subsidios mínimos o ayuda familiar inestable, 5=5 - Sin ingresos de ningún tipo / Pobreza extrema absoluta)',ops:[1,2,3,4,5]}
+]},
+{n:'3. Vivienda',items:[
+{t:'3. Vivienda (1=1 - Adecuada para las necesidades del paciente (Sin barreras, limpia, servicios completos), 2=2 - Barreras arquitectónicas leves (ej. escaleras externas, baño sin adaptaciones menores), 3=3 - Humedades, mala ventilación, falta de ascensor o deficiencias de habitabilidad moderadas, 4=4 - Barreras arquitectónicas graves (Incapaz de salir a la calle por sus propios medios), 5=5 - Infravivienda, hacinamiento, falta de servicios básicos (agua/luz) o ausencia de hogar)',ops:[1,2,3,4,5]}
+]},
+{n:'4. Relaciones Sociales',items:[
+{t:'4. Relaciones Sociales (1=1 - Relaciones sociales fluidas (Participa en centros de día, actividades o tiene amigos activos), 2=2 - Relaciones sociales normales con familiares o vecinos únicamente, 3=3 - Relaciones sociales escasas o restringidas; sale poco de su domicilio, 4=4 - No sale de casa, no recibe visitas y refiere sentimientos de soledad, 5=5 - Aislamiento social absoluto; no tiene contacto con ninguna red externa)',ops:[1,2,3,4,5]}
+]},
+{n:'5. Apoyo Social (Red de Cuidado)',items:[
+{t:'5. Apoyo Social (Red de Cuidado) (1=1 - Recibe apoyo de la familia o de cuidadores formales de manera continua, 2=2 - Recibe apoyo de vecinos o amigos de forma voluntaria ante emergencias, 3=3 - Recibe únicamente subsidios económicos o servicios sociales institucionales puntuales, 4=4 - El cuidador actual está enfermo, exhausto (síndrome del cuidador quemado) o soporte insuficiente, 5=5 - Requiere cuidados urgentes y no cuenta con absolutamente ninguna persona o institución de soporte)',ops:[1,2,3,4,5]}
+]}
+],
+interp:(p)=>p>=5&&p<=9?{t:'El adulto mayor cuenta con una red familiar y social adecuada, recursos económicos estables y vivienda habitable. Continuar con el seguimiento geriátrico de rutina.',bg:'#F5F5F5',c:'#2ECC71'}:p>=10&&p<=14?{t:'¡Alerta de vulnerabilidad social! El paciente se encuentra en una zona de riesgo debido a fragilidad económica, barreras en la vivienda o redes sociales escasas. Se recomienda dar aviso a Trabajo Social para realizar un seguimiento preventivo en el hogar.',bg:'#F5F5F5',c:'#F1C40F'}:p>=15&&p<=25?{t:'¡ALERTA CRÍTICA DE ASISTENCIA SOCIAL! El paciente vive en condiciones insostenibles de aislamiento, pobreza severa o abandono. Requiere la activación urgente de los protocolos de protección social del adulto mayor, intervención directa de Trabajo Social y valoración prioritaria de alternativas habitacionales o de soporte formal.',bg:'#F5F5F5',c:'#E74C3C'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
+'karnofsky':{
+secciones:[
+{n:'Índice de Estado Funcional de Karnofsky',items:[
+{t:'Índice de Estado Funcional de Karnofsky (100=100% - Normal, 90=90% - Actividad Normal, 80=80% - Actividad Normal con Esfuerzo, 70=70% - Autocuidado Autónomo, 60=60% - Asistencia Ocasional, 50=50% - Asistencia Médica Frecuente, 40=40% - Incapaz / Inválido, 30=30% - Severamente Incapaz, 20=20% - Muy Grave / Hospitalización Obligatoria, 10=10% - Moribundo, 0=0% - Fallecido)',ops:[100,90,80,70,60,50,40,30,20,10,0]}
+]}
+],
+interp:(p)=>p>=80&&p<=100?{t:'El paciente mantiene una excelente autonomía y capacidad física. Es un candidato óptimo para recibir esquemas de tratamiento oncológico estándar, quimioterapia citotóxica completa o intervenciones quirúrgicas agresivas.',bg:'#F5F5F5',c:'#2ECC71'}:p>=50&&p<=70?{t:'¡Alerta terapéutica! El paciente ha perdido la capacidad laboral y requiere asistencia variable. Los tratamientos oncológicos activos deben ajustarse en dosis o evaluar esquemas menos agresivos. Priorizar medidas de soporte nutricional y terapia física.',bg:'#F5F5F5',c:'#F1C40F'}:p>=10&&p<=40?{t:'¡ALERTA DE ALTO RIESGO! Dependencia total para las actividades básicas de la vida diaria y requerimiento de cuidados médicos continuos. Alto riesgo de toxicidad mortal ante quimioterapia tradicional. El protocolo médico sugiere cambiar el enfoque hacia Cuidados Paliativos exclusivos para control de síntomas.',bg:'#F5F5F5',c:'#E67E22'}:p==0?{t:'Defunción registrada en el sistema. El módulo bloquea la edición de notas clínicas posteriores a esta fecha.',bg:'#F5F5F5',c:'#7F8C8D'}:{t:'Ver rango clínico.',bg:'#F5F5F5',c:'#4A5568'},
+},
 'berg':{
 secciones:[
 {n:'Sedestación y bipedestación',items:[
@@ -2821,7 +3382,7 @@ function actualizarSesionBadges(){
 const cont=document.getElementById('sesionBadges'),card=document.getElementById('sesionCard');
 if(sesion.length===0){card.style.display='none';return;}
 card.style.display='block';
-const ec={'fisioterapia':'#1A4F8A','hidroterapia':'#1A7A5E','ocupacional':'#553C9A','lenguaje':'#C05621','psicologia':'#C53030','neuropsicologia':'#92400E','neurologia':'#2B6CB0','gastroenterologia':'#276749','urologia':'#B7791F','enfermeria':'#9B2C6F'};
+const ec={'fisioterapia':'#1A4F8A','hidroterapia':'#1A7A5E','ocupacional':'#553C9A','lenguaje':'#C05621','psicologia':'#C53030','neuropsicologia':'#92400E','neurologia':'#2B6CB0','gastroenterologia':'#276749','urologia':'#B7791F','enfermeria':'#9B2C6F','urgencias':'#C53030','geriatria':'#805AD5','pediatria':'#D53F8C','cardiologia':'#DD6B20','ginecologia':'#B83280','medicina_familiar':'#38A169','oftalmologia':'#3182CE','nefrologia':'#00A3C4','oncologia':'#744210'};
 cont.innerHTML=sesion.map((s,i)=>`
 <span class="sesion-badge" style="background:${ec[s.especialidad]}22;color:${ec[s.especialidad]}">
 ${s.info.nombre.length>25?s.info.nombre.substring(0,25)+'...':s.info.nombre}
