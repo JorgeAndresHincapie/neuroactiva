@@ -176,6 +176,10 @@ Panel
 <button class="esp-tab" onclick="selEsp('lenguaje',this)">Lenguaje</button>
 <button class="esp-tab" onclick="selEsp('psicologia',this)">Psicología</button>
 <button class="esp-tab" onclick="selEsp('neuropsicologia',this)">Neuropsicología</button>
+<button class="esp-tab" onclick="selEsp('neurologia',this)">Neurología</button>
+<button class="esp-tab" onclick="selEsp('gastroenterologia',this)">Gastroenterología</button>
+<button class="esp-tab" onclick="selEsp('urologia',this)">Urología</button>
+<button class="esp-tab" onclick="selEsp('enfermeria',this)">Enfermería</button>
 </div>
 <div class="escalas-lista" id="escalasList"></div>
 <button class="btn-primary" id="btnAgregar" onclick="agregarEscala()" disabled>
@@ -365,6 +369,26 @@ neuropsicologia:[
 {id:'wppsi4',nombre:'WPPSI-IV (Wechsler Preschool Intelligence)',max:0,area:'Inteligencia preescolar',desc:'Gold estándar de inteligencia para niños 2.5-7 años. Evalúa vocabulario, información, semejanzas, matrices, rompecabezas, codificación y cancelación.'},
 {id:'raven',nombre:'Matrices Progresivas de Raven',max:60,area:'Inteligencia fluida y razonamiento',desc:'3 versiones: Coloreadas (niños 5-11), Estándar (11-65), Avanzadas (adultos alta capacidad). Mide razonamiento abstracto no verbal independiente del lenguaje.'},
 {id:'nepsy-ee',nombre:'NEPSY-II Funciones Ejecutivas (Subtests)',max:0,area:'Funciones ejecutivas infantiles',desc:'Subtests seleccionados del NEPSY-II: clasificación de cartas (DCCS), fluidez de diseño, inhibición, mapa del zoológico y tiempo de respuesta. Perfil ejecutivo infantil.'},
+],
+neurologia:[
+{id:'glasgow',nombre:'Escala de Coma de Glasgow (GCS)',max:15,area:'Nivel de conciencia',desc:'3 componentes: apertura ocular(4), respuesta verbal(5), respuesta motora(6). 13-15 leve, 9-12 moderado, ≤8 grave (indica intubación).'},
+{id:'nihss',nombre:'NIHSS (National Institutes of Health Stroke Scale)',max:0,area:'Severidad de ACV',desc:'15 ítems: nivel de conciencia, mirada, campos visuales, paresia facial, fuerza en 4 extremidades, ataxia, sensibilidad, lenguaje, disartria, extinción/inatención. Requiere entrenamiento certificado para aplicación. Pendiente de construir checklist.'},
+{id:'rankin',nombre:'Escala de Rankin Modificada (mRS)',max:0,area:'Discapacidad funcional post-ACV',desc:'Ítem único categórico 0-6: 0=sin síntomas, 5=discapacidad severa, 6=fallecido. No es una suma, es una selección directa de categoría.'},
+{id:'aspects',nombre:'ASPECTS (Alberta Stroke Program Early CT Score)',max:10,area:'Neuroimagen ACV isquémico',desc:'10 regiones del territorio de la ACM en TC simple; se resta 1 punto por cada región con signos tempranos de isquemia. Requiere lectura de imagen por radiología/neurología.'},
+],
+gastroenterologia:[
+{id:'child-pugh',nombre:'Child-Pugh (Severidad de Cirrosis Hepática)',max:15,area:'Función hepática',desc:'5 parámetros (bilirrubina, albúmina, INR, ascitis, encefalopatía) puntuados 1-3 c/u. Clase A (5-6) compensada, B (7-9) descompensación significativa, C (10-15) descompensada severa.'},
+{id:'meld',nombre:'MELD (Model for End-Stage Liver Disease)',max:0,area:'Priorización trasplante hepático',desc:'Fórmula logarítmica con creatinina, bilirrubina e INR. No es checklist de puntos — requiere calculadora con valores de laboratorio exactos.'},
+{id:'bristol',nombre:'Escala de Bristol (Forma de las Heces)',max:0,area:'Tránsito intestinal',desc:'Clasificación visual categórica en 7 tipos (1=estreñimiento severo, 7=diarrea severa). Selección directa de categoría, no suma de ítems.'},
+],
+urologia:[
+{id:'ipss',nombre:'IPSS (International Prostate Symptom Score)',max:35,area:'Síntomas prostáticos',desc:'7 ítems (0-5 c/u) sobre síntomas urinarios en el último mes + 1 ítem de calidad de vida (0-6) que se reporta aparte, sin sumar al total. 0-7 leve, 8-19 moderado, 20-35 severo.'},
+{id:'iciq-sf',nombre:'ICIQ-SF (Incontinencia Urinaria)',max:0,area:'Incontinencia urinaria',desc:'Frecuencia, cantidad e impacto en la vida diaria de la incontinencia, más un ítem cualitativo sobre cuándo ocurren las pérdidas (no puntuable). Pendiente de construir checklist.'},
+],
+enfermeria:[
+{id:'braden',nombre:'Escala de Braden (Riesgo de Úlceras por Presión)',max:23,area:'Riesgo de úlceras por presión',desc:'6 subescalas: percepción sensorial, humedad, actividad, movilidad, nutrición, fricción/cizallamiento. A MENOR puntaje, MAYOR riesgo (escala no invertida en la app: 23=mejor estado).'},
+{id:'downton',nombre:'Escala de Downton (Riesgo de Caídas)',max:0,area:'Riesgo de caídas',desc:'5 factores de riesgo: caídas previas, medicamentos, déficits sensoriales, estado mental, deambulación. ≥3 puntos = alto riesgo. Pendiente de construir checklist.'},
+{id:'apgar-neo',nombre:'APGAR Neonatal',max:10,area:'Valoración del recién nacido',desc:'5 parámetros (frecuencia cardíaca, esfuerzo respiratorio, tono muscular, irritabilidad refleja, color) puntuados 0-2 c/u, evaluados al minuto 1 y 5 de vida. ≥7 normal, 4-6 depresión moderada, ≤3 depresión severa.'},
 ],
 };
 const ITEMS_DETALLE = {
@@ -2629,6 +2653,84 @@ if(p>=17)return{t:'Valoración total: '+p+'/30 — Implicación moderada en role
 return{t:'Valoración total: '+p+'/30 — Baja implicación en roles ocupacionales. Explorar causas de desconexión.'+perdidosTxt+deseadosTxt,bg:'#FFF5F5',c:'#C53030'};
 },
 },
+'glasgow':{
+secciones:[
+{n:'Apertura ocular',items:[
+{t:'4=Espontánea / 3=A la voz / 2=Al dolor / 1=Ninguna',ops:[1,2,3,4]},
+]},
+{n:'Respuesta verbal',items:[
+{t:'5=Orientado / 4=Confuso / 3=Palabras inapropiadas / 2=Sonidos incomprensibles / 1=Ninguna',ops:[1,2,3,4,5]},
+]},
+{n:'Respuesta motora',items:[
+{t:'6=Obedece órdenes / 5=Localiza el dolor / 4=Retirada al dolor / 3=Flexión anormal (decorticación) / 2=Extensión anormal (descerebración) / 1=Ninguna',ops:[1,2,3,4,5,6]},
+]},
+],
+interp:(p)=>p>=13?{t:'TCE leve (13-15). Vigilancia neurológica estándar.',bg:'#E8F5F0',c:'#1A7A5E'}:p>=9?{t:'TCE moderado (9-12). Requiere observación estrecha y neuroimagen.',bg:'#FFF3EB',c:'#C05621'}:{t:'TCE grave (≤8). Indicación de manejo avanzado de vía aérea (intubación) y UCI.',bg:'#FFF5F5',c:'#C53030'},
+},
+'child-pugh':{
+secciones:[
+{n:'Parámetros (cada uno vale 1, 2 o 3 puntos)',items:[
+{t:'Bilirrubina total: 1=<2 mg/dL / 2=2-3 mg/dL / 3=>3 mg/dL',ops:[1,2,3]},
+{t:'Albúmina sérica: 1=>3.5 g/dL / 2=2.8-3.5 g/dL / 3=<2.8 g/dL',ops:[1,2,3]},
+{t:'INR: 1=<1.7 / 2=1.7-2.3 / 3=>2.3',ops:[1,2,3]},
+{t:'Ascitis: 1=Ausente / 2=Leve o controlada con diuréticos / 3=Moderada-severa o refractaria',ops:[1,2,3]},
+{t:'Encefalopatía hepática: 1=Ausente / 2=Grado I-II / 3=Grado III-IV',ops:[1,2,3]},
+]},
+],
+interp:(p)=>p<=6?{t:'Clase A (5-6 pts): cirrosis compensada. Supervivencia al año ~100%.',bg:'#E8F5F0',c:'#1A7A5E'}:p<=9?{t:'Clase B (7-9 pts): descompensación significativa. Supervivencia al año ~80%.',bg:'#FFF3EB',c:'#C05621'}:{t:'Clase C (10-15 pts): descompensación severa. Supervivencia al año ~45%. Evaluar para trasplante.',bg:'#FFF5F5',c:'#C53030'},
+},
+'ipss':{
+secciones:[
+{n:'Síntomas en el último mes (0=Nunca — 5=Casi siempre)',items:[
+{t:'1. Sensación de vaciado incompleto de la vejiga',ops:[0,1,2,3,4,5]},
+{t:'2. Necesidad de volver a orinar antes de 2 horas',ops:[0,1,2,3,4,5]},
+{t:'3. Interrupción y reinicio del chorro urinario varias veces',ops:[0,1,2,3,4,5]},
+{t:'4. Dificultad para aplazar la micción (urgencia)',ops:[0,1,2,3,4,5]},
+{t:'5. Chorro urinario débil',ops:[0,1,2,3,4,5]},
+{t:'6. Esfuerzo para iniciar la micción',ops:[0,1,2,3,4,5]},
+{t:'7. Número de veces que se levanta a orinar por noche (0=Ninguna — 5=5 o más)',ops:[0,1,2,3,4,5]},
+]},
+{n:'Calidad de vida (no se suma al puntaje de síntomas, se reporta aparte)',items:[
+{t:'Si tuviera que vivir así el resto de su vida, ¿cómo se sentiría? (0=Encantado — 6=Fatal)',ops:[0,1,2,3,4,5,6]},
+]},
+],
+calc:function(respuestas){
+var sint=0;
+for(var i=0;i<7;i++){sint+=respuestas['0-'+i]||0;}
+window._ipss_ultimo={qol:respuestas['1-0']};
+return sint;
+},
+interp:function(p){
+var d=window._ipss_ultimo||{};
+var qolTxt=(d.qol!==undefined&&d.qol!==null)?(' Calidad de vida relacionada: '+d.qol+'/6.'):'';
+if(p<=7)return{t:'Sintomatología leve (0-7).'+qolTxt,bg:'#E8F5F0',c:'#1A7A5E'};
+if(p<=19)return{t:'Sintomatología moderada (8-19). Considerar manejo médico/urológico.'+qolTxt,bg:'#FFF3EB',c:'#C05621'};
+return{t:'Sintomatología severa (20-35). Evaluación urológica prioritaria.'+qolTxt,bg:'#FFF5F5',c:'#C53030'};
+},
+},
+'braden':{
+secciones:[
+{n:'Percepción sensorial',items:[
+{t:'1=Completamente limitada / 2=Muy limitada / 3=Ligeramente limitada / 4=Sin limitaciones',ops:[1,2,3,4]},
+]},
+{n:'Humedad',items:[
+{t:'1=Constantemente húmeda / 2=Muy húmeda / 3=Ocasionalmente húmeda / 4=Raramente húmeda',ops:[1,2,3,4]},
+]},
+{n:'Actividad',items:[
+{t:'1=Encamado/a / 2=En silla / 3=Deambula ocasionalmente / 4=Deambula frecuentemente',ops:[1,2,3,4]},
+]},
+{n:'Movilidad',items:[
+{t:'1=Completamente inmóvil / 2=Muy limitada / 3=Ligeramente limitada / 4=Sin limitaciones',ops:[1,2,3,4]},
+]},
+{n:'Nutrición',items:[
+{t:'1=Muy pobre / 2=Probablemente inadecuada / 3=Adecuada / 4=Excelente',ops:[1,2,3,4]},
+]},
+{n:'Fricción y cizallamiento',items:[
+{t:'1=Es un problema / 2=Problema potencial / 3=No hay problema aparente',ops:[1,2,3]},
+]},
+],
+interp:(p)=>p<=9?{t:'Riesgo MUY ALTO de úlceras por presión ('+p+'/23). Intervención inmediata.',bg:'#FFF5F5',c:'#C53030'}:p<=12?{t:'Riesgo ALTO ('+p+'/23). Reforzar medidas de prevención.',bg:'#FFF5F5',c:'#C53030'}:p<=14?{t:'Riesgo MODERADO ('+p+'/23). Vigilancia y cuidados preventivos.',bg:'#FFF3EB',c:'#C05621'}:p<=18?{t:'Riesgo BAJO ('+p+'/23). Mantener medidas básicas de cuidado.',bg:'#FFF9E6',c:'#B7860B'}:{t:'Sin riesgo significativo ('+p+'/23).',bg:'#E8F5F0',c:'#1A7A5E'},
+},
 };
 let currentUser=null,currentUserData=null,espActual=null,escalaSeleccionada=null,sesion=[];
 onAuthStateChanged(auth,async(user)=>{
@@ -2719,7 +2821,7 @@ function actualizarSesionBadges(){
 const cont=document.getElementById('sesionBadges'),card=document.getElementById('sesionCard');
 if(sesion.length===0){card.style.display='none';return;}
 card.style.display='block';
-const ec={'fisioterapia':'#1A4F8A','hidroterapia':'#1A7A5E','ocupacional':'#553C9A','lenguaje':'#C05621','psicologia':'#C53030','neuropsicologia':'#92400E'};
+const ec={'fisioterapia':'#1A4F8A','hidroterapia':'#1A7A5E','ocupacional':'#553C9A','lenguaje':'#C05621','psicologia':'#C53030','neuropsicologia':'#92400E','neurologia':'#2B6CB0','gastroenterologia':'#276749','urologia':'#B7791F','enfermeria':'#9B2C6F'};
 cont.innerHTML=sesion.map((s,i)=>`
 <span class="sesion-badge" style="background:${ec[s.especialidad]}22;color:${ec[s.especialidad]}">
 ${s.info.nombre.length>25?s.info.nombre.substring(0,25)+'...':s.info.nombre}
