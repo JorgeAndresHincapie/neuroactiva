@@ -330,7 +330,7 @@ psicologia:[
 {id:'zung',nombre:'Escala de Zung para Depresión',max:80,area:'Depresión autoreporte',desc:'20 ítems Likert. SDS index: <50 normal, 50-59 leve, 60-69 moderada, ≥70 severa.'},
 {id:'ghq28',nombre:'GHQ-28 (Salud General)',max:28,area:'Salud mental general',desc:'28 ítems en 4 subescalas: síntomas somáticos(7), ansiedad/insomnio(7), disfunción social(7), depresión grave(7).'},
 {id:'cage',nombre:'CAGE (Dependencia Alcohol)',max:4,area:'Alcohol cribado rápido',desc:'4 preguntas de cribado. ≥2 respuestas positivas = probable dependencia alcohólica. Rápido (2 min).'},
-{id:'cssrs',nombre:'Columbia SSRS (Riesgo Suicida)',max:25,area:'Riesgo suicida',desc:'Referencia internacional para ideación y conducta suicida. Obligatoria en protocolo de urgencias de salud mental.'},
+{id:'cssrs',nombre:'Columbia SSRS (Riesgo Suicida)',max:3,area:'Riesgo suicida',desc:'Árbol de severidad (no es suma de ítems): ideación en 5 niveles + conducta suicida (de por vida y últimos 3 meses). Clasifica en Ninguno/Bajo/Moderado/Alto según protocolo de triage. Obligatoria en protocolo de urgencias de salud mental.'},
 {id:'bai',nombre:'BAI (Beck Anxiety Inventory)',max:63,area:'Ansiedad síntomas somáticos',desc:'21 ítems sobre síntomas somáticos de ansiedad. 0-21 ansiedad baja, 22-35 moderada, >36 severa. Complemento del BDI-II para perfil emocional completo.'},
 {id:'hars',nombre:'HARS (Hamilton Anxiety Rating Scale)',max:56,area:'Ansiedad clínica',desc:'14 ítems heteroadministrados. Síntomas ansiosos somáticos y psíquicos. <17 leve, 18-24 moderada, 25-30 moderada-severa, >30 severa. Complemento del HDRS.'},
 {id:'mmpi2',nombre:'MMPI-2 (Minnesota Multiphasic Personality Inventory)',max:0,area:'Personalidad y psicopatología',desc:'Gold estándar en evaluación de personalidad clínica. 567 ítems, 10 escalas clínicas, escalas de validez y contenido. Requiere psicólogo clínico para interpretación.'},
@@ -1500,6 +1500,119 @@ secciones:[
 ]},
 ],
 interp:(p)=>p<=4?{t:'Sin evidencia de malestar psicológico significativo.',bg:'#E8F5F0',c:'#1A7A5E'}:{t:'Puntaje ≥5: sugiere posible malestar psicológico significativo (probable caso). Se recomienda evaluación clínica más detallada; revisar especialmente la subescala D (depresión grave).',bg:'#FFF3EB',c:'#C05621'},
+},
+'whoqol':{
+secciones:[
+{n:'General (no se incluye en el cálculo de dominios, solo referencia)',items:[
+{t:'1. ¿Cómo calificaría su calidad de vida? (1=Muy mala — 5=Muy buena)',ops:[1,2,3,4,5]},
+{t:'2. ¿Cuán satisfecho/a está con su salud? (1=Muy insatisfecho — 5=Muy satisfecho)',ops:[1,2,3,4,5]},
+]},
+{n:'Dominio Físico (1=Nada — 5=Extremadamente/Totalmente; ítems marcados * son inversos)',items:[
+{t:'3. ¿En qué medida el dolor físico le impide hacer lo que necesita? *',ops:[1,2,3,4,5]},
+{t:'4. ¿Cuánto necesita tratamiento médico para funcionar en su vida diaria? *',ops:[1,2,3,4,5]},
+{t:'10. ¿Tiene energía suficiente para su vida diaria?',ops:[1,2,3,4,5]},
+{t:'15. ¿Es capaz de desplazarse de un lugar a otro?',ops:[1,2,3,4,5]},
+{t:'16. ¿Cuán satisfecho/a está con su sueño?',ops:[1,2,3,4,5]},
+{t:'17. ¿Cuán satisfecho/a está con su capacidad para realizar sus actividades diarias?',ops:[1,2,3,4,5]},
+{t:'18. ¿Cuán satisfecho/a está con su capacidad de trabajo?',ops:[1,2,3,4,5]},
+]},
+{n:'Dominio Psicológico',items:[
+{t:'5. ¿Cuánto disfruta de la vida?',ops:[1,2,3,4,5]},
+{t:'6. ¿Hasta qué punto siente que su vida tiene sentido?',ops:[1,2,3,4,5]},
+{t:'7. ¿Es capaz de concentrarse?',ops:[1,2,3,4,5]},
+{t:'11. ¿Puede aceptar su apariencia física?',ops:[1,2,3,4,5]},
+{t:'19. ¿Cuán satisfecho/a está de sí mismo/a?',ops:[1,2,3,4,5]},
+{t:'26. ¿Con qué frecuencia tiene sentimientos negativos (tristeza, desesperanza, ansiedad, depresión)? *',ops:[1,2,3,4,5]},
+]},
+{n:'Dominio Relaciones Sociales',items:[
+{t:'20. ¿Cuán satisfecho/a está con sus relaciones personales?',ops:[1,2,3,4,5]},
+{t:'21. ¿Cuán satisfecho/a está con su vida sexual?',ops:[1,2,3,4,5]},
+{t:'22. ¿Cuán satisfecho/a está con el apoyo que recibe de sus amigos?',ops:[1,2,3,4,5]},
+]},
+{n:'Dominio Ambiente',items:[
+{t:'8. ¿Cuán seguro/a se siente en su vida diaria?',ops:[1,2,3,4,5]},
+{t:'9. ¿Cuán saludable es el entorno físico en el que vive?',ops:[1,2,3,4,5]},
+{t:'12. ¿Tiene suficiente dinero para cubrir sus necesidades?',ops:[1,2,3,4,5]},
+{t:'13. ¿Qué disponibilidad tiene de información para su vida diaria?',ops:[1,2,3,4,5]},
+{t:'14. ¿En qué medida tiene oportunidad de realizar actividades de ocio?',ops:[1,2,3,4,5]},
+{t:'23. ¿Cuán satisfecho/a está de las condiciones del lugar donde vive?',ops:[1,2,3,4,5]},
+{t:'24. ¿Cuán satisfecho/a está con el acceso a servicios de salud?',ops:[1,2,3,4,5]},
+{t:'25. ¿Cuán satisfecho/a está con su transporte?',ops:[1,2,3,4,5]},
+]},
+],
+calc:function(respuestas){
+function raw(seci,i){return respuestas[seci+'-'+i]||0;}
+function rev(v){return v>=1&&v<=5?(6-v):0;}
+var fisRaw=rev(raw(1,0))+rev(raw(1,1))+raw(1,2)+raw(1,3)+raw(1,4)+raw(1,5)+raw(1,6);
+var fisM=fisRaw/7,fisT=fisM>0?(fisM-1)*25:0;
+var psiRaw=raw(2,0)+raw(2,1)+raw(2,2)+raw(2,3)+raw(2,4)+rev(raw(2,5));
+var psiM=psiRaw/6,psiT=psiM>0?(psiM-1)*25:0;
+var socRaw=raw(3,0)+raw(3,1)+raw(3,2);
+var socM=socRaw/3,socT=socM>0?(socM-1)*25:0;
+var ambRaw=raw(4,0)+raw(4,1)+raw(4,2)+raw(4,3)+raw(4,4)+raw(4,5)+raw(4,6)+raw(4,7);
+var ambM=ambRaw/8,ambT=ambM>0?(ambM-1)*25:0;
+window._whoqol_ultimo={fis:Math.round(fisT),psi:Math.round(psiT),soc:Math.round(socT),amb:Math.round(ambT),g1:raw(0,0),g2:raw(0,1)};
+return Math.round((fisT+psiT+socT+ambT)/4);
+},
+interp:function(p){
+var d=window._whoqol_ultimo||{fis:0,psi:0,soc:0,amb:0,g1:0,g2:0};
+var texto='Físico: '+d.fis+'/100 — Psicológico: '+d.psi+'/100 — Social: '+d.soc+'/100 — Ambiente: '+d.amb+'/100 (percepción general de calidad de vida: '+(d.g1||'-')+'/5, satisfacción con la salud: '+(d.g2||'-')+'/5). Promedio de dominios: '+p+'/100.';
+if(p>=70)return{t:texto+' Calidad de vida percibida alta.',bg:'#E8F5F0',c:'#1A7A5E'};
+if(p>=40)return{t:texto+' Calidad de vida percibida moderada.',bg:'#FFF3EB',c:'#C05621'};
+return{t:texto+' Calidad de vida percibida baja — se recomienda profundizar en los dominios más afectados.',bg:'#FFF5F5',c:'#C53030'};
+},
+},
+'cssrs':{
+invertido:true,
+secciones:[
+{n:'Ideación suicida (Sí/No, orden de gravedad creciente)',items:[
+{t:'1. Deseo de estar muerto/a o de no despertar, sin pensamientos activos de hacerse daño',ops:[0,1]},
+{t:'2. Pensamientos activos e inespecíficos de querer suicidarse (sin método, plan ni intención)',ops:[0,1]},
+{t:'3. Pensamientos activos con algún método considerado, sin plan específico ni intención de llevarlo a cabo',ops:[0,1]},
+{t:'4. Pensamientos activos con algún plan, sin intención específica de llevarlo a cabo',ops:[0,1]},
+{t:'5. Intención suicida activa con plan específico y disponibilidad de medios',ops:[0,1]},
+]},
+{n:'Conducta suicida — alguna vez en la vida',items:[
+{t:'Actos o preparativos hacia un intento suicida (ej. reunir medios, escribir una nota, regalar pertenencias)',ops:[0,1]},
+{t:'Intento suicida abortado (detuvo la conducta por sí mismo/a antes de causarse daño)',ops:[0,1]},
+{t:'Intento suicida interrumpido (otra persona detuvo la conducta)',ops:[0,1]},
+{t:'Intento suicida real, con algún nivel de intención de morir',ops:[0,1]},
+]},
+{n:'Conducta suicida — en los últimos 3 meses',items:[
+{t:'Actos o preparativos hacia un intento suicida (ej. reunir medios, escribir una nota, regalar pertenencias)',ops:[0,1]},
+{t:'Intento suicida abortado (detuvo la conducta por sí mismo/a antes de causarse daño)',ops:[0,1]},
+{t:'Intento suicida interrumpido (otra persona detuvo la conducta)',ops:[0,1]},
+{t:'Intento suicida real, con algún nivel de intención de morir',ops:[0,1]},
+]},
+],
+calc:function(respuestas){
+function v(seci,i){return respuestas[seci+'-'+i]||0;}
+var id1=v(0,0),id2=v(0,1),id3=v(0,2),id4=v(0,3),id5=v(0,4);
+var condVida=[v(1,0),v(1,1),v(1,2),v(1,3)].indexOf(1)>=0;
+var cond3m=[v(2,0),v(2,1),v(2,2),v(2,3)].indexOf(1)>=0;
+var nivel=0;
+if(id1||id2)nivel=1;
+if(id3)nivel=Math.max(nivel,2);
+if(condVida)nivel=Math.max(nivel,2);
+if(id4||id5)nivel=3;
+if(cond3m)nivel=3;
+window._cssrs_ultimo={nivel:nivel};
+return nivel;
+},
+interp:function(p){
+var d=window._cssrs_ultimo||{nivel:0};
+var niveles=[
+'Sin riesgo identificado en el momento de la evaluación.',
+'Riesgo BAJO: ideación pasiva o inespecífica presente, sin conducta suicida ni plan. Requiere seguimiento clínico.',
+'Riesgo MODERADO: ideación con método (sin plan ni intención específica) y/o conducta suicida en el pasado (no en los últimos 3 meses). Requiere evaluación por psicología/psiquiatría en las próximas 24-72h.',
+'Riesgo ALTO: ideación con plan y/o intención específica, y/o conducta suicida (acto preparatorio, intento abortado, interrumpido o real) en los últimos 3 meses. Requiere evaluación inmediata y protocolo de seguridad; no dejar solo/a al paciente.',
+];
+var texto=niveles[d.nivel];
+if(d.nivel>=3)return{t:texto,bg:'#FFF5F5',c:'#C53030'};
+if(d.nivel===2)return{t:texto,bg:'#FFF3EB',c:'#C05621'};
+if(d.nivel===1)return{t:texto,bg:'#FFF9E6',c:'#B7860B'};
+return{t:texto,bg:'#E8F5F0',c:'#1A7A5E'};
+},
 },
 'cage':{
 secciones:[
