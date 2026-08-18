@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeuroActiva — Planes y Precios</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --azul:        #1A4F8A;
+  --azul-dark:   #123769;
+  --azul-light:  #EBF2FB;
+  --verde:       #1A7A5E;
+  --verde-light: #E8F5F0;
+  --naranja:     #C05621;
+  --naranja-light: #FFF3EB;
+  --morado:      #553C9A;
+  --morado-light: #F0EBFF;
+  --gris:        #F4F6F9;
+  --borde:       #DDE3EC;
+  --texto:       #1A2332;
+  --texto-mid:   #4A5568;
+  --texto-light: #8896A7;
+  --blanco:      #FFFFFF;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--gris);
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+.topbar {
+  background: var(--azul);
+  height: 58px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-left { display: flex; align-items: center; gap: 0.7rem; }
+.topbar-icon {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar-icon svg { width: 18px; height: 18px; color: white; }
+.topbar-brand { font-size: 1.05rem; font-weight: 700; color: white; letter-spacing: -0.01em; }
+.topbar-brand span { color: rgba(255,255,255,0.5); font-weight: 400; }
+.topbar-right a {
+  color: white; text-decoration: none; font-size: 0.85rem; font-weight: 500;
+  background: rgba(255,255,255,0.12); padding: 0.45rem 1rem; border-radius: 8px;
+}
+.topbar-right a:hover { background: rgba(255,255,255,0.2); }
+
+.main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+.hero { text-align: center; margin-bottom: 3rem; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--azul-light); color: var(--azul);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border-radius: 20px; margin-bottom: 1rem;
+}
+.hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.6rem;
+  color: var(--texto);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+.hero-sub { font-size: 0.95rem; color: var(--texto-light); max-width: 520px; margin: 0 auto; }
+
+.toggle-wrap {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  margin: 2rem 0 2.5rem;
+}
+.toggle-label { font-size: 0.85rem; font-weight: 500; color: var(--texto-mid); }
+.toggle-label.active { color: var(--texto); font-weight: 700; }
+.toggle-switch {
+  width: 46px; height: 24px; background: var(--azul); border-radius: 20px;
+  position: relative; cursor: pointer; flex-shrink: 0;
+}
+.toggle-knob {
+  width: 18px; height: 18px; background: white; border-radius: 50%;
+  position: absolute; top: 3px; left: 3px; transition: left 0.2s;
+}
+.toggle-switch.anual .toggle-knob { left: 25px; }
+.toggle-save {
+  font-size: 0.68rem; font-weight: 700; color: var(--verde);
+  background: var(--verde-light); padding: 0.15rem 0.5rem; border-radius: 10px;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.3rem;
+  align-items: stretch;
+}
+
+.plan-card {
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: 16px;
+  padding: 1.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.plan-card.destacado {
+  border: 2px solid var(--azul);
+  box-shadow: 0 8px 28px rgba(26,79,138,0.14);
+  transform: translateY(-6px);
+}
+
+.plan-badge-top {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--azul); color: white;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.3rem 0.9rem; border-radius: 20px;
+}
+
+.plan-nombre { font-size: 1.15rem; font-weight: 700; color: var(--texto); margin-bottom: 0.3rem; }
+.plan-desc { font-size: 0.8rem; color: var(--texto-light); margin-bottom: 1.3rem; min-height: 34px; }
+
+.plan-precio-wrap { margin-bottom: 1.5rem; }
+.plan-precio { font-family: 'Instrument Serif', serif; font-size: 2.4rem; color: var(--texto); line-height: 1; }
+.plan-precio span.moneda { font-size: 1.1rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; vertical-align: top; }
+.plan-precio-periodo { font-size: 0.78rem; color: var(--texto-light); margin-top: 0.3rem; }
+.plan-precio-nota { font-size: 0.72rem; color: var(--verde); margin-top: 0.2rem; font-weight: 600; }
+
+.plan-cta {
+  display: block; text-align: center; text-decoration: none;
+  padding: 0.75rem; border-radius: 9px; font-weight: 600; font-size: 0.86rem;
+  margin-bottom: 1.6rem; cursor: pointer; border: none; font-family: inherit;
+}
+.plan-cta.primario { background: var(--azul); color: white; }
+.plan-cta.primario:hover { background: var(--azul-dark); }
+.plan-cta.secundario { background: var(--gris); color: var(--texto); border: 1.5px solid var(--borde); }
+.plan-cta.secundario:hover { border-color: var(--azul); color: var(--azul); }
+
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; flex: 1; }
+.plan-features li {
+  display: flex; align-items: flex-start; gap: 0.55rem;
+  font-size: 0.82rem; color: var(--texto-mid); line-height: 1.4;
+}
+.plan-features li svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: 0.15rem; color: var(--verde); }
+.plan-features li.no svg { color: var(--texto-light); }
+.plan-features li.no { color: var(--texto-light); }
+
+.comparativa-wrap { margin-top: 4rem; }
+.section-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--texto-light); margin-bottom: 1rem; text-align: center;
+}
+.faq {
+  max-width: 640px; margin: 3rem auto 0;
+}
+.faq-item { border-bottom: 1px solid var(--borde); padding: 1.1rem 0; }
+.faq-q { font-size: 0.9rem; font-weight: 600; color: var(--texto); margin-bottom: 0.4rem; }
+.faq-a { font-size: 0.82rem; color: var(--texto-mid); line-height: 1.6; }
+
+@media (max-width: 860px) {
+  .plans-grid { grid-template-columns: 1fr; }
+  .plan-card.destacado { transform: none; }
+  .hero-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+        <path d="M14.5 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <a href="index.html">Ingresar</a>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="hero">
+    <div class="hero-tag">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+      Planes y precios
+    </div>
+    <h1 class="hero-title">Un plan para cada etapa de tu práctica clínica</h1>
+    <p class="hero-sub">Desde probar la plataforma gratis hasta gestionar un equipo completo de terapeutas con reportes consolidados.</p>
+  </div>
+
+  <div class="toggle-wrap">
+    <span class="toggle-label active" id="lblMensual">Mensual</span>
+    <div class="toggle-switch" id="toggleFacturacion"><div class="toggle-knob"></div></div>
+    <span class="toggle-label" id="lblAnual">Anual</span>
+    <span class="toggle-save">Ahorra 2 meses</span>
+  </div>
+
+  <div class="plans-grid">
+
+    <!-- PLAN GRATIS / DEMO -->
+    <div class="plan-card">
+      <p class="plan-nombre">Demo</p>
+      <p class="plan-desc">Para probar la plataforma antes de decidir.</p>
+      <div class="plan-precio-wrap">
+        <div class="plan-precio">$0</div>
+        <div class="plan-precio-periodo">Gratis por 7 días</div>
+      </div>
+      <button class="plan-cta secundario">Solicitar acceso demo</button>
+      <ul class="plan-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 terapeuta</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Hasta 5 pacientes</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Escalas de las 6 especialidades base</li>
+        <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Generador de ejercicios con IA</li>
+        <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Módulo de Urgencias y Medicina General</li>
+        <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Reportes de evolución clínica</li>
+      </ul>
+    </div>
+
+    <!-- PLAN PRO -->
+    <div class="plan-card destacado">
+      <span class="plan-badge-top">Más elegido</span>
+      <p class="plan-nombre">Pro</p>
+      <p class="plan-desc">Para el terapeuta independiente que quiere todo el sistema.</p>
+      <div class="plan-precio-wrap">
+        <div class="plan-precio"><span class="moneda">$</span><span id="precioPro">49.900</span></div>
+        <div class="plan-precio-periodo">COP / mes por terapeuta</div>
+        <div class="plan-precio-nota" id="notaAnualPro" style="display:none">Facturado anual: $499.000/año</div>
+      </div>
+      <button class="plan-cta primario">Empezar plan Pro</button>
+      <ul class="plan-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 terapeuta, pacientes ilimitados</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Las 174+ escalas de las 16 especialidades</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Generador de ejercicios con IA</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Módulo de Urgencias y Medicina General</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Reportes de evolución clínica</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Comparador de escalas por paciente</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Soporte por correo</li>
+      </ul>
+    </div>
+
+    <!-- PLAN INSTITUCIONAL -->
+    <div class="plan-card">
+      <p class="plan-nombre">Institucional</p>
+      <p class="plan-desc">Para clínicas y centros con varios terapeutas.</p>
+      <div class="plan-precio-wrap">
+        <div class="plan-precio" style="font-size:1.7rem">A medida</div>
+        <div class="plan-precio-periodo">Según número de terapeutas</div>
+      </div>
+      <button class="plan-cta secundario">Hablar con nosotros</button>
+      <ul class="plan-features">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todo lo del plan Pro, para cada terapeuta</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Descuento por volumen (5+ terapeutas)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Panel de administración centralizado</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Creación de usuarios ilimitada por el admin</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Reportes consolidados de todo el equipo</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Factura centralizada para la clínica</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Soporte prioritario</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="faq">
+    <p class="section-label">Preguntas frecuentes</p>
+    <div class="faq-item">
+      <p class="faq-q">¿Qué pasa cuando termina el demo de 7 días?</p>
+      <p class="faq-a">El acceso se desactiva automáticamente. Puedes pasarte al plan Pro en cualquier momento sin perder los pacientes ni evaluaciones que ya cargaste durante el demo.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Puedo cambiar de plan Pro a Institucional después?</p>
+      <p class="faq-a">Sí, en cualquier momento. Si tu práctica crece y sumas más terapeutas, migramos tu cuenta sin perder historial clínico.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿El generador de ejercicios con IA tiene límite de uso?</p>
+      <p class="faq-a">En el plan Pro e Institucional el uso es ilimitado dentro de un uso clínico normal. El plan Demo no incluye esta función porque tiene mayor costo operativo.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const toggle = document.getElementById('toggleFacturacion');
+const lblMensual = document.getElementById('lblMensual');
+const lblAnual = document.getElementById('lblAnual');
+const precioPro = document.getElementById('precioPro');
+const notaAnualPro = document.getElementById('notaAnualPro');
+const periodoPro = document.querySelector('.plan-card.destacado .plan-precio-periodo');
+
+let esAnual = false;
+toggle.addEventListener('click', () => {
+  esAnual = !esAnual;
+  toggle.classList.toggle('anual', esAnual);
+  lblMensual.classList.toggle('active', !esAnual);
+  lblAnual.classList.toggle('active', esAnual);
+  if (esAnual) {
+    precioPro.textContent = '41.583';
+    periodoPro.textContent = 'COP / mes por terapeuta';
+    notaAnualPro.style.display = 'block';
+  } else {
+    precioPro.textContent = '49.900';
+    periodoPro.textContent = 'COP / mes por terapeuta';
+    notaAnualPro.style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
