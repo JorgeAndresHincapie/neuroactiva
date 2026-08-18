@@ -168,6 +168,43 @@ body {
 .faq-q { font-size: 0.9rem; font-weight: 600; color: var(--texto); margin-bottom: 0.4rem; }
 .faq-a { font-size: 0.82rem; color: var(--texto-mid); line-height: 1.6; }
 
+.pago-box {
+  max-width: 560px; margin: 3rem auto 0;
+  background: var(--verde-light);
+  border: 1.5px solid #C6E8DC;
+  border-radius: 14px;
+  padding: 1.6rem 1.8rem;
+  text-align: center;
+}
+.pago-box-titulo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.3rem; color: var(--texto); margin-bottom: 0.4rem;
+}
+.pago-box-sub { font-size: 0.82rem; color: var(--texto-mid); margin-bottom: 1.1rem; }
+.pago-numero-wrap {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  background: var(--blanco); border: 1.5px solid var(--verde);
+  border-radius: 10px; padding: 0.6rem 0.6rem 0.6rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.pago-numero-label { font-size: 0.68rem; color: var(--texto-light); text-transform: uppercase; letter-spacing: 0.05em; }
+.pago-numero { font-size: 1.15rem; font-weight: 700; color: var(--texto); font-family: 'Plus Jakarta Sans', sans-serif; }
+.btn-copiar {
+  background: var(--verde); color: white; border: none;
+  border-radius: 7px; padding: 0.5rem 0.8rem; font-size: 0.76rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.btn-copiar:hover { background: #145F49; }
+.btn-copiar.copiado { background: var(--azul); }
+.pago-pasos { text-align: left; font-size: 0.8rem; color: var(--texto-mid); line-height: 1.8; margin-bottom: 1.1rem; }
+.pago-pasos b { color: var(--texto); }
+.btn-confirmar-pago {
+  display: inline-block; background: #25D366; color: white; text-decoration: none;
+  padding: 0.7rem 1.4rem; border-radius: 9px; font-weight: 600; font-size: 0.85rem;
+  border: none; cursor: pointer; font-family: inherit;
+}
+.btn-confirmar-pago:hover { background: #1DA851; }
+
 @media (max-width: 860px) {
   .plans-grid { grid-template-columns: 1fr; }
   .plan-card.destacado { transform: none; }
@@ -223,7 +260,7 @@ body {
         <div class="plan-precio">$0</div>
         <div class="plan-precio-periodo">Gratis por 7 días</div>
       </div>
-      <button class="plan-cta secundario">Solicitar acceso demo</button>
+      <button class="plan-cta secundario" onclick="window.open('https://wa.me/573104937745?text=' + encodeURIComponent('Hola, quiero solicitar el acceso demo gratuito de 7 días a NeuroActiva.'), '_blank')">Solicitar acceso demo</button>
       <ul class="plan-features">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 terapeuta</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Hasta 5 pacientes</li>
@@ -244,7 +281,7 @@ body {
         <div class="plan-precio-periodo">COP / mes por terapeuta</div>
         <div class="plan-precio-nota" id="notaAnualPro" style="display:none">Facturado anual: $499.000/año</div>
       </div>
-      <button class="plan-cta primario">Empezar plan Pro</button>
+      <button class="plan-cta primario" onclick="window.open('https://wa.me/573104937745?text=' + encodeURIComponent('Hola, quiero empezar el plan Pro de NeuroActiva.'), '_blank')">Empezar plan Pro</button>
       <ul class="plan-features">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>1 terapeuta, pacientes ilimitados</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Las 174+ escalas de las 16 especialidades</li>
@@ -264,7 +301,7 @@ body {
         <div class="plan-precio" style="font-size:1.7rem">A medida</div>
         <div class="plan-precio-periodo">Según número de terapeutas</div>
       </div>
-      <button class="plan-cta secundario">Hablar con nosotros</button>
+      <button class="plan-cta secundario" onclick="window.open('https://wa.me/573104937745?text=' + encodeURIComponent('Hola, quiero información sobre el plan Institucional de NeuroActiva para mi clínica.'), '_blank')">Hablar con nosotros</button>
       <ul class="plan-features">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Todo lo del plan Pro, para cada terapeuta</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Descuento por volumen (5+ terapeutas)</li>
@@ -294,6 +331,24 @@ body {
     </div>
   </div>
 
+  <div class="pago-box">
+    <p class="pago-box-titulo">¿Ya decidiste? Así pagas</p>
+    <p class="pago-box-sub">Transfiere por Nequi al número de abajo y confírmanos el pago con el comprobante — activamos tu cuenta el mismo día.</p>
+    <div class="pago-numero-wrap">
+      <div>
+        <div class="pago-numero-label">Nequi</div>
+        <div class="pago-numero" id="numeroNequi">310 493 7745</div>
+      </div>
+      <button class="btn-copiar" id="btnCopiarNequi" onclick="copiarNequi()">Copiar</button>
+    </div>
+    <div class="pago-pasos">
+      <b>1.</b> Abre tu app Nequi y envía el valor del plan a este número.<br/>
+      <b>2.</b> Toma una foto o captura del comprobante.<br/>
+      <b>3.</b> Envíanoslo por WhatsApp para activar tu acceso.
+    </div>
+    <button class="btn-confirmar-pago" onclick="window.open('https://wa.me/573104937745?text=' + encodeURIComponent('Hola, ya hice el pago por Nequi de mi suscripción a NeuroActiva. Adjunto el comprobante.'), '_blank')">Ya pagué, confirmar por WhatsApp</button>
+  </div>
+
 </main>
 
 <script>
@@ -320,6 +375,20 @@ toggle.addEventListener('click', () => {
     notaAnualPro.style.display = 'none';
   }
 });
+
+function copiarNequi() {
+  const numero = document.getElementById('numeroNequi').textContent;
+  navigator.clipboard.writeText(numero.replace(/\s/g,'')).then(() => {
+    const btn = document.getElementById('btnCopiarNequi');
+    const textoOriginal = btn.textContent;
+    btn.textContent = '¡Copiado!';
+    btn.classList.add('copiado');
+    setTimeout(() => {
+      btn.textContent = textoOriginal;
+      btn.classList.remove('copiado');
+    }, 1800);
+  });
+}
 </script>
 
 </body>
