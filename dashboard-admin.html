@@ -205,6 +205,80 @@
       color: var(--texto-light);
     }
 
+    /* ── Modal Crear Usuario ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(20,25,35,0.55);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+    }
+    .modal-box {
+      background: var(--blanco);
+      border-radius: 14px;
+      width: 100%; max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.6rem;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+    .modal-header h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem;
+      color: var(--texto);
+    }
+    .modal-close {
+      background: none; border: none; font-size: 1.6rem;
+      color: var(--texto-light); cursor: pointer; line-height: 1;
+      padding: 0.2rem 0.5rem;
+    }
+    .modal-close:hover { color: var(--texto); }
+    .form-row { display: flex; gap: 0.8rem; }
+    .form-row .form-field { flex: 1; }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--texto-mid); margin-bottom: 0.35rem;
+    }
+    .form-field input, .form-field select {
+      width: 100%; padding: 0.6rem 0.7rem;
+      border: 1.5px solid var(--borde); border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem; color: var(--texto);
+    }
+    .form-field input:focus, .form-field select:focus {
+      outline: none; border-color: var(--azul);
+    }
+    .form-hint {
+      display: block; font-size: 0.68rem; color: var(--texto-light);
+      margin-top: 0.3rem;
+    }
+    .form-field-check { margin-bottom: 1rem; }
+    .form-field-check label {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: var(--texto-mid); cursor: pointer;
+    }
+    .form-field-check input { width: auto; }
+    .btn-crear-usuario {
+      width: 100%;
+      background: var(--azul); color: white;
+      border: none; border-radius: 9px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600; font-size: 0.88rem;
+      padding: 0.75rem; cursor: pointer;
+      margin-top: 0.3rem;
+      transition: background 0.2s;
+    }
+    .btn-crear-usuario:hover { background: var(--azul-dark); }
+    .btn-crear-usuario:disabled { opacity: 0.6; cursor: default; }
+    .msg { display: none; font-size: 0.8rem; padding: 0.6rem 0.8rem; border-radius: 8px; margin-bottom: 0.8rem; }
+    .msg.visible { display: block; }
+    .msg-ok { background: var(--verde-light); color: var(--verde); }
+    .msg-err { background: #FFF5F5; color: #C53030; }
+
     /* ── Sección label ── */
     .section-label {
       font-size: 0.72rem;
@@ -476,6 +550,18 @@
           <span class="module-badge">Análisis</span>
         </a>
 
+        <div class="module-card m-morado" id="btnAbrirCrearUsuario" style="cursor:pointer">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+            </svg>
+          </div>
+          <p class="module-name">Crear Usuario</p>
+          <p class="module-desc">Crea terapeutas o pacientes directamente, sin registro público.</p>
+          <span class="module-badge">Admin</span>
+        </div>
+
         <a class="module-card m-verde" href="configuracion.html">
           <div class="module-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -492,8 +578,72 @@
     </div>
   </main>
 
+  <!-- Modal Crear Usuario -->
+  <div id="modalCrearUsuario" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Crear nuevo usuario</h2>
+        <button id="btnCerrarModal" class="modal-close" type="button">&times;</button>
+      </div>
+      <form id="formCrearUsuario">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Nombre</label>
+            <input type="text" id="cuNombre" required/>
+          </div>
+          <div class="form-field">
+            <label>Apellido</label>
+            <input type="text" id="cuApellido" required/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Correo electrónico</label>
+          <input type="email" id="cuEmail" required/>
+        </div>
+        <div class="form-field">
+          <label>Contraseña temporal</label>
+          <input type="text" id="cuPassword" minlength="6" required/>
+          <span class="form-hint">Mínimo 6 caracteres. Compártela con el usuario para su primer ingreso.</span>
+        </div>
+        <div class="form-field">
+          <label>Rol</label>
+          <select id="cuRol" required>
+            <option value="">Selecciona un rol...</option>
+            <option value="terapeuta">Terapeuta</option>
+            <option value="paciente">Paciente</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+        <div class="form-field" id="cuEspecialidadWrap" style="display:none">
+          <label>Especialidad</label>
+          <select id="cuEspecialidad">
+            <option value="fisioterapia">Fisioterapia</option>
+            <option value="hidroterapia">Hidroterapia</option>
+            <option value="ocupacional">Terapia Ocupacional</option>
+            <option value="lenguaje">Terapia del Lenguaje</option>
+            <option value="psicologia">Psicología</option>
+            <option value="neuropsicologia">Neuropsicología</option>
+          </select>
+        </div>
+        <div class="form-field-check">
+          <label>
+            <input type="checkbox" id="cuEsDemo"/>
+            Acceso demo por tiempo limitado (antes de que pague suscripción)
+          </label>
+        </div>
+        <div class="form-field" id="cuDemoDiasWrap" style="display:none">
+          <label>Duración del demo (días)</label>
+          <input type="number" id="cuDemoDias" value="7" min="1" max="90"/>
+        </div>
+        <div class="msg msg-ok" id="cuMsgOk"><span id="cuMsgOkTexto"></span></div>
+        <div class="msg msg-err" id="cuMsgErr"><span id="cuMsgErrTexto"></span></div>
+        <button type="submit" class="btn-crear-usuario" id="btnGuardarUsuario">Crear usuario</button>
+      </form>
+    </div>
+  </div>
+
 <script type="module">
-  import { auth, db, onAuthStateChanged, signOut, doc, getDoc, collection, getDocs, query, where } from './firebase.js';
+  import { auth, db, onAuthStateChanged, signOut, doc, getDoc, setDoc, collection, getDocs, query, where, serverTimestamp, firebaseConfig, initializeApp, getAuth, createUserWithEmailAndPassword } from './firebase.js';
 
   const btnSignOut   = document.getElementById('btnSignOut');
   const userName     = document.getElementById('userName');
@@ -546,6 +696,119 @@
   btnSignOut.addEventListener('click', async () => {
     await signOut(auth);
     window.location.href = 'index.html';
+  });
+
+  // ── Módulo: Crear Usuario ──
+  const modalCrearUsuario   = document.getElementById('modalCrearUsuario');
+  const btnAbrirCrear       = document.getElementById('btnAbrirCrearUsuario');
+  const btnCerrarModal      = document.getElementById('btnCerrarModal');
+  const formCrearUsuario    = document.getElementById('formCrearUsuario');
+  const cuRol               = document.getElementById('cuRol');
+  const cuEspecialidadWrap  = document.getElementById('cuEspecialidadWrap');
+  const cuEsDemo            = document.getElementById('cuEsDemo');
+  const cuDemoDiasWrap      = document.getElementById('cuDemoDiasWrap');
+  const cuMsgOk             = document.getElementById('cuMsgOk');
+  const cuMsgErr            = document.getElementById('cuMsgErr');
+  const btnGuardarUsuario   = document.getElementById('btnGuardarUsuario');
+
+  btnAbrirCrear.addEventListener('click', () => {
+    modalCrearUsuario.style.display = 'flex';
+  });
+  btnCerrarModal.addEventListener('click', () => {
+    modalCrearUsuario.style.display = 'none';
+    formCrearUsuario.reset();
+    cuMsgOk.classList.remove('visible');
+    cuMsgErr.classList.remove('visible');
+    cuEspecialidadWrap.style.display = 'none';
+    cuDemoDiasWrap.style.display = 'none';
+  });
+  modalCrearUsuario.addEventListener('click', (e) => {
+    if (e.target === modalCrearUsuario) btnCerrarModal.click();
+  });
+
+  cuRol.addEventListener('change', () => {
+    cuEspecialidadWrap.style.display = cuRol.value === 'terapeuta' ? 'block' : 'none';
+  });
+  cuEsDemo.addEventListener('change', () => {
+    cuDemoDiasWrap.style.display = cuEsDemo.checked ? 'block' : 'none';
+  });
+
+  formCrearUsuario.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    cuMsgOk.classList.remove('visible');
+    cuMsgErr.classList.remove('visible');
+    btnGuardarUsuario.disabled = true;
+    btnGuardarUsuario.textContent = 'Creando...';
+
+    const nombre     = document.getElementById('cuNombre').value.trim();
+    const apellido   = document.getElementById('cuApellido').value.trim();
+    const email      = document.getElementById('cuEmail').value.trim();
+    const password   = document.getElementById('cuPassword').value;
+    const rol        = cuRol.value;
+    const especialidad = rol === 'terapeuta' ? document.getElementById('cuEspecialidad').value : null;
+    const esDemo     = cuEsDemo.checked;
+    const demoDias   = esDemo ? parseInt(document.getElementById('cuDemoDias').value, 10) : null;
+
+    // App secundaria temporal: crea la cuenta de Auth SIN cerrar la sesión del admin.
+    // Firebase, al crear un usuario, inicia sesión automáticamente como ese usuario en
+    // la instancia de auth usada — por eso usamos una app aparte solo para esto.
+    const nombreAppTemp = 'crear-usuario-' + Date.now();
+    const appTemp  = initializeApp(firebaseConfig, nombreAppTemp);
+    const authTemp = getAuth(appTemp);
+
+    try {
+      const cred = await createUserWithEmailAndPassword(authTemp, email, password);
+      const nuevoUid = cred.user.uid;
+
+      // Cerramos la sesión temporal de inmediato (no afecta la sesión del admin,
+      // que sigue activa en la instancia 'auth' original).
+      await signOut(authTemp);
+
+      const datosUsuario = {
+        nombre, apellido, email, rol,
+        creadoPor: auth.currentUser.uid,
+        fechaCreacion: serverTimestamp(),
+      };
+      if (especialidad) datosUsuario.especialidad = especialidad;
+      if (esDemo) {
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + demoDias);
+        datosUsuario.esDemo = true;
+        datosUsuario.demoExpira = fechaExpira.toISOString();
+      }
+
+      // Esto se guarda con la sesión del ADMIN (instancia 'db' original), que sigue activa.
+      await setDoc(doc(db, 'usuarios', nuevoUid), datosUsuario);
+
+      cuMsgOk.querySelector('#cuMsgOkTexto').textContent =
+        `✓ Usuario ${nombre} ${apellido} creado correctamente como ${rol}.` +
+        (esDemo ? ` Acceso demo válido por ${demoDias} días.` : '');
+      cuMsgOk.classList.add('visible');
+      formCrearUsuario.reset();
+      cuEspecialidadWrap.style.display = 'none';
+      cuDemoDiasWrap.style.display = 'none';
+
+      // Refresca los contadores del dashboard
+      try {
+        const qTerapeutas = query(collection(db, 'usuarios'), where('rol', '==', 'terapeuta'));
+        const qPacientes  = query(collection(db, 'usuarios'), where('rol', '==', 'paciente'));
+        const [tSnap, pSnap] = await Promise.all([getDocs(qTerapeutas), getDocs(qPacientes)]);
+        document.getElementById('statTerapeutas').textContent = tSnap.size;
+        document.getElementById('statPacientes').textContent  = pSnap.size;
+      } catch(e2) { /* no crítico */ }
+
+    } catch (err) {
+      let mensaje = 'Error al crear el usuario. Intenta de nuevo.';
+      if (err.code === 'auth/email-already-in-use') mensaje = 'Ese correo ya está registrado.';
+      else if (err.code === 'auth/weak-password') mensaje = 'La contraseña es muy débil (mínimo 6 caracteres).';
+      else if (err.code === 'auth/invalid-email') mensaje = 'El correo no es válido.';
+      cuMsgErr.querySelector('#cuMsgErrTexto').textContent = mensaje;
+      cuMsgErr.classList.add('visible');
+      console.error('Error creando usuario:', err);
+    } finally {
+      btnGuardarUsuario.disabled = false;
+      btnGuardarUsuario.textContent = 'Crear usuario';
+    }
   });
 </script>
 
