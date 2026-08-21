@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroActiva — Generador de Ejercicios IA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --azul:#1A4F8A;--azul-dark:#123769;--azul-light:#EBF2FB;
+      --verde:#1A7A5E;--verde-light:#E8F5F0;
+      --naranja:#C05621;--naranja-light:#FFF3EB;
+      --morado:#553C9A;--morado-light:#F0EBFF;
+      --rojo:#C53030;--rojo-light:#FFF5F5;
+      --gris:#F4F6F9;--borde:#DDE3EC;
+      --texto:#1A2332;--texto-mid:#4A5568;--texto-light:#8896A7;--blanco:#FFFFFF;
+    }
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texto);min-height:100vh;}
+
+    /* TOPBAR */
+    .topbar{background:var(--azul);height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .topbar-left{display:flex;align-items:center;gap:.7rem;}
+    .brand-icon{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .brand-icon svg{width:18px;height:18px;color:white;}
+    .topbar-brand{font-size:1.05rem;font-weight:700;color:white;}
+    .topbar-brand span{color:rgba(255,255,255,.5);font-weight:400;}
+    .topbar-right{display:flex;align-items:center;gap:.8rem;}
+    .user-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border-radius:20px;padding:.25rem .75rem .25rem .3rem;}
+    .user-avatar{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;}
+    .user-name{font-size:.8rem;font-weight:500;color:white;}
+    .btn-top{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.76rem;font-weight:500;padding:.3rem .75rem;border-radius:6px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.3rem;text-decoration:none;}
+    .btn-top:hover{background:rgba(255,255,255,.18);}
+
+    /* MAIN */
+    .main{max-width:1100px;margin:0 auto;padding:2rem;}
+
+    /* CONTEXT CARD */
+    .context-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.4rem;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;}
+    .context-info{}
+    .context-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--morado-light);color:var(--morado);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;margin-bottom:.5rem;}
+    .context-title{font-family:'Instrument Serif',serif;font-size:1.5rem;color:var(--texto);margin-bottom:.3rem;}
+    .context-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.5rem;}
+    .ctx-tag{font-size:.75rem;font-weight:600;padding:.22rem .65rem;border-radius:10px;}
+    .score-display{text-align:center;background:var(--gris);border-radius:12px;padding:1.2rem 2rem;}
+    .score-num{font-size:2.8rem;font-weight:700;line-height:1;}
+    .score-label{font-size:.75rem;color:var(--texto-light);margin-top:.2rem;}
+    .score-bar-wrap{width:120px;margin:.6rem auto 0;}
+    .score-bar-track{height:6px;background:var(--borde);border-radius:3px;overflow:hidden;}
+    .score-bar-fill{height:100%;border-radius:3px;transition:width .5s;}
+    .score-interp{font-size:.72rem;font-weight:600;margin-top:.35rem;}
+
+    /* GENERATE BUTTON */
+    .generate-section{text-align:center;margin-bottom:2rem;}
+    .btn-generate{display:inline-flex;align-items:center;gap:.7rem;padding:1rem 2.5rem;background:linear-gradient(135deg,var(--morado),#7c5cbf);color:white;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 15px rgba(85,60,154,.3);}
+    .btn-generate:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(85,60,154,.4);}
+    .btn-generate:active{transform:translateY(0);}
+    .btn-generate:disabled{background:#9b85c8;cursor:not-allowed;transform:none;box-shadow:none;}
+    .btn-generate svg{width:22px;height:22px;}
+
+    /* LOADING IA */
+    .ia-loading{display:none;text-align:center;padding:3rem;background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;margin-bottom:1.5rem;}
+    .ia-loading.visible{display:block;}
+    .ia-pulse{display:flex;justify-content:center;gap:.4rem;margin-bottom:1rem;}
+    .ia-pulse span{width:10px;height:10px;border-radius:50%;background:var(--morado);animation:pulse 1.2s ease-in-out infinite;}
+    .ia-pulse span:nth-child(2){animation-delay:.2s;}
+    .ia-pulse span:nth-child(3){animation-delay:.4s;}
+    @keyframes pulse{0%,80%,100%{transform:scale(0);opacity:.5}40%{transform:scale(1);opacity:1}}
+    .ia-loading-text{font-size:.9rem;color:var(--texto-light);}
+    .ia-loading-step{font-size:.8rem;color:var(--morado);font-weight:600;margin-top:.4rem;}
+
+    /* PLAN CONTAINER */
+    .plan-header{background:linear-gradient(135deg,var(--morado),#7c5cbf);border-radius:12px;padding:1.5rem;color:white;margin-bottom:1.5rem;display:none;}
+    .plan-header.visible{display:block;}
+    .plan-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+    .plan-title-ia{font-family:'Instrument Serif',serif;font-size:1.6rem;font-weight:400;margin-bottom:.25rem;}
+    .plan-subtitle{font-size:.85rem;color:rgba(255,255,255,.75);}
+    .plan-actions{display:flex;gap:.6rem;flex-wrap:wrap;}
+    .btn-save-plan{padding:.55rem 1.1rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;border-radius:8px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.4rem;}
+    .btn-save-plan:hover{background:rgba(255,255,255,.25);}
+    .btn-print{padding:.55rem 1.1rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;border-radius:8px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.4rem;}
+    .btn-print:hover{background:rgba(255,255,255,.25);}
+    .plan-stats{display:flex;gap:1.5rem;flex-wrap:wrap;}
+    .plan-stat{text-align:center;}
+    .plan-stat-num{font-size:1.6rem;font-weight:700;line-height:1;}
+    .plan-stat-label{font-size:.72rem;color:rgba(255,255,255,.7);}
+
+    /* NIVELES */
+    .niveles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+    .nivel-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;overflow:hidden;display:none;}
+    .nivel-card.visible{display:block;}
+    .nivel-header{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;}
+    .nivel-badge{display:flex;align-items:center;gap:.5rem;}
+    .nivel-dot{width:10px;height:10px;border-radius:50%;}
+    .nivel-name{font-size:.85rem;font-weight:700;}
+    .nivel-count{font-size:.75rem;font-weight:600;padding:.15rem .5rem;border-radius:10px;}
+    .nivel-body{padding:0 1.2rem 1.2rem;}
+    .ejercicio-item{padding:.9rem;border:1.5px solid var(--borde);border-radius:9px;margin-bottom:.6rem;transition:border-color .2s;}
+    .ejercicio-item:hover{border-color:var(--azul);}
+    .ejercicio-item:last-child{margin-bottom:0;}
+    .ejercicio-nombre{font-size:.85rem;font-weight:700;color:var(--texto);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
+    .ejercicio-desc{font-size:.78rem;color:var(--texto-mid);line-height:1.45;margin-bottom:.5rem;}
+    .ejercicio-meta{display:flex;gap:.4rem;flex-wrap:wrap;}
+    .ej-meta-tag{font-size:.68rem;font-weight:600;padding:.15rem .45rem;border-radius:6px;display:flex;align-items:center;gap:.25rem;}
+
+    /* OBJETIVOS Y PRECAUCIONES */
+    .extra-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;display:none;}
+    .extra-cards.visible{display:grid;}
+    .extra-card{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;}
+    .extra-card-title{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--texto-light);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem;}
+    .extra-list{display:flex;flex-direction:column;gap:.4rem;}
+    .extra-item{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;color:var(--texto-mid);line-height:1.4;}
+    .extra-item::before{content:'•';color:var(--azul);font-weight:700;flex-shrink:0;margin-top:.05rem;}
+
+    /* REGENERAR */
+    .regen-section{background:var(--blanco);border:1.5px solid var(--borde);border-radius:12px;padding:1.2rem;margin-bottom:1.5rem;display:none;}
+    .regen-section.visible{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+    .regen-text{font-size:.85rem;color:var(--texto-mid);}
+    .regen-text strong{color:var(--texto);}
+    .btn-regen{padding:.55rem 1.1rem;background:var(--azul-light);border:1.5px solid var(--azul);color:var(--azul);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+    .btn-regen:hover{background:var(--azul);color:white;}
+
+    /* MENSAJES */
+    .msg{display:none;align-items:flex-start;gap:.5rem;border-radius:8px;padding:.75rem 1rem;font-size:.82rem;margin-bottom:1rem;line-height:1.4;}
+    .msg.vis{display:flex;}
+    .msg svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+    .msg-ok{background:var(--verde-light);border:1px solid #a7d7c5;color:var(--verde);}
+    .msg-err{background:var(--rojo-light);border:1px solid #fecaca;color:var(--rojo);}
+
+    /* EMPTY */
+    .empty-state{background:var(--blanco);border:1.5px dashed var(--borde);border-radius:12px;padding:4rem;text-align:center;color:var(--texto-light);}
+    .empty-state svg{width:48px;height:48px;margin-bottom:1rem;opacity:.25;}
+    .empty-state h3{font-size:1rem;color:var(--texto-mid);margin-bottom:.4rem;}
+    .empty-state p{font-size:.84rem;}
+
+    #loadState{text-align:center;padding:3rem;color:var(--texto-light);}
+    #pageContent{display:none;}
+
+    @media print{
+      .topbar,.generate-section,.regen-section,.btn-save-plan,.btn-print,.btn-top{display:none!important;}
+      .main{padding:1rem;}
+      .plan-header{background:#1A4F8A!important;-webkit-print-color-adjust:exact;}
+      .nivel-card{break-inside:avoid;}
+    }
+
+    @media(max-width:800px){
+      .niveles-grid{grid-template-columns:1fr;}
+      .extra-cards{grid-template-columns:1fr;}
+      .context-card{grid-template-columns:1fr;}
+      .main{padding:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9.5 2a2.5 2.5 0 1 1 0 5"/><path d="M14.5 2a2.5 2.5 0 1 1 0 5"/>
+        <path d="M12 7c0 3-2 5-2 8h4c0-3-2-5-2-8z"/>
+      </svg>
+    </div>
+    <span class="topbar-brand">Neuro<span>Activa</span></span>
+  </div>
+  <div class="topbar-right">
+    <a class="btn-top" href="pruebas.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Pruebas
+    </a>
+    <a class="btn-top" href="dashboard-admin.html">Panel</a>
+    <div class="user-badge">
+      <div class="user-avatar" id="userAvatar">--</div>
+      <span class="user-name" id="userName">...</span>
+    </div>
+    <button class="btn-top" id="btnSignOut">Salir</button>
+  </div>
+</header>
+
+<main class="main">
+  <div id="loadState">Cargando generador...</div>
+  <div id="pageContent">
+
+    <!-- Contexto clínico -->
+    <div class="context-card" id="contextCard">
+      <div class="context-info">
+        <div class="context-tag">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+          Generador de Ejercicios IA
+        </div>
+        <h1 class="context-title" id="ctxTitle">Cargando...</h1>
+        <div class="context-meta" id="ctxMeta"></div>
+      </div>
+      <div class="score-display" id="scoreDisplay">
+        <div class="score-num" id="scoreNum" style="color:var(--azul)">--</div>
+        <div class="score-label" id="scoreLabel">Puntaje obtenido</div>
+        <div class="score-bar-wrap" id="scoreBarWrap" style="display:none">
+          <div class="score-bar-track"><div class="score-bar-fill" id="scoreBarFill"></div></div>
+        </div>
+        <div class="score-interp" id="scoreInterp"></div>
+      </div>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="msg msg-ok" id="msgOk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg><span id="msgOkTxt"></span></div>
+    <div class="msg msg-err" id="msgErr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="msgErrTxt"></span></div>
+
+    <!-- Botón generar -->
+    <div class="generate-section">
+      <button class="btn-generate" id="btnGenerate" onclick="generarEjercicios()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+        </svg>
+        Generar Plan Terapéutico con IA
+      </button>
+    </div>
+
+    <!-- Loading IA -->
+    <div class="ia-loading" id="iaLoading">
+      <div class="ia-pulse">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="ia-loading-text">NeuroActiva IA está analizando el perfil clínico del paciente...</div>
+      <div class="ia-loading-step" id="loadingStep">Procesando puntaje y área afectada</div>
+    </div>
+
+    <!-- Encabezado del plan -->
+    <div class="plan-header" id="planHeader">
+      <div class="plan-header-top">
+        <div>
+          <h2 class="plan-title-ia" id="planTitle">Plan Terapéutico Personalizado</h2>
+          <p class="plan-subtitle" id="planSubtitle">Generado por NeuroActiva IA según evaluación clínica</p>
+        </div>
+        <div class="plan-actions">
+          <button class="btn-save-plan" onclick="guardarPlan()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+            Guardar plan
+          </button>
+          <button class="btn-print" onclick="window.print()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir
+          </button>
+        </div>
+      </div>
+      <div class="plan-stats" id="planStats"></div>
+    </div>
+
+    <!-- Regenerar -->
+    <div class="regen-section" id="regenSection">
+      <div class="regen-text"><strong>¿El plan no se ajusta al paciente?</strong> Puedes regenerarlo con nuevas instrucciones o simplemente regenerar para obtener variaciones.</div>
+      <button class="btn-regen" onclick="generarEjercicios()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Regenerar plan
+      </button>
+    </div>
+
+    <!-- Niveles de ejercicios -->
+    <div class="niveles-grid" id="nivelesGrid">
+      <div class="nivel-card" id="nivelBasico">
+        <div class="nivel-header" style="background:#E8F5F0">
+          <div class="nivel-badge">
+            <div class="nivel-dot" style="background:#1A7A5E"></div>
+            <span class="nivel-name" style="color:#1A7A5E">Nivel Básico</span>
+          </div>
+          <span class="nivel-count" style="background:#1A7A5E22;color:#1A7A5E" id="cntBasico">0 ejercicios</span>
+        </div>
+        <div class="nivel-body" id="bodyBasico"></div>
+      </div>
+
+      <div class="nivel-card" id="nivelIntermedio">
+        <div class="nivel-header" style="background:#FFF3EB">
+          <div class="nivel-badge">
+            <div class="nivel-dot" style="background:#C05621"></div>
+            <span class="nivel-name" style="color:#C05621">Nivel Intermedio</span>
+          </div>
+          <span class="nivel-count" style="background:#C0562122;color:#C05621" id="cntIntermedio">0 ejercicios</span>
+        </div>
+        <div class="nivel-body" id="bodyIntermedio"></div>
+      </div>
+
+      <div class="nivel-card" id="nivelAvanzado">
+        <div class="nivel-header" style="background:#EBF2FB">
+          <div class="nivel-badge">
+            <div class="nivel-dot" style="background:#1A4F8A"></div>
+            <span class="nivel-name" style="color:#1A4F8A">Nivel Avanzado</span>
+          </div>
+          <span class="nivel-count" style="background:#1A4F8A22;color:#1A4F8A" id="cntAvanzado">0 ejercicios</span>
+        </div>
+        <div class="nivel-body" id="bodyAvanzado"></div>
+      </div>
+    </div>
+
+    <!-- Objetivos y precauciones -->
+    <div class="extra-cards" id="extraCards">
+      <div class="extra-card">
+        <div class="extra-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Objetivos terapéuticos
+        </div>
+        <div class="extra-list" id="objetivosList"></div>
+      </div>
+      <div class="extra-card">
+        <div class="extra-card-title" style="color:var(--naranja)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Precauciones y contraindicaciones
+        </div>
+        <div class="extra-list" id="precaucionesList"></div>
+      </div>
+    </div>
+
+    <!-- Estado vacío -->
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+      </svg>
+      <h3>Plan terapéutico listo para generar</h3>
+      <p>Haz clic en "Generar Plan Terapéutico con IA" para crear ejercicios personalizados según el puntaje y área clínica del paciente.</p>
+    </div>
+
+  </div>
+</main>
+
+<script type="module">
+import { auth,db,onAuthStateChanged,signOut,doc,getDoc,addDoc,collection,serverTimestamp } from './firebase.js';
+
+// ── Parámetros de URL ──────────────────────────────────────────────
+const params    = new URLSearchParams(window.location.search);
+const pacId     = params.get('pacId')     || '';
+const esp       = params.get('esp')       || '';
+const escId     = params.get('escId')     || '';
+const escalaNom = params.get('escalaNombre') || escId;
+const puntaje   = parseFloat(params.get('puntaje'))   || 0;
+const puntajeMax= parseFloat(params.get('puntajeMax'))|| 0;
+const area      = params.get('area')      || '';
+
+let currentUser = null, currentUserData = null, pacienteData = null;
+let planActual  = null;
+
+// ── Auth ───────────────────────────────────────────────────────────
+onAuthStateChanged(auth, async(user)=>{
+  if(!user){window.location.href='index.html';return;}
+  const snap=await getDoc(doc(db,'usuarios',user.uid));
+  if(!snap.exists()){await signOut(auth);window.location.href='index.html';return;}
+  currentUser=user; currentUserData=snap.data();
+  const n=currentUserData.nombre||'Usuario';
+  document.getElementById('userName').textContent=n;
+  document.getElementById('userAvatar').textContent=(n[0]+(currentUserData.apellido?.[0]||'')).toUpperCase();
+
+  if(pacId){
+    const pSnap=await getDoc(doc(db,'usuarios',pacId));
+    if(pSnap.exists()) pacienteData=pSnap.data();
+  }
+
+  renderContext();
+  document.getElementById('loadState').style.display='none';
+  document.getElementById('pageContent').style.display='block';
+});
+
+document.getElementById('btnSignOut').addEventListener('click',async()=>{await signOut(auth);window.location.href='index.html';});
+
+// ── Renderizar contexto clínico ────────────────────────────────────
+function renderContext(){
+  const pacNombre = pacienteData ? (pacienteData.nombreCompleto||`${pacienteData.nombre} ${pacienteData.apellido}`) : 'Paciente no identificado';
+  document.getElementById('ctxTitle').textContent = escalaNom || 'Evaluación clínica';
+  const pct = puntajeMax>0 ? Math.round((puntaje/puntajeMax)*100) : null;
+  const color = pct>=70?'#1A7A5E':pct>=40?'#C05621':'#C53030';
+
+  const meta = document.getElementById('ctxMeta');
+  meta.innerHTML=[
+    `<span class="ctx-tag" style="background:var(--azul-light);color:var(--azul)">${pacNombre}</span>`,
+    `<span class="ctx-tag" style="background:var(--gris);color:var(--texto-mid)">${esp}</span>`,
+    area?`<span class="ctx-tag" style="background:var(--gris);color:var(--texto-mid)">${area}</span>`:'',
+  ].join('');
+
+  document.getElementById('scoreNum').textContent=puntaje;
+  document.getElementById('scoreNum').style.color=pct!==null?color:'var(--azul)';
+  document.getElementById('scoreLabel').textContent=puntajeMax>0?`de ${puntajeMax} pts`:'pts obtenidos';
+
+  if(pct!==null){
+    document.getElementById('scoreBarWrap').style.display='block';
+    document.getElementById('scoreBarFill').style.cssText=`width:${pct}%;background:${color}`;
+    document.getElementById('scoreInterp').textContent=
+      pct>=70?'✓ Nivel adecuado':pct>=40?'⚠ Nivel moderado':'⚠ Nivel comprometido';
+    document.getElementById('scoreInterp').style.color=color;
+  }
+}
+
+// ── Generador de ejercicios con IA (vía backend propio, seguro) ──
+// IMPORTANTE: reemplaza esta URL por la que te dé "firebase deploy" al publicar la función.
+const URL_FUNCION_IA = 'https://us-central1-TU-PROYECTO.cloudfunctions.net/generarPlanIA';
+
+window.generarEjercicios = async function(){
+  hideMessages();
+  document.getElementById('btnGenerate').disabled=true;
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('iaLoading').classList.add('visible');
+  document.getElementById('planHeader').classList.remove('visible');
+  document.getElementById('regenSection').classList.remove('visible');
+  document.getElementById('extraCards').classList.remove('visible');
+  ['nivelBasico','nivelIntermedio','nivelAvanzado'].forEach(id=>document.getElementById(id).classList.remove('visible'));
+
+  const steps=['Analizando puntaje clínico...','Identificando nivel de afectación...','Diseñando ejercicios de nivel básico...','Creando progresión intermedia...','Elaborando ejercicios avanzados...','Definiendo objetivos terapéuticos...','Revisando precauciones clínicas...'];
+  let si=0;
+  const stepEl=document.getElementById('loadingStep');
+  const stepInt=setInterval(()=>{stepEl.textContent=steps[si%steps.length];si++;},1800);
+
+  const pct=puntajeMax>0?Math.round((puntaje/puntajeMax)*100):null;
+  const nivel=pct===null?'no determinado':pct>=70?'leve/normal':pct>=40?'moderado':'severo';
+  const pacNombre=pacienteData?(pacienteData.nombreCompleto||pacienteData.nombre):'el paciente';
+
+  const prompt=`Eres un especialista clínico en neurorrehabilitación. Genera un plan terapéutico personalizado basado en la siguiente evaluación:
+
+DATOS DEL PACIENTE:
+- Paciente: ${pacNombre}
+- Especialidad: ${esp}
+- Escala aplicada: ${escalaNom}
+- Área evaluada: ${area||'general'}
+- Puntaje obtenido: ${puntaje}${puntajeMax>0?' de '+puntajeMax+' pts ('+pct+'%)':''}
+- Nivel de afectación: ${nivel}
+
+INSTRUCCIONES:
+Genera un plan terapéutico con exactamente 3 niveles de progresión (básico, intermedio, avanzado), con 4 ejercicios por nivel. Cada ejercicio debe ser específico, clínico y apropiado para el área ${area||esp}.
+
+Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdown, sin comentarios. El formato exacto es:
+
+{
+  "titulo": "Nombre del plan terapéutico",
+  "descripcion": "Breve descripción clínica del plan (2 oraciones)",
+  "duracionSemanas": 8,
+  "frecuenciaSemanal": 3,
+  "basico": [
+    {
+      "nombre": "Nombre del ejercicio",
+      "descripcion": "Descripción detallada de cómo realizarlo",
+      "series": 3,
+      "repeticiones": "10-12",
+      "duracion": "20 min",
+      "materiales": "Materiales necesarios o 'Sin materiales'",
+      "objetivo": "Objetivo específico del ejercicio"
+    }
+  ],
+  "intermedio": [
+    {
+      "nombre": "Nombre del ejercicio",
+      "descripcion": "Descripción detallada",
+      "series": 3,
+      "repeticiones": "12-15",
+      "duracion": "25 min",
+      "materiales": "Materiales",
+      "objetivo": "Objetivo"
+    }
+  ],
+  "avanzado": [
+    {
+      "nombre": "Nombre del ejercicio",
+      "descripcion": "Descripción detallada",
+      "series": 4,
+      "repeticiones": "15-20",
+      "duracion": "30 min",
+      "materiales": "Materiales",
+      "objetivo": "Objetivo"
+    }
+  ],
+  "objetivos": [
+    "Objetivo terapéutico 1",
+    "Objetivo terapéutico 2",
+    "Objetivo terapéutico 3",
+    "Objetivo terapéutico 4"
+  ],
+  "precauciones": [
+    "Precaución o contraindicación 1",
+    "Precaución o contraindicación 2",
+    "Precaución o contraindicación 3"
+  ],
+  "criteriosProgresion": "Criterios para avanzar de nivel"
+}`;
+
+  try{
+    const res=await fetch(URL_FUNCION_IA,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ prompt }),
+    });
+
+    clearInterval(stepInt);
+
+    if(!res.ok){
+      throw new Error('El servidor respondió con error '+res.status);
+    }
+
+    const data=await res.json();
+    let raw=(data.texto||'').replace(/```json|```/g,'').trim();
+
+    const plan=JSON.parse(raw);
+    planActual=plan;
+    renderPlan(plan);
+
+  }catch(err){
+    clearInterval(stepInt);
+    console.error('Error IA:',err);
+    mostrarErr('Ocurrió un error al generar el plan. Verifica tu conexión e intenta de nuevo.');
+    document.getElementById('emptyState').style.display='block';
+  }
+
+  document.getElementById('iaLoading').classList.remove('visible');
+  document.getElementById('btnGenerate').disabled=false;
+};
+
+// ── Renderizar plan ────────────────────────────────────────────────
+function renderPlan(plan){
+  // Header
+  document.getElementById('planTitle').textContent=plan.titulo||'Plan Terapéutico Personalizado';
+  document.getElementById('planSubtitle').textContent=plan.descripcion||'';
+  document.getElementById('planStats').innerHTML=`
+    <div class="plan-stat"><div class="plan-stat-num">${(plan.basico?.length||0)+(plan.intermedio?.length||0)+(plan.avanzado?.length||0)}</div><div class="plan-stat-label">Ejercicios totales</div></div>
+    <div class="plan-stat"><div class="plan-stat-num">${plan.duracionSemanas||8}</div><div class="plan-stat-label">Semanas</div></div>
+    <div class="plan-stat"><div class="plan-stat-num">${plan.frecuenciaSemanal||3}</div><div class="plan-stat-label">Sesiones/semana</div></div>
+    <div class="plan-stat"><div class="plan-stat-num">3</div><div class="plan-stat-label">Niveles</div></div>
+  `;
+  document.getElementById('planHeader').classList.add('visible');
+
+  // Niveles
+  renderNivel('Basico','bodyBasico','cntBasico',plan.basico||[],'#1A7A5E','#E8F5F0');
+  renderNivel('Intermedio','bodyIntermedio','cntIntermedio',plan.intermedio||[],'#C05621','#FFF3EB');
+  renderNivel('Avanzado','bodyAvanzado','cntAvanzado',plan.avanzado||[],'#1A4F8A','#EBF2FB');
+
+  // Objetivos
+  const ol=document.getElementById('objetivosList');
+  ol.innerHTML=(plan.objetivos||[]).map(o=>`<div class="extra-item">${o}</div>`).join('');
+
+  // Precauciones
+  const pl=document.getElementById('precaucionesList');
+  pl.innerHTML=(plan.precauciones||[]).map(p=>`<div class="extra-item" style="--azul:var(--naranja)">${p}</div>`).join('');
+
+  document.getElementById('extraCards').classList.add('visible');
+  document.getElementById('regenSection').classList.add('visible');
+}
+
+function renderNivel(sufijo,bodyId,cntId,ejercicios,color,bgColor){
+  const card=document.getElementById(`nivel${sufijo}`);
+  const body=document.getElementById(bodyId);
+  const cnt=document.getElementById(cntId);
+
+  if(!ejercicios.length){card.classList.remove('visible');return;}
+  card.classList.add('visible');
+  cnt.textContent=`${ejercicios.length} ejercicio${ejercicios.length!==1?'s':''}`;
+
+  body.innerHTML=ejercicios.map((ej,i)=>`
+    <div class="ejercicio-item">
+      <div class="ejercicio-nombre">
+        <span style="background:${bgColor};color:${color};width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0">${i+1}</span>
+        ${ej.nombre}
+      </div>
+      <div class="ejercicio-desc">${ej.descripcion}</div>
+      <div class="ejercicio-meta">
+        ${ej.series?`<span class="ej-meta-tag" style="background:${bgColor};color:${color}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>${ej.series} series</span>`:''}
+        ${ej.repeticiones?`<span class="ej-meta-tag" style="background:${bgColor};color:${color}">${ej.repeticiones} rep</span>`:''}
+        ${ej.duracion?`<span class="ej-meta-tag" style="background:var(--gris);color:var(--texto-mid)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${ej.duracion}</span>`:''}
+        ${ej.materiales&&ej.materiales!=='Sin materiales'?`<span class="ej-meta-tag" style="background:var(--gris);color:var(--texto-mid)">${ej.materiales}</span>`:''}
+      </div>
+      ${ej.objetivo?`<div style="margin-top:.5rem;font-size:.74rem;color:${color};font-weight:600">🎯 ${ej.objetivo}</div>`:''}
+    </div>`).join('');
+}
+
+// ── Guardar plan en Firestore ──────────────────────────────────────
+window.guardarPlan = async function(){
+  if(!planActual){mostrarErr('No hay plan generado para guardar.');return;}
+  if(!pacId){mostrarErr('No se identificó al paciente.');return;}
+
+  try{
+    await addDoc(collection(db,'planes_ejercicios'),{
+      pacienteId:     pacId,
+      terapeutaId:    currentUser.uid,
+      terapeutaNombre:currentUserData.nombreCompleto||currentUserData.nombre,
+      especialidad:   esp,
+      escalaId:       escId,
+      escalaNombre:   escalaNom,
+      area:           area,
+      puntaje,
+      puntajeMax,
+      plan:           planActual,
+      fecha:          serverTimestamp(),
+      activo:         true,
+    });
+    mostrarOk('✓ Plan guardado correctamente en el historial del paciente.');
+  }catch(e){
+    console.error(e);
+    mostrarErr('Error al guardar el plan. Intenta de nuevo.');
+  }
+};
+
+function mostrarOk(txt){document.getElementById('msgOkTxt').textContent=txt;document.getElementById('msgOk').classList.add('vis');document.getElementById('msgErr').classList.remove('vis');}
+function mostrarErr(txt){document.getElementById('msgErrTxt').textContent=txt;document.getElementById('msgErr').classList.add('vis');document.getElementById('msgOk').classList.remove('vis');}
+function hideMessages(){document.getElementById('msgOk').classList.remove('vis');document.getElementById('msgErr').classList.remove('vis');}
+</script>
+
+</body>
+</html>
