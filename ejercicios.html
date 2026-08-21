@@ -207,12 +207,23 @@
 
     <!-- Botón generar -->
     <div class="generate-section">
-      <button class="btn-generate" id="btnGenerate" onclick="generarEjercicios()">
+      <button class="btn-generate" id="btnGenerate" onclick="prepararPromptIA()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1H1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
         </svg>
-        Generar Plan Terapéutico con IA
+        Preparar prompt para generar el plan
       </button>
+    </div>
+
+    <!-- Flujo manual con la IA (copiar prompt / pegar respuesta) -->
+    <div class="ia-manual" id="iaManualBox" style="display:none;background:var(--blanco,#fff);border:1.5px solid var(--borde,#DDE3EC);border-radius:12px;padding:1.3rem;margin-bottom:1.3rem">
+      <p style="font-size:0.85rem;font-weight:700;margin-bottom:0.5rem">1. Copia este prompt y pégalo en tu conversación con Claude</p>
+      <textarea id="promptGenerado" readonly style="width:100%;min-height:140px;padding:0.7rem;border:1.5px solid var(--borde,#DDE3EC);border-radius:8px;font-family:inherit;font-size:0.8rem;margin-bottom:0.6rem"></textarea>
+      <button type="button" onclick="copiarPromptIA()" style="background:var(--azul,#1A4F8A);color:white;border:none;padding:0.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;margin-bottom:1.2rem">Copiar prompt</button>
+
+      <p style="font-size:0.85rem;font-weight:700;margin-bottom:0.5rem">2. Pega aquí la respuesta que te dé Claude (el JSON)</p>
+      <textarea id="respuestaIA" placeholder="Pega aquí el JSON completo que te devuelva Claude..." style="width:100%;min-height:140px;padding:0.7rem;border:1.5px solid var(--borde,#DDE3EC);border-radius:8px;font-family:inherit;font-size:0.8rem;margin-bottom:0.6rem"></textarea>
+      <button type="button" onclick="cargarPlanManual()" class="btn-generate" style="width:auto;display:inline-flex">Cargar plan en NeuroActiva</button>
     </div>
 
     <!-- Loading IA -->
@@ -248,7 +259,7 @@
     <!-- Regenerar -->
     <div class="regen-section" id="regenSection">
       <div class="regen-text"><strong>¿El plan no se ajusta al paciente?</strong> Puedes regenerarlo con nuevas instrucciones o simplemente regenerar para obtener variaciones.</div>
-      <button class="btn-regen" onclick="generarEjercicios()">
+      <button class="btn-regen" onclick="prepararPromptIA()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
         Regenerar plan
       </button>
@@ -385,21 +396,14 @@ function renderContext(){
   }
 }
 
-// ── Generador de ejercicios con IA ────────────────────────────────
-window.generarEjercicios = async function(){
+// ── Preparar prompt para copiar y pegar en Claude ─────────────────
+window.prepararPromptIA = function(){
   hideMessages();
-  document.getElementById('btnGenerate').disabled=true;
   document.getElementById('emptyState').style.display='none';
-  document.getElementById('iaLoading').classList.add('visible');
   document.getElementById('planHeader').classList.remove('visible');
   document.getElementById('regenSection').classList.remove('visible');
   document.getElementById('extraCards').classList.remove('visible');
   ['nivelBasico','nivelIntermedio','nivelAvanzado'].forEach(id=>document.getElementById(id).classList.remove('visible'));
-
-  const steps=['Analizando puntaje clínico...','Identificando nivel de afectación...','Diseñando ejercicios de nivel básico...','Creando progresión intermedia...','Elaborando ejercicios avanzados...','Definiendo objetivos terapéuticos...','Revisando precauciones clínicas...'];
-  let si=0;
-  const stepEl=document.getElementById('loadingStep');
-  const stepInt=setInterval(()=>{stepEl.textContent=steps[si%steps.length];si++;},1800);
 
   const pct=puntajeMax>0?Math.round((puntaje/puntajeMax)*100):null;
   const nivel=pct===null?'no determinado':pct>=70?'leve/normal':pct>=40?'moderado':'severo';
@@ -472,40 +476,40 @@ Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin markdo
   "criteriosProgresion": "Criterios para avanzar de nivel"
 }`;
 
+  document.getElementById('promptGenerado').value=prompt;
+  document.getElementById('respuestaIA').value='';
+  document.getElementById('iaManualBox').style.display='block';
+  document.getElementById('iaManualBox').scrollIntoView({behavior:'smooth',block:'center'});
+};
+
+window.copiarPromptIA = function(){
+  const ta=document.getElementById('promptGenerado');
+  ta.select();
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    mostrarOk('Prompt copiado. Pégalo en tu conversación con Claude.');
+  }).catch(()=>{
+    document.execCommand('copy');
+  });
+};
+
+window.cargarPlanManual = function(){
+  hideMessages();
+  let raw=document.getElementById('respuestaIA').value.trim();
+  if(!raw){
+    mostrarErr('Pega primero la respuesta JSON que te dio Claude.');
+    return;
+  }
+  raw=raw.replace(/```json|```/g,'').trim();
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1000,
-        messages:[{role:'user',content:prompt}],
-      }),
-    });
-
-    clearInterval(stepInt);
-    const data=await res.json();
-
-    if(!data.content||!data.content[0]){
-      throw new Error('Respuesta inválida de la IA');
-    }
-
-    let raw=data.content.map(b=>b.text||'').join('');
-    raw=raw.replace(/```json|```/g,'').trim();
-
     const plan=JSON.parse(raw);
     planActual=plan;
     renderPlan(plan);
-
+    document.getElementById('iaManualBox').style.display='none';
+    mostrarOk('Plan cargado correctamente.');
   }catch(err){
-    clearInterval(stepInt);
-    console.error('Error IA:',err);
-    mostrarErr('Ocurrió un error al generar el plan. Verifica tu conexión e intenta de nuevo.');
-    document.getElementById('emptyState').style.display='block';
+    console.error('Error al leer el plan:',err);
+    mostrarErr('El texto pegado no es un JSON válido. Verifica que copiaste toda la respuesta de Claude, sin texto extra antes o después.');
   }
-
-  document.getElementById('iaLoading').classList.remove('visible');
-  document.getElementById('btnGenerate').disabled=false;
 };
 
 // ── Renderizar plan ────────────────────────────────────────────────
